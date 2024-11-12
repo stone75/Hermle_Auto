@@ -124,5 +124,6 @@ namespace HermleCS.Comm
             return true;
         }
 
+        // 소스 변경부분....
     }
 }
