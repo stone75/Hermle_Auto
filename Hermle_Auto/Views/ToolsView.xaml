@@ -1,0 +1,146 @@
+﻿<UserControl x:Class="Hermle_Auto.Views.ToolsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Hermle_Auto.Views"
+             xmlns:viewmodels="clr-namespace:Hermle_Auto.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="1000">
+   
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/CommonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
+    <Grid Background="#FFE6E4E4" VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition Width="400*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+
+        <Grid Grid.Column="1"  Grid.ColumnSpan="1">
+            <!-- 첫 번째 그룹박스: Load/Unload Tool -->
+            <GroupBox Header="Load/Unload Tool" FontSize="20" FontFamily="Arial" FontWeight="Bold" Margin="10,10,10,10" Height="170" VerticalAlignment="Top">
+
+                <Grid Margin="0,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="160"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="70"/>
+                        <RowDefinition Height="70"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Load Tool To Pocket 버튼과 Stop TextBox -->
+                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+                        <Button Content="Load Tool To Pocket" Width="350" Height="40"  Style="{DynamicResource ActButton}"/>
+                        <TextBox Text="Stop" Width="80" Height="30" Background="Red" Foreground="White" TextAlignment="Center" VerticalContentAlignment="Center" Margin="10,0,0,0"/>
+                    </StackPanel>
+
+                    <!-- Work Piece 라벨과 숫자 -->
+                    <Label Grid.Row="0" Grid.Column="2" Content="Work Piece" Width="120" Height="40" FontSize="20" Background="#FFF5E5" BorderBrush="Gray" BorderThickness="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBox Grid.Row="0" Grid.Column="3" Text="1" Width="50" Height="40" Background="LightGreen" TextAlignment="Center" VerticalContentAlignment="Center" Margin="5"/>
+
+                    <!-- Unload Tool From Pocket 버튼과 Stop TextBox -->
+                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+                        <Button Content="Unload Tool From Pocket" Width="350" Height="40"  Style="{DynamicResource ActButton}"/>
+                        <TextBox Text="Stop" Width="80" Height="30" Background="Red" Foreground="White" TextAlignment="Center" VerticalContentAlignment="Center" Margin="10,0,0,0"/>
+                    </StackPanel>
+
+                    <!-- Pocket 라벨과 콤보박스 -->
+                    <Label Grid.Row="1" Grid.Column="2" Content="Pocket" Width="120" Height="40" FontSize="20" Background="#FFF5E5" BorderBrush="Gray" BorderThickness="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+
+                    <Grid Grid.Row="1" Grid.Column="3" Height="70">
+                        <TextBox x:Name="PocketTextBox"
+ Text="1"
+ Width="100"
+ Height="40"
+ HorizontalAlignment="Center"
+ VerticalAlignment="Center"
+ IsReadOnly="True"
+ TextAlignment="Center"
+ FontSize="25" Grid.Column="2" VerticalContentAlignment="Center"/>
+                        <!-- 숫자를 증가시키는 버튼 -->
+                        <Button Content="+" Width="40" Height="40"
+HorizontalAlignment="Right"
+VerticalAlignment="Center"
+Margin="10,0,10,0"
+Click="IncreasePocket" Grid.Column="2"/>
+                        <!-- 숫자를 감소시키는 버튼 -->
+                        <Button Content="-" Width="40" Height="40"
+HorizontalAlignment="Left"
+VerticalAlignment="Center"
+Margin="10,0,10,0"
+Click="DecreasePocket" Grid.Column="2"/>
+                    </Grid>
+
+                    <!-- Shelf 라벨과 콤보박스 -->
+                    <Label Grid.Row="1" Grid.Column="4" Content="Shelf" Width="50" Height="40" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"/>
+
+                    <Grid Grid.Row="1" Grid.Column="4">
+                        <TextBox x:Name="PocketTextBox2"
+ Text="1"
+ Width="100"
+ Height="40"
+ HorizontalAlignment="Center"
+ VerticalAlignment="Center"
+ IsReadOnly="True"
+ TextAlignment="Center"
+ FontSize="25" Grid.Column="2" VerticalContentAlignment="Center"/>
+                        <!-- 숫자를 증가시키는 버튼 -->
+                        <Button Content="+" Width="40" Height="40"
+HorizontalAlignment="Right"
+VerticalAlignment="Center"
+Margin="10"
+Click="IncreasePocket" Grid.Column="2"/>
+                        <!-- 숫자를 감소시키는 버튼 -->
+                        <Button Content="-" Width="40" Height="40"
+HorizontalAlignment="Left"
+VerticalAlignment="Center"
+Margin="10"
+Click="DecreasePocket" Grid.Column="2"/>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+
+
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <GroupBox Header="Loading Status" FontSize="20" FontFamily="Arial" FontWeight="Bold" VerticalAlignment="Top" Height="100" Margin="10,10,10,10" >
+                <Grid Margin="0,0,0,0">
+                    <ProgressBar Width="800" Height="30" VerticalAlignment="Center" Margin="10,10,10,10"/>
+                </Grid>
+            </GroupBox>
+        </Grid>
+
+
+        <Grid Grid.Row="2" Grid.Column="1">
+            <!-- 세 번째 그룹박스: Unloading Status -->
+            <GroupBox Header="Unloading Status" FontSize="20" FontFamily="Arial" FontWeight="Bold" Margin="10,10,10,10" VerticalAlignment="Top"  Height="100">
+                <Grid>
+                    <ProgressBar Height="30" VerticalAlignment="Center" Margin="10,10,10,10" Width="800" HorizontalAlignment="Center"/>
+                </Grid>
+            </GroupBox>
+        </Grid>
+
+
+
+    </Grid>
+</UserControl>

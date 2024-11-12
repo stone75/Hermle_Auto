@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="Hermle_Auto.Views.OperationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Hermle_Auto.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="470" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/CommonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
+
+    <Grid Background="#FFE6E4E4" Margin="0,0,0,0">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <!-- SemiAutomat -->
+                <ColumnDefinition Width="5*"/>
+                <!-- Manual Operation -->
+            </Grid.ColumnDefinitions>
+
+            <!-- SemiAutomat GroupBox -->
+            <GroupBox Header="SemiAutomat" Grid.Column="0" FontSize="22" FontWeight="Bold" Margin="27,25,24,25" Height="Auto" VerticalAlignment="Top">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Width="256">
+                    <Button Content="Parking Position" Width="232" Height="50" Margin="10" FontSize="20" FontWeight="Bold"/>
+                    <Button Content="Exchange Gripper Position" Width="235" Height="50" Margin="10" FontSize="20" FontWeight="Bold"/>
+                    <Button Content="Retract Position" Width="236" Height="50" Margin="10" FontSize="20" FontWeight="Bold"/>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Manual Operation GroupBox -->
+            <GroupBox Header="Manual Operation" Grid.Column="1" FontSize="22" FontWeight="Bold" Margin="25,25,25,25" VerticalAlignment="Top">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2.5*"/>
+                        <!-- 더 넓은 TextBlock 공간 -->
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Kiosk Valve Open/Close -->
+                    <TextBlock Text="Kiosk Valve Open/Close" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" TextWrapping="Wrap"/>
+                    <Button Content="Open" Grid.Row="0" Grid.Column="1" Width="NaN" Height="30" Margin="5"/>
+                    <Button Content="Close" Grid.Row="0" Grid.Column="2" Width="NaN" Height="30" Margin="5"/>
+
+                    <!-- Indicator User Ack -->
+                    <TextBlock Text="Indicator User Ack" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" TextWrapping="Wrap"/>
+                    <Button Content="Off" Grid.Row="1" Grid.Column="1" Width="NaN" Height="30" Margin="5"/>
+                    <Button Content="On" Grid.Row="1" Grid.Column="2" Width="NaN" Height="30" Margin="5"/>
+
+                    <!-- Gripper Open/Close -->
+                    <TextBlock Text="Gripper Open/Close" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" TextWrapping="Wrap"/>
+                    <Button Content="Open" Grid.Row="2" Grid.Column="1" Width="NaN" Height="30" Margin="5"/>
+                    <Button Content="Close" Grid.Row="2" Grid.Column="2" Width="NaN" Height="30" Margin="5"/>
+
+                    <!-- Cell Light -->
+                    <TextBlock Text="Cell Light" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" TextWrapping="Wrap"/>
+                    <Button Content="Off" Grid.Row="3" Grid.Column="1" Width="NaN" Height="30" Margin="5"/>
+                    <Button Content="On" Grid.Row="3" Grid.Column="2" Width="NaN" Height="30" Margin="5"/>
+
+                    <!-- Door Interlock -->
+                    <TextBlock Text="Door Interlock" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" TextWrapping="Wrap"/>
+                    <Button Content="Off" Grid.Row="4" Grid.Column="1" Width="NaN" Height="30" Margin="5"/>
+                    <Button Content="On" Grid.Row="4" Grid.Column="2" Width="NaN" Height="30" Margin="5"/>
+
+                    <!-- Interlock Hermle ByPass -->
+                    <TextBlock Text="Interlock Hermle ByPass" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" TextWrapping="Wrap"/>
+                    <Button Content="Off" Grid.Row="5" Grid.Column="1" Width="NaN" Height="30" Margin="5"/>
+                    <Button Content="On" Grid.Row="5" Grid.Column="2" Width="NaN" Height="30" Margin="5"/>
+
+                    <!-- Gripper 2 Open/Close -->
+                    <TextBlock Text="Gripper 2 Open/Close" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" TextWrapping="Wrap" Height="30"/>
+                    <Button Content="Open" Grid.Row="6" Grid.Column="1" Width="NaN" Height="30" Margin="5"/>
+                    <Button Content="Close" Grid.Row="6" Grid.Column="2" Width="NaN" Height="30" Margin="5" VerticalContentAlignment="Center"/>
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</UserControl>

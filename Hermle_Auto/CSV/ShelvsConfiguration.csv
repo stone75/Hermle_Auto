@@ -1,0 +1,27 @@
+shelf number  , 1 
+shelf name    ,HSK
+Enable        ,True
+Been Taught   ,False
+Tool Type     , 1 
+Number of columns           , 10 
+number of pockets           , 10 
+default diameter            , 100 
+
+shelf number  , 2 
+shelf name    ,HSK
+Enable        ,True
+Been Taught   ,False
+Tool Type     , 1 
+Number of columns           , 10 
+number of pockets           , 10 
+default diameter            , 100 
+
+shelf number  , 3 
+shelf name    ,HSK
+Enable        ,True
+Been Taught   ,False
+Tool Type     , 1 
+Number of columns           , 10 
+number of pockets           , 10 
+default diameter            , 100 
+

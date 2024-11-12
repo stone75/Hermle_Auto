@@ -1,0 +1,170 @@
+﻿<UserControl x:Class="Hermle_Auto.Views.AutomatView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Hermle_Auto.Views"
+             xmlns:viewmodels="clr-namespace:Hermle_Auto.ViewModels" 
+             xmlns:styles="clr-namespace:Hermle_Auto"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="1000">
+
+    <!--<UserControl.DataContext>
+        <viewmodels:AutomatViewModel/>
+    </UserControl.DataContext>-->
+
+    <UserControl.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/CommonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        <!--
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        -->
+    </UserControl.Resources>
+
+    <Grid Background="#FFE6E4E4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Auto Mode -->
+        <Border Grid.Row="0" Grid.Column="0" BorderBrush="LightGray" BorderThickness="1" Margin="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition Height="0" />
+                    <RowDefinition/>
+                    <RowDefinition Height="0"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <!-- Auto Mode Section Content -->
+                <Label Content="Auto Mode" Margin="10,0" Grid.ColumnSpan="2"/>
+
+                <Border Style="{StaticResource TitleBorder}" Grid.Row="0"/>
+
+                <Label Grid.Row="1" Content="WorkPiece" VerticalContentAlignment="Bottom" Margin="5,0,0,0" FontSize="20" HorizontalAlignment="Right"/>
+                <styles:ToggleButton x:Name="myToggle" Width="80" Height="30" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                <Label Grid.Row="2" Content="One Tool" VerticalContentAlignment="Bottom" HorizontalAlignment="Right" FontSize="20"/>
+                <styles:ToggleButton x:Name="myToggle2" Width="80" Height="30" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                
+                <Label Grid.Row="4" Content="Night Mode" VerticalContentAlignment="Bottom" FontSize="20" HorizontalAlignment="Right"/>
+                <styles:ToggleButton x:Name="myToggle3" Width="80" Height="30" Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                <Button Grid.Row="6" Content="Reset Work Place" Grid.ColumnSpan="2" Width="Auto" Padding="1,1,1,1" Margin="10,2,10,2"/>
+            </Grid>
+        </Border>
+
+        <!-- Speed -->
+        <Border Grid.Row="0" Grid.Column="1" BorderBrush="LightGray" BorderThickness="1" Margin="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="0.2*"/>
+                </Grid.ColumnDefinitions>
+                <!-- Speed Section Content -->
+                <Label Grid.Row="0" Content="Speed" Margin="10,0"/>
+                <Border Grid.Row="0" Style="{StaticResource TitleBorder}"/>
+                
+                
+                <Slider Grid.Row="1" Maximum="100" Value="50" VerticalAlignment="Center"/>
+                <Label Grid.Row="1" Content="50%" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Grid.Column="1" FontSize="20"/>
+
+
+             <!-- 
+                <Grid Grid.Row="3" Grid.RowSpan="99" Grid.ColumnSpan="2">
+                    <Grid Width="180" Height="60">
+                        <Ellipse Fill="Red"/>
+                        <Label Content="Start Automat" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold"/>
+                        <Button Background="Transparent" BorderBrush="Transparent" Command="{Binding StartAutomatCommand}" Style="{StaticResource TransferButtonStyle}"/>
+                    </Grid>
+                </Grid>
+-->
+                <Button Style="{StaticResource RectanglePlayButton}" Margin="0,0,0,0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Start Automat" Grid.ColumnSpan="2" />
+
+
+            </Grid>
+        </Border>
+
+        <!-- Tools -->
+        <Border Grid.Row="0" Grid.Column="2" BorderBrush="LightGray" BorderThickness="1" Margin="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <!-- Tools Section Content -->
+                <Label Grid.Row="0" Content="Tools" Margin="10,0"/>
+                <Border Grid.Row="0"  Style="{StaticResource TitleBorder}"/>
+                <Label Grid.Row="1" Content="Amount"/>
+                <Label Grid.Row="2" Content="Amount Left" Grid.ColumnSpan="2"/>
+                <TextBox Grid.Row="1" Grid.Column="2" VerticalContentAlignment="Center" Margin="5" Text="34" FontSize="20" TextAlignment="Center"/>
+                <TextBox Grid.Row="2" Grid.Column="2" VerticalContentAlignment="Center" Margin="5" Text="34" FontSize="20" TextAlignment="Center"/>
+            </Grid>
+        </Border>
+
+        <!-- Robot Status -->
+        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" BorderBrush="LightGray" BorderThickness="1" Margin="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <!-- Robot Status Section Content -->
+                <Label Grid.Row="0" Content="Robot Status" Margin="10,0"/>
+                <Border Grid.Row="0" Style="{StaticResource TitleBorder}"/>
+                <ListBox Grid.Row="1">
+                    <ListBoxItem Content="15:46:47" FontWeight="Bold"/>
+                    <ListBoxItem Content="15:46:50" FontWeight="Bold"/>
+                    <ListBoxItem Content="15:46:54" FontWeight="Bold"/>
+                </ListBox>
+            </Grid>
+        </Border>
+    </Grid>
+
+</UserControl>

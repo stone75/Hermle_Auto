@@ -1,0 +1,203 @@
+﻿<Window x:Class="Hermle_Auto.comxaml"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Hermle_Auto"
+        mc:Ignorable="d"
+        Title="comxaml" Height="600" Width="800">
+
+    <Window.Resources>
+
+        <!-- 스타일 정의는 기존 코드와 동일 -->
+        <Style x:Key="TopButton" TargetType="Button">
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="DarkCyan"/>
+            <Setter Property="FontSize" Value="16"/>
+            <!-- 글자 크기 설정 -->
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5" />
+                </Style>
+            </Style.Resources>
+        </Style>
+
+        <Style x:Key="TopButton_2" TargetType="Button">
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="DarkOrange"/>
+            <Setter Property="FontSize" Value="18"/>
+            <!-- 글자 크기 설정 -->
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5" />
+                </Style>
+            </Style.Resources>
+        </Style>
+
+        <!-- 나머지 스타일 정의는 기존 코드와 동일 -->
+        <Style x:Key="TabButton" TargetType="Button">
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Margin" Value="1"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="IndianRed"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="18"/>
+            <!-- 글자 크기 설정 -->
+        </Style>
+
+        <Style x:Key="Tab2Button" TargetType="Button">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="1"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="DarkGreen"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="18"/>
+            <!-- 글자 크기 설정 -->
+        </Style>
+
+        <Style x:Key="SubButton" TargetType="Button">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Gray"/>
+            <Setter Property="FontSize" Value="18"/>
+            <!-- 글자 크기 설정 -->
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5" />
+                </Style>
+            </Style.Resources>
+        </Style>
+        <!-- 첫 번째 탭 스타일 -->
+        <Style x:Key="TabStyle1" TargetType="TabItem">
+            <Setter Property="Background" Value="LightPink"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Background" Value="IndianRed"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- 두 번째 탭 스타일 -->
+        <Style x:Key="TabStyle2" TargetType="TabItem">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="DarkSlateGray"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border Name="Border" Background="LightGray" Padding="10,5" CornerRadius="5">
+                            <ContentPresenter x:Name="contentPresenter" ContentSource="Header" VerticalAlignment="Center" HorizontalAlignment="Center" RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="DarkCyan"/>
+                                <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="White"/>
+                                <Setter TargetName="contentPresenter" Property="TextElement.FontWeight" Value="ExtraBold"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+    <Grid Margin="0,0,0,94">
+        <!-- Communication Group -->
+        <GroupBox Header="Communication" FontSize="14" FontWeight="Bold" Margin="10,10,0,0" HorizontalAlignment="Left" Width="372" VerticalAlignment="Top">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock VerticalAlignment="Center" Width="200" Text="Start Communication with Robot" FontSize="12" FontWeight="Bold"/>
+                    <Button Content="Start Comm" Width="151" Height="25" Margin="10,0,0,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock VerticalAlignment="Center" Width="200" Text="Close Communication With Robot"  FontSize="12" FontWeight="Bold"/>
+                    <Button Content="Close Comm" Width="141" Height="25" Margin="10,0,0,0"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- HandShake Group -->
+        <GroupBox Header="HandShake" FontSize="14" FontWeight="Bold" Margin="387,10,0,0" HorizontalAlignment="Left" Width="353" VerticalAlignment="Top">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock VerticalAlignment="Center" Width="200" Text="Start Timer" FontWeight="Bold"/>
+                    <Button Content="Start Timer" Width="128" Height="25" Margin="10,0,0,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock VerticalAlignment="Center" Width="200" Text="Stop Timer" FontWeight="Bold"/>
+                    <Button Content="Stop Timer" Width="124" Height="25" Margin="10,0,0,0"/>
+                </StackPanel>
+                <StackPanel Margin="5">
+                    <RadioButton Content="Work Off Line" GroupName="Mode" Margin="5,0,0,0" FontWeight="Bold"/>
+                    <RadioButton Content="Read Only" GroupName="Mode" Margin="5,5,0,0" FontWeight="Bold"/>
+                    <RadioButton Content="Work On Line" GroupName="Mode" Margin="5,5,0,0" IsChecked="True" FontWeight="Bold"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Test Comm Group -->
+        <GroupBox Header="Test Comm" FontSize="14" FontWeight="Bold" Margin="10,150,0,0" HorizontalAlignment="Left" Width="321" VerticalAlignment="Top">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock VerticalAlignment="Center" Width="200" Text="One Cycle time-Read Byte" FontWeight="Bold"/>
+                    <Button Content="run test 500" Width="90" Height="25" Margin="10,0,0,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock VerticalAlignment="Center" Width="200" Text="one cycle time" FontWeight="Bold"/>
+                    <Button Content="Comm Test" Width="89" Height="25" Margin="10,0,0,0"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Robot Alarm Group -->
+        <GroupBox Header="Robot Alarm" FontSize="14" FontWeight="Bold" Margin="10,269,0,0" HorizontalAlignment="Left" Width="300" VerticalAlignment="Top" Height="165">
+            <StackPanel>
+                <Button Content="Display Robot alarm" Width="250" Height="40" Margin="5,10,5,5"/>
+                <TextBox Width="250" Height="30" Margin="5,5,5,5"/>
+                <Button Content="Reset Robot Alarm" Width="250" Height="40" Margin="5,5,5,10"/>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Profibus Group -->
+        <GroupBox Header="Profibus" FontSize="14" FontWeight="Bold" Margin="356,201,0,0" HorizontalAlignment="Left" Width="300" VerticalAlignment="Top">
+            <StackPanel>
+                <Button Content="Reset Profibus" Width="250" Height="40" Margin="5,10,5,5" FontWeight="Bold"/>
+                <Button Content="Reset Communication" Width="250" Height="40" Margin="5,5,5,10" FontWeight="Bold"/>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Close Button -->
+        <Button Content="CLOSE" FontWeight="Bold" Width="100" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10"/>
+    </Grid>
+</Window>

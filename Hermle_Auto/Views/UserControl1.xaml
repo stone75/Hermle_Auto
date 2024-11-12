@@ -1,0 +1,546 @@
+﻿<UserControl x:Class="Hermle_Auto.Views.UserControl1"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Hermle_Auto.Views" 
+             xmlns:converters="clr-namespace:Hermle_Auto.Converters" 
+             xmlns:viewmodels="clr-namespace:Hermle_Auto.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="1280" Height="1024" Loaded="UserControl_Loaded">
+
+    <!-- 
+    <UserControl.DataContext>
+        <viewmodels:UserControl1ViewModel/>
+    </UserControl.DataContext>
+-->
+
+    
+    <UserControl.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/CommonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+
+    <!-- <Border Padding="10" Background="White" Margin="0,0,0,-34"> -->
+    <Border Padding="10" Background="#FFE6E4E4" Margin="0,0,0,0">
+
+        <Grid Margin="0,0,0,0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60*"/>
+                <ColumnDefinition Width="520*"/>
+                <ColumnDefinition Width="110*"/>
+                <ColumnDefinition Width="110*"/>
+                <ColumnDefinition Width="390*"/>
+                <ColumnDefinition Width="190*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <!-- 새로운 Row 추가 -->
+                <RowDefinition Height="55"/>
+                <RowDefinition Height="55"/>
+                <!-- 상단 버튼 3개를 배치할 Row -->
+                <RowDefinition Height="Auto" MinHeight="182"/>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="27"/>
+                <RowDefinition Height="Auto" MinHeight="5"/>
+                <RowDefinition Height="470"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="Auto"/>
+
+            </Grid.RowDefinitions>
+
+
+            <!-- Top toolbar with buttons -->
+            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,0" Width="Auto" HorizontalAlignment="Left" Grid.ColumnSpan="4">
+                <Button Content="R.E.Stop" Style="{StaticResource SubButton}" Margin="5,5,15,5"/>
+                <Button Content="Options" Style="{StaticResource SubButton}" Click="OpenPasswordWindow_Click" Margin="5,5,15,5" />
+                <Button Content="Communication" Style="{StaticResource SubButton}" Click="OpenCommunicationWindow_Click" FontSize="18" Margin="5,5,15,5"/>
+                <Button Content="PLC CHEK" Style="{StaticResource SubButton}" Click="OpenPLC_CHECK_Click" FontSize="18" Margin="5,5,0,5"/>
+
+            </StackPanel>
+            <Button Content="Exit" Style="{StaticResource SubButton}" Command="{Binding ExitCommand}" HorizontalAlignment="Right" Grid.Column="5"/>
+
+            <!-- 상단에 버튼 3개 수평 배치 -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.RowSpan="1" Grid.Row="1" >
+                <RadioButton Content="Auto" 
+                     Style="{StaticResource RadioButtonStyle}"
+                     Command="{Binding AutoCommand}"
+                     IsChecked="{Binding SelectedMode, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Auto}" Margin="5,5,15,5"/>
+                <RadioButton Content="Semi" 
+                     Style="{StaticResource RadioButtonStyle}"
+                     Command="{Binding SemiCommand}"
+                     IsChecked="{Binding SelectedMode, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Semi}" Margin="5,5,15,5"/>
+                <RadioButton Content="Manual" 
+                     Style="{StaticResource RadioButtonStyle}"
+                     Command="{Binding ManualCommand}"
+                     IsChecked="{Binding SelectedMode, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Manual}" Margin="5,5,0,5"/>
+            </StackPanel>
+            <!-- 상단에 버튼 3개 수평 배치 -->
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,0" Grid.Column="4" Width="Auto" Grid.ColumnSpan="3" VerticalAlignment="Top">
+                <!-- START 버튼 -->
+                <Button Style="{StaticResource SubButton}"
+                        Command="{Binding StartCommand}" Margin="5,5,15,5">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Start" Margin="0,0,0,0" VerticalAlignment="Center" FontSize="28" FontWeight="Bold"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- STOP 버튼 -->
+                <Button Style="{StaticResource SubButton}"
+                        Command="{Binding PauseCommand}" Margin="5,5,15,5">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Pause" Margin="0,0,0,0" VerticalAlignment="Center" FontSize="28" FontWeight="Bold"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- PAUSE 버튼 -->
+                <Button Style="{StaticResource SubButton}"
+                        Command="{Binding ResetCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Reset" Margin="0,0,0,0" VerticalAlignment="Center"  FontSize="28" FontWeight="Bold"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+
+
+
+            <!-- 기존 좌측 Border -->
+            <Border Grid.Column="0" BorderBrush="Black" BorderThickness="2" Margin="0,0,0,0" Padding="10" Grid.ColumnSpan="2" Grid.Row="2" >
+
+
+                <Grid VerticalAlignment="Center">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <!-- TextBlock을 좌측 상단에 배치 -->
+                    <TextBlock Text="Current Position" 
+             HorizontalAlignment="Left" 
+             VerticalAlignment="Top" 
+             Margin="5,5,0,0" 
+             FontSize="25" FontWeight="Bold" Grid.ColumnSpan="2"/>
+
+                    <!-- 기존 Row 1 -->
+                    <Label Content="X[mm]" Style="{StaticResource CustomLabel}" FontSize="18" Grid.Row="1" Grid.Column="0"/>
+                    <Label Content="Y[mm]" Style="{StaticResource CustomLabel}" FontSize="18" Grid.Row="1" Grid.Column="1"/>
+                    <Label Content="Z[mm]" Style="{StaticResource CustomLabel}" FontSize="18" Grid.Row="1" Grid.Column="2"/>
+
+                    <!-- 기존 Row 1 -->
+                    <Border Grid.Row="2" Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Padding="5" Margin="5">
+                        <Label Content="{Binding ValueX}" Style="{StaticResource CustomLabel}" Width="100" />
+                    </Border>
+                    <Border Grid.Row="2" Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Padding="5" Margin="5">
+                        <Label Content="{Binding ValueY}" Style="{StaticResource CustomLabel}" Width="100" />
+                    </Border>
+                    <Border Grid.Row="2" Grid.Column="2" BorderBrush="Gray" BorderThickness="1" Padding="5" Margin="5">
+                        <Label Content="{Binding ValueZ}" Style="{StaticResource CustomLabel}" Width="100" />
+                    </Border>
+
+
+                    <!-- 기존 Row 2 -->
+
+                    <Label Content="Rx[Deq]" Style="{StaticResource CustomLabel}" Grid.Row="3" Grid.Column="0"/>
+                    <Label Content="Ry[Deq]" Style="{StaticResource CustomLabel}" Grid.Row="3" Grid.Column="1"/>
+                    <Label Content="Rz[Deq]" Style="{StaticResource CustomLabel}" Grid.Row="3" Grid.Column="2"/>
+
+                    <!-- 기존 Row 2 -->
+                    <Border Grid.Row="4" Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Padding="5" Margin="5">
+                        <Label Content="{Binding ValueRx}" Style="{StaticResource CustomLabel}" Width="100" />
+                    </Border>
+                    <Border Grid.Row="4" Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Padding="5" Margin="5">
+                        <Label Content="{Binding ValueRy}" Style="{StaticResource CustomLabel}" Width="100" />
+                    </Border>
+                    <Border Grid.Row="4" Grid.Column="2" BorderBrush="Gray" BorderThickness="1" Padding="5" Margin="5">
+                        <Label Content="{Binding ValueRz}" Style="{StaticResource CustomLabel}" Width="100" />
+                    </Border>
+                </Grid>
+
+            </Border>
+
+            
+            
+            <!-- 중앙 컨텐츠는 기존과 동일 -->
+            <Grid Grid.Column="2" Grid.ColumnSpan="2" Margin="0,0,0,0" Grid.Row="2">
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.ColumnSpan="1" Margin="0,0,0,0" HorizontalAlignment="Center" Width="AUTO" IsEnabled="False">
+                    <TextBox Text="{Binding Diameter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+             Style="{StaticResource CenteredBlueTextBox}" />
+                    <TextBox Text="{Binding Tools, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+             Style="{StaticResource CenteredBlueTextBox}" />
+                    <TextBox Text="{Binding ManualType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+             Style="{StaticResource CenteredBlueTextBox}" />
+                    <TextBox Text="{Binding Pocket, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+             Style="{StaticResource CenteredBlueTextBox}" />
+                    <TextBox Text="{Binding TapSelect, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+             Style="{StaticResource CenteredBlueTextBox}" AllowDrop="True" />
+                </StackPanel>
+            </Grid>
+
+            <!-- 기존 우측 Border -->
+            <Border Grid.Column="4" BorderBrush="Black" BorderThickness="2" Margin="0,0,0,0" Padding="10" Grid.Row="2" Grid.ColumnSpan="2">
+
+                <Grid VerticalAlignment="Center">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <!-- TextBlock을 좌측 상단에 배치 -->
+                    <TextBlock Text="WorkPiece" 
+                           HorizontalAlignment="Left" 
+                           VerticalAlignment="Top" 
+                           Margin="5,5,0,0" 
+                           FontSize="25" FontWeight="Bold"/>
+                    <TextBlock Text="Robot" 
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Top" 
+                    Margin="5,5,0,0" 
+                    FontSize="25" FontWeight="Bold" Grid.Row="3"/>
+
+                    <!-- 기존 Row 1 -->
+                    <Label Content="WorkPiece"  Style="{StaticResource CustomLabel}" Grid.Row="1" Grid.Column="1"/>
+                    <Label Content="AmountLeft" Style="{StaticResource CustomLabel}" Grid.Row="1" Grid.Column="2"/>
+                    <Label Content="NC Program" Style="{StaticResource CustomLabel}" Grid.Row="1" Grid.Column="3"/>
+
+
+
+                    <!-- 기존 Row 1 -->
+                    <Border Grid.Row="2" Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Padding="5" Margin="5">
+                        <Label Content="{Binding ValueWorkPiece}" Style="{StaticResource CustomLabel}" Width="100" />
+                    </Border>
+                    <Border Grid.Row="2" Grid.Column="2" BorderBrush="Gray" BorderThickness="1" Padding="5" Margin="5">
+                        <Label Content="{Binding ValueAmountLeft}" Style="{StaticResource CustomLabel}" Width="100" />
+                    </Border>
+                    <Border Grid.Row="2" Grid.Column="3" BorderBrush="Gray" BorderThickness="1" Padding="5" Margin="5">
+                        <Label Content="{Binding ValueNCProgram}" Style="{StaticResource CustomLabel}" Width="100" />
+                    </Border>
+
+
+                    <!-- 기존 Row 2 -->
+
+                    <Label Content="Serve"   Style="{StaticResource CustomLabel}"   Grid.Row="3" Grid.Column="1"/>
+                    <Label Content="Gripper" Style="{StaticResource CustomLabel}"   Grid.Row="3" Grid.Column="2"/>
+                    <Label Content="KeyState" Style="{StaticResource CustomLabel}"  Grid.Row="3" Grid.Column="3"/>
+
+                    <!-- 기존 Row 2 -->
+                    <Border Grid.Row="4" Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Padding="5" Margin="5">
+                        <Label Content="{Binding ValueServe}" 
+                               Style="{StaticResource CustomLabel}"
+                               Width="100" 
+                               Foreground="{Binding ValueServeForeground}" 
+                               FontWeight="{Binding ValueServeFontWeight}" />    
+                    </Border>
+                    <Border Grid.Row="4" Grid.Column="2" BorderBrush="Gray" BorderThickness="1" Padding="5" Margin="5">
+                        <Label Content="{Binding ValueGripper}" 
+                               Style="{StaticResource CustomLabel}"
+                               Width="100" 
+                               Foreground="{Binding ValueGripperForeground}"
+                               FontWeight="{Binding ValueGripperFontWeight}"/>        
+                    </Border>
+                    <Border Grid.Row="4" Grid.Column="3" BorderBrush="Gray" BorderThickness="1" Padding="5" Margin="5">
+                        <Label Content="{Binding ValueKeyState}" 
+                               Style="{StaticResource CustomLabel}"
+                               Width="100" 
+                               Foreground="{Binding ValueKeyStateForeground}"
+                               FontWeight="{Binding ValueKeyStateFontWeight}"/>        
+                    </Border>
+                </Grid>
+
+            </Border>
+
+            <!-- Main Tabs는 기존과 동일 -->
+            <Grid Grid.Row="3" Margin="0,10,0,5" Grid.ColumnSpan="6" Grid.RowSpan="2">
+                <UniformGrid Columns="10">
+                    <Button Content="Automat" 
+                            Command="{Binding TabSelectCommand}" CommandParameter="Automat"
+                              >
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource TabButton}" TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TapSelect}" Value="Automat">
+                                        <Setter Property="Background" Value="#FF656565"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                    </Button>
+                    <Button Content="Tools" 
+                            Command="{Binding TabSelectCommand}" CommandParameter="Tools"
+                               >
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource TabButton}" TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TapSelect}" Value="Tools">
+                                        <Setter Property="Background" Value="#FF656565"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                    </Button>
+                    <Button Command="{Binding TabSelectCommand}" CommandParameter="WorkPiece2"
+                             >
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource TabButton}" TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TapSelect}" Value="WorkPiece2">
+                                        <Setter Property="Background" Value="#FF656565"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Run Text="Work"/>
+                            <LineBreak/>
+                            <Run Text="Piece"/>
+                        </TextBlock>
+                    </Button>
+
+                    <Button Content="Manual" 
+                            Command="{Binding TabSelectCommand}" CommandParameter="Manual"
+                               >
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource TabButton}" TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TapSelect}" Value="Manual">
+                                        <Setter Property="Background" Value="#FF656565"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                    </Button>
+                    <Button
+                            Command="{Binding TabSelectCommand}" CommandParameter="PocketStatus"
+                              >
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource TabButton}" TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TapSelect}" Value="PocketStatus">
+                                        <Setter Property="Background" Value="#FF656565"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Run Text="Pocket"/>
+                            <LineBreak/>
+                            <Run Text="Status"/>
+                        </TextBlock>
+                    </Button>
+                    
+                    <Button Content="Teach" 
+                            Command="{Binding TabSelectCommand}" CommandParameter="Teach"
+                               >
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource TabButton}" TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TapSelect}" Value="Teach">
+                                        <Setter Property="Background" Value="#FF656565"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                    </Button>
+                    <Button Content="Diagnostic" 
+                            Command="{Binding TabSelectCommand}" CommandParameter="Diagnostic"
+                               >
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource TabButton}" TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TapSelect}" Value="Diagnostic">
+                                        <Setter Property="Background" Value="#FF656565"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                    </Button>
+                    <Button Content="Operation" 
+                            Command="{Binding TabSelectCommand}" CommandParameter="Operation"
+                               >
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource TabButton}" TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TapSelect}" Value="Operation">
+                                        <Setter Property="Background" Value="#FF656565"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                    </Button>
+                    <Button Content="Tests" 
+                            Command="{Binding TabSelectCommand}" CommandParameter="Tests"
+                              >
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource TabButton}" TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TapSelect}" Value="Tests">
+                                        <Setter Property="Background" Value="#FF656565"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+
+                    </Button>
+                    <Button Content="Info" 
+                            Command="{Binding TabSelectCommand}" CommandParameter="Info" >
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource TabButton}" TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TapSelect}" Value="Info">
+                                        <Setter Property="Background" Value="#FF656565"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                    </Button>
+                    
+                </UniformGrid>
+            </Grid>
+
+            <!-- Sub는 기존과 동일 -->
+            <Grid Grid.Row="4" Grid.ColumnSpan="6" Margin="0,26,0,61" Grid.RowSpan="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Left -->
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="0*"/>
+                    </Grid.ColumnDefinitions>
+
+
+                </Grid>
+
+                <!-- Bottom section with robot status -->
+
+                <!--   <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,10">
+                    <TextBlock Text="Robot Status:" FontWeight="Bold" VerticalAlignment="Center"/>
+                    <ProgressBar Value="80" Width="200" Height="20"/>
+                    <TextBlock Text="ROBOT RUN" Foreground="Green" FontWeight="Bold"/>
+                </StackPanel> -->
+
+            </Grid>
+
+            <!-- Tab 버튼별 SubVie w-->
+            <Grid Grid.Row="6" Grid.ColumnSpan="6" Margin="5,0,5,10" Grid.RowSpan="1">
+
+
+                <local:AutomatView x:Name="automatView" Visibility="{Binding SelectedView,
+Converter={StaticResource Enum2VisConverter},
+ConverterParameter='Automat'}">
+                </local:AutomatView>
+                <local:ToolsView x:Name="toolsView" Visibility="{Binding SelectedView,
+Converter={StaticResource Enum2VisConverter},
+ConverterParameter='Tools'}">
+                </local:ToolsView>
+
+                <local:WorkPiece2View x:Name="workPieceView"  Visibility="{Binding SelectedView,
+Converter={StaticResource Enum2VisConverter},
+ConverterParameter='WorkPiece2'}">
+                </local:WorkPiece2View>
+
+                <local:ManualView x:Name="manualView"  Visibility="{Binding SelectedView,
+Converter={StaticResource Enum2VisConverter},
+ConverterParameter='Manual'}">
+                </local:ManualView>
+
+
+                <local:PocketStatusVies x:Name="pocketStatusVies" Visibility="{Binding SelectedView,
+Converter={StaticResource Enum2VisConverter},
+ConverterParameter='PocketStatus'}">
+                </local:PocketStatusVies>
+
+
+                <local:TeachView x:Name="teachView" Visibility="{Binding SelectedView,
+Converter={StaticResource Enum2VisConverter},
+ConverterParameter='Teach'}">
+                </local:TeachView>
+
+
+                <local:DiagnosticView x:Name="diagnosticView" Visibility="{Binding SelectedView,
+Converter={StaticResource Enum2VisConverter},
+ConverterParameter='Diagnostic'}">
+                </local:DiagnosticView>
+
+
+                <local:OperationView x:Name="operationView" Visibility="{Binding SelectedView,
+Converter={StaticResource Enum2VisConverter},
+ConverterParameter='Operation'}">
+                </local:OperationView>
+
+                <local:TestsView x:Name="testsView" Visibility="{Binding SelectedView,
+Converter={StaticResource Enum2VisConverter},
+ConverterParameter='Tests'}">
+                </local:TestsView>
+                
+                <local:InfoView x:Name="infoView" Visibility="{Binding SelectedView,
+Converter={StaticResource Enum2VisConverter},
+ConverterParameter='Info'}">
+                </local:InfoView>
+
+            </Grid>
+
+            <Grid Grid.Row="7" Grid.ColumnSpan="6" Margin="5,0,5,5" Grid.RowSpan="1">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="50,0,50,10">
+                    <TextBlock Text="Robot Status:" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="20"/>
+                    <ProgressBar Value="80" Width="200" Height="20" Margin="0,0,10,0"/>
+                    <TextBlock Text="ROBOT RUN" Foreground="Green" FontWeight="Bold" FontSize="20"/>
+
+                    <TextBlock Text="Command :" FontWeight="Bold" VerticalAlignment="Center" Margin="100,0,10,0" FontSize="20"/>
+                    <TextBlock Text="ComandText" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0,10,0" FontSize="20"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+    </Border>
+</UserControl>

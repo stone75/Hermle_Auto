@@ -1,0 +1,414 @@
+﻿<UserControl x:Class="Hermle_Auto.Views.TeachView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Hermle_Auto.Views"
+             xmlns:viewmodels="clr-namespace:Hermle_Auto.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="470" d:DesignWidth="1200">
+
+    <!--<UserControl.DataContext>
+        <viewmodels:TeachViewModel/>
+    </UserControl.DataContext>-->
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/CommonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Background="#FFE6E4E4" Height="470" VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+
+
+
+        <!-- 탭 컨트롤 상단에 위치 -->
+        <TabControl DockPanel.Dock="Top" Margin="0" Background="#FFE6E4E4" Grid.ColumnSpan="2">
+
+            <!-- 첫 번째 탭: Add/Edit Work Piece -->
+            <TabItem Header="Teach General Locations" Style="{StaticResource TabStyle2}">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="587*"/>
+                        <ColumnDefinition Width="234*"/>
+                        <ColumnDefinition Width="352*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Multi Pockets-->
+                    <Grid >
+                        <!-- DataGrid (좌측) -->
+                        <DataGrid x:Name="PocketTable" Grid.Row="0" Grid.Column="1" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column" Margin="10,35,10,10" 
+            ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Grid.ColumnSpan="2" VerticalAlignment="Top" Height="250" Width="550">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Number" Binding="{Binding Number}" Width="90"/>
+                                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="150"/>
+                                <DataGridTextColumn Header="X" Binding="{Binding X}" Width="90"/>
+                                <DataGridTextColumn Header="Y" Binding="{Binding Y}" Width="90"/>
+                                <DataGridTextColumn Header="Z" Binding="{Binding Z}" Width="90"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </Grid>
+
+                    <Button Grid.Row="0" Grid.Column="1" Content="Refresh" Margin="10,35,10,10" Style="{DynamicResource ActButton}" Width="120" Height="120" VerticalAlignment="Top"/>
+
+                    <GroupBox Header="Teach Locations" FontSize="18" Margin="0,20,0,20"  FontFamily="Arial" FontWeight="Bold" Grid.Column="2" VerticalAlignment="Top">
+                        <StackPanel VerticalAlignment="Top">
+                            <StackPanel>
+                                <Label Content=" Pick Status From List &#x0a; Location From Robot &#x0a; as General Position." Width="250" VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="18" HorizontalAlignment="Center" HorizontalContentAlignment="Left" Margin="0,10,0,10"/>
+
+                                <ComboBox  x:Name="StatusListComboBox" Width="250" Margin="5,5,5,5" VerticalAlignment="Center" Padding="5,3,5,3">
+                                    <ComboBoxItem Content="Empty"/>
+                                    <ComboBoxItem Content="Unmachined"/>
+                                    <ComboBoxItem Content="Machined"/>
+                                    <ComboBoxItem Content="Reserved"/>
+                                    <ComboBoxItem Content="Mask"/>
+                                    <ComboBoxItem Content="Occupied"/>
+                                    <ComboBoxItem Content="Broken"/>
+                                    <ComboBoxItem Content="Disable"/>
+                                </ComboBox>
+
+
+                                <Button Grid.Row="0" Grid.Column="1" Content="Teach Position" Margin="10,20,10,10" Style="{DynamicResource ActButton}" HorizontalContentAlignment="Center" VerticalAlignment="Center" Width="250" Height="60"/>
+
+                            </StackPanel>
+
+                        </StackPanel>
+                    </GroupBox>
+
+                </Grid>
+
+
+
+            </TabItem>
+            <!-- 두 번째 탭: WP Options -->
+            <TabItem Header="Teach Shelves Locations" Style="{StaticResource TabStyle2}">
+                <Grid Margin="5,0,5,0" Height="auto">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="4*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Multi Pockets-->
+                    <Grid Grid.RowSpan="99" Grid.ColumnSpan="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="170"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <!-- region -->
+                        <Label Content="Multi Pockets" Margin="10,0"/>
+                        <Border Width="5" Height="20" Background="Gray" HorizontalAlignment="Left"/>
+                        <Border Grid.Row="1" Margin="5" BorderThickness="2" BorderBrush="gray">
+                            <Image Source="/img/DrillShelf.jpg"/>
+
+                        </Border>
+                        <Grid Grid.Row="1" Grid.Column="1" Margin="0,0,15,0">
+                            <StackPanel Orientation="Vertical">
+                                <Button Grid.Row="1" Grid.Column="1" Content="Teach Last"
+                     Command="{Binding TeachCommand}" CommandParameter="_Last" Height="60" Margin="2,2,2,20"
+                     />
+                                <Button Grid.Row="1" Grid.Column="1" Content="Calculate"
+                     Command="{Binding TeachCommand}" CommandParameter="Calculate" Height="60"
+                     />
+                            </StackPanel>
+                        </Grid>
+                        <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="0,0,0,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Row="0" Content="Teach First" HorizontalAlignment="Left"
+                 Command="{Binding TeachCommand}" CommandParameter="_First" Grid.RowSpan="2" VerticalAlignment="Top" Height="50"
+                 />
+                            <Button Grid.Row="1" Grid.Column="0" Content="Refresh Table" VerticalAlignment="Bottom"
+                 Command="{Binding TeachCommand}" CommandParameter="Refresh Table" Height="70"
+                 />
+                            <Grid Margin="10" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
+                                <DataGrid Name="CoordinateGrid" 
+              CanUserSortColumns="False"
+              ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" 
+              CellStyle="{StaticResource DataGridCellStyle}"
+              
+  AutoGenerateColumns="False"
+  IsReadOnly="True"
+  HeadersVisibility="All"
+  GridLinesVisibility="All"
+  VerticalAlignment="Top"
+  HorizontalAlignment="Left">
+                                    <DataGrid.Resources>
+                                        <!-- 숫자 포맷을 위한 스타일 -->
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="TextAlignment" Value="Right"/>
+                                            <Setter Property="Padding" Value="5,2"/>
+                                        </Style>
+                                    </DataGrid.Resources>
+
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="" 
+      Binding="{Binding PointType}"
+      Width="150"/>
+                                        <DataGridTextColumn Header="X" 
+      Binding="{Binding X, StringFormat={}{0:F3}}"
+      Width="120"/>
+                                        <DataGridTextColumn Header="Y" 
+      Binding="{Binding Y, StringFormat={}{0:F3}}"
+      Width="120"/>
+                                        <DataGridTextColumn Header="Z" 
+      Binding="{Binding Z, StringFormat={}{0:F3}}"
+      Width="120"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                            
+                            
+                        </Grid>
+                        <!-- endregion -->
+                    </Grid>
+
+                    <!-- Drill -->
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <!-- region -->
+                        <Label Content="Drill" Margin="10,0"/>
+                        <Border Width="5" Height="20" Background="Gray" HorizontalAlignment="Left"/>
+                        <Label Grid.Row="1" Height="40" Content="Shelf" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" HorizontalAlignment="Center"/>
+
+                        <Grid Grid.Row="2" HorizontalAlignment="Center" >
+                            <StackPanel Orientation="Horizontal">
+
+                                <!-- 숫자를 감소시키는 버튼 -->
+                                <Button Content="-" Width="50" Height="50"
+HorizontalAlignment="Left"
+VerticalAlignment="Center"
+Margin="10,10,0,10"
+Click="DecreaseShelf" Grid.Column="2"/>
+                                <TextBox x:Name="ShelfTextBox"
+ Text="1"
+ Width="100"
+ Height="50"
+ HorizontalAlignment="Center"
+ VerticalAlignment="Center"
+ IsReadOnly="True"
+ TextAlignment="Center"
+ FontSize="25" Grid.Column="2" VerticalContentAlignment="Center"/>
+
+                                <!-- 숫자를 증가시키는 버튼 -->
+                                <Button Content="+" Width="50" Height="50"
+HorizontalAlignment="Right"
+VerticalAlignment="Center"
+Margin="0,10,10,10"
+Click="IncreaseShelf" Grid.Column="2"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- 
+                        <Button Grid.Row="2" Content="1" Style="{DynamicResource GreenButtonStyle}"/>
+                         -->
+                        <!-- endregion -->
+                    </Grid>
+
+                    <!-- Single Pocket -->
+                    <Grid Grid.Row="1" Grid.Column="2" Margin="0,0,0,0" Grid.RowSpan="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <!-- region -->
+                        <Label Content="Single Pocket" Margin="10,0"/>
+                        <Border Width="5" Height="20" Background="Gray" HorizontalAlignment="Left"/>
+                        <StackPanel Grid.Row="1">
+                            <Label Grid.Row="1" Height="32" Content="Read Current Location From" FontSize="19"/>
+                            <Label Grid.Row="1" Height="33" Content="Robot as single pocket." FontSize="19"/>
+                        </StackPanel>
+                        <!--<Button Grid.Row="2" Content="1" Width="80" Background="LimeGreen"/>-->
+                        <Grid Grid.Row="3" Margin="0,0,0,5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="AUto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Pocket" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" HorizontalAlignment="Center" FontSize="20"/>
+                            <Label Grid.Column="1" Content="Dril Code" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" HorizontalAlignment="Center" FontSize="20"/>
+
+                            <Grid Grid.Row="1">
+                                <TextBox x:Name="PocketTextBox"
+     Text="1"
+     Width="100"
+     Height="50"
+     HorizontalAlignment="Center"
+     VerticalAlignment="Center"
+     IsReadOnly="True"
+     TextAlignment="Center"
+     FontSize="25" Grid.Column="2" VerticalContentAlignment="Center"/>
+                                <!-- 숫자를 증가시키는 버튼 -->
+                                <Button Content="+" Width="50" Height="50"
+    HorizontalAlignment="Right"
+    VerticalAlignment="Center"
+    Margin="10"
+    Click="IncreasePocket" Grid.Column="2"/>
+                                <!-- 숫자를 감소시키는 버튼 -->
+                                <Button Content="-" Width="50" Height="50"
+    HorizontalAlignment="Left"
+    VerticalAlignment="Center"
+    Margin="10"
+    Click="DecreasePocket" Grid.Column="2"/>
+                            </Grid>
+
+
+                            <Grid Grid.Row="1" Grid.Column="1">
+                                <TextBox x:Name="DrillCodeTextBox"
+ Text="1"
+ Width="100"
+ Height="50"
+ HorizontalAlignment="Center"
+ VerticalAlignment="Center"
+ IsReadOnly="True"
+ TextAlignment="Center"
+ FontSize="25" Grid.Column="2" VerticalContentAlignment="Center"/>
+                                <!-- 숫자를 증가시키는 버튼 -->
+                                <Button Content="+" Width="50" Height="50"
+HorizontalAlignment="Right"
+VerticalAlignment="Center"
+Margin="10"
+Click="IncreaseDrillCode" Grid.Column="2"/>
+                                <!-- 숫자를 감소시키는 버튼 -->
+                                <Button Content="-" Width="50" Height="50"
+HorizontalAlignment="Left"
+VerticalAlignment="Center"
+Margin="10"
+Click="DecreaseDrillCode" Grid.Column="2"/>
+                            </Grid>
+
+                            <!-- <Button Grid.Row="1" Content="101" Style="{DynamicResource GreenButtonStyle}"/>
+                            <Button Grid.Row="1" Grid.Column="1" Content="1" Style="{DynamicResource GreenButtonStyle}"/>
+                             -->
+                            <Button Content="Teach Single Pocket" Width="250"
+                 Grid.Row="2" Grid.ColumnSpan="2"
+                 HorizontalAlignment="Left" 
+                 Command="{Binding TeachCommand}" CommandParameter="_Single Pocket" Margin="10,2,2,2" Height="40"
+                 />
+                        </Grid>
+                        <!-- endregion -->
+                    </Grid>
+
+                </Grid>
+            </TabItem>
+
+
+
+            <!-- 세 번째 탭: Offsets -->
+            <TabItem Header="View Pockets Locations" Style="{StaticResource TabStyle2}">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Multi Pockets-->
+                    <Grid >
+                        <!-- DataGrid (좌측) -->
+                        <DataGrid x:Name="PocketTable2" Grid.Row="0" Grid.Column="1" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column" Margin="10,35,10,10" 
+ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Grid.ColumnSpan="2" VerticalAlignment="Top" Height="340" Width="620">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Pocket Number" Binding="{Binding PocketNumber}" Width="120"/>
+                                <DataGridTextColumn Header="X" Binding="{Binding X}" Width="80"/>
+                                <DataGridTextColumn Header="Y" Binding="{Binding Y}" Width="80"/>
+                                <DataGridTextColumn Header="Z" Binding="{Binding Z}" Width="80"/>
+                                <DataGridTextColumn Header="Rx" Binding="{Binding Rx}" Width="80"/>
+                                <DataGridTextColumn Header="Ty" Binding="{Binding Ry}" Width="80"/>
+                                <DataGridTextColumn Header="Rz" Binding="{Binding Rz}" Width="80"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </Grid>
+
+
+                    <GroupBox Header="Show Locations" FontSize="18" Margin="0,20,0,20"  FontFamily="Arial" FontWeight="Bold" Grid.Column="2" VerticalAlignment="Top">
+                        <StackPanel VerticalAlignment="Top">
+                            <StackPanel>
+                                <Label Content=" Display pockets &#x0a;Coordinates." Width="250" VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="18" HorizontalAlignment="Center" HorizontalContentAlignment="Left" Margin="0,10,0,10"/>
+
+
+                                <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Center">
+
+                                    <Grid Grid.Row="0" Width="160" Margin="10,0,20,0">
+                                        <TextBox  x:Name="DrillCodeTextBox2"  Text="1" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
+VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" FontSize="25" Grid.Column="0" VerticalContentAlignment="Center"/>
+                                        <!-- 숫자를 증가시키는 버튼 -->
+                                        <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,10,10,10" Click="IncreaseDrillCore" Grid.Column="0"/>
+                                        <!-- 숫자를 감소시키는 버튼 -->
+                                        <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,10,10,10" Click="DecreaseDrillCore" Grid.Column="0"/>
+                                    </Grid>
+
+                                    <Grid Grid.Row="0" Width="160">
+                                        <TextBox  x:Name="PocketTextBox3"  Text="100" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
+VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" FontSize="25" Grid.Column="0" VerticalContentAlignment="Center"/>
+                                        <!-- 숫자를 증가시키는 버튼 -->
+                                        <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,10,0,10" Click="IncreasePocketCount" Grid.Column="0"/>
+                                        <!-- 숫자를 감소시키는 버튼 -->
+                                        <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,10,10" Click="DecreasePocketCount" Grid.Column="0"/>
+                                    </Grid>
+
+
+                                </StackPanel>
+
+                                <Button Grid.Row="0" Grid.Column="1" Content="Show Locations" Margin="10,20,10,10" Style="{DynamicResource ActButton}" HorizontalContentAlignment="Center" VerticalAlignment="Center" Width="200" Height="120"/>
+
+                            </StackPanel>
+
+                        </StackPanel>
+                    </GroupBox>
+
+                </Grid>
+
+            </TabItem>
+        </TabControl>
+
+
+
+
+
+    </Grid>
+</UserControl>
