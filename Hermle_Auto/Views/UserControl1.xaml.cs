@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using HermleCS.Comm;
 using Hermle_Auto.ViewModels;
 using HermleCS.Data;
 
@@ -26,6 +27,7 @@ namespace Hermle_Auto.Views
     public partial class UserControl1 : UserControl
     {
         UserControl1ViewModel userControl1ViewModel = new UserControl1ViewModel();
+        private CommHTTPComponent httpclient = CommHTTPComponent.Instance;
 
         public UserControl1()
         {
@@ -36,6 +38,22 @@ namespace Hermle_Auto.Views
             workPieceView.WorkPieceChanged += userControl1ViewModel.OnWorkPieceUpdate;
             //workPieceView.Visibility = Visibility.Visible;
 
+            httpclient.MessageReceived += (addr, message) =>
+            {
+                string log = "Log : " + addr + " / " + message;
+
+                if (logText.Dispatcher.CheckAccess())
+                {
+                    logText.Text = log;
+                }
+                else
+                {
+                    logText.Dispatcher.Invoke(() =>
+                    {
+                        logText.Text = log;
+                    });
+                }
+            };
         }
 
   

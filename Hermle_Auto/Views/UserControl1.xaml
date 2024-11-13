@@ -534,7 +534,7 @@ ConverterParameter='Info'}">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="50,0,50,10">
                     <TextBlock Text="Robot Status:" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="20"/>
                     <ProgressBar Value="80" Width="200" Height="20" Margin="0,0,10,0"/>
-                    <TextBlock Text="ROBOT RUN" Foreground="Green" FontWeight="Bold" FontSize="20"/>
+                    <TextBlock x:Name="logText" Text="ROBOT RUN" Foreground="Green" FontWeight="Bold" FontSize="20"/>
 
                     <TextBlock Text="Command :" FontWeight="Bold" VerticalAlignment="Center" Margin="100,0,10,0" FontSize="20"/>
                     <TextBlock Text="ComandText" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0,10,0" FontSize="20"/>

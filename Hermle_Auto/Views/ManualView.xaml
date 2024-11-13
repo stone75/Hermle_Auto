@@ -43,7 +43,7 @@
 
                         <!-- X Axis -->
                         <Label x:Name="label" Content="Robot Information : " Margin="28,22,0,0" VerticalAlignment="Top" Width="207" RenderTransformOrigin="0.179,0.366" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" Height="35"/>
-                        <TextBox x:Name="robotaddr" Margin="283,20,-14,343" TextWrapping="Wrap" Text="http://192.168.0.10/karel/"/>
+                        <TextBox x:Name="robotaddr" Margin="283,20,-14,343" TextWrapping="Wrap" Text="http://ktrends.net/"/>
                         <TextBox x:Name="robotcmd" HorizontalAlignment="Left" Margin="283,62,0,303" TextWrapping="Wrap" Text="Command..." Width="317"/>
 
                         <Button x:Name="PauseBtn" Style="{StaticResource DirectionButton}" Margin="278,102,262,238" Click="PauseBtn_Click">

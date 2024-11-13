@@ -39,7 +39,18 @@ namespace Hermle_Auto.Views
             httpclient.MessageReceived += (addr, message) =>
             {
                 string log = "Log : " + addr + " / " + message;
-                logText.Text = log;
+
+                if (logText.Dispatcher.CheckAccess())
+                {
+                    logText.Text = log;
+                }
+                else
+                {
+                    logText.Dispatcher.Invoke(() =>
+                    {
+                        logText.Text = log;
+                    });
+                }
             };
         }
 
@@ -84,7 +95,7 @@ namespace Hermle_Auto.Views
 
         private void ResetBtn_Click(object sender, RoutedEventArgs e)
         {
-            robotcmd.Text = "CHUCK_TO_KIOSK.TP";
+            robotcmd.Text = "t.php";
             string url = robotaddr.Text + robotcmd.Text;
 
             httpclient.commandCommand(url);

@@ -41,8 +41,10 @@ namespace HermleCS.Comm
 
         public string GetAPI(string url)
         {
+            /*
             try
             {
+                MessageReceived?.Invoke(0, "GET API Started..");
                 HttpResponseMessage response = httpClient.GetAsync(url).Result;
                 response.EnsureSuccessStatusCode();
 
@@ -50,6 +52,38 @@ namespace HermleCS.Comm
                 string responseBody = response.Content.ReadAsStringAsync().Result;
                 MessageReceived?.Invoke(0, "Response : " + responseBody);
 
+                return responseBody;
+            }
+            */
+            try
+            {
+                MessageReceived?.Invoke(0, "GET API Started..");
+                string responseBody = "";
+
+                Thread t = new Thread(() =>
+                {
+                    try
+                    {
+                        MessageReceived?.Invoke(0, "GET API Started in Thread...");
+                        using (HttpClient httpClient = new HttpClient())
+                        {
+                            HttpResponseMessage response = httpClient.GetAsync(url).Result;
+                            response.EnsureSuccessStatusCode();
+
+                            string responseBody = response.Content.ReadAsStringAsync().Result;
+                            MessageReceived?.Invoke(0, "Response: " + responseBody);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageReceived?.Invoke(1, "Error: " + ex.Message);
+                    }
+                });
+                t.IsBackground = true;
+                t.Start();
+                // t.Join();
+
+//                MessageReceived?.Invoke(0, "Response : " + responseBody);
                 return responseBody;
             }
             catch (Exception ex)
