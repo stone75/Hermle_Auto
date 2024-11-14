@@ -15,9 +15,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using McProtocol;
+using McProtocol.Mitsubishi;
+
 using HermleCS.Comm;
 using Hermle_Auto.ViewModels;
 using HermleCS.Data;
+using System.Net.Http;
+using System.Security.Policy;
+
+public delegate void PLCCommHandler(int addr, string message);
+
 
 namespace Hermle_Auto.Views
 {
@@ -28,6 +36,11 @@ namespace Hermle_Auto.Views
     {
         UserControl1ViewModel userControl1ViewModel = new UserControl1ViewModel();
         private CommHTTPComponent httpclient = CommHTTPComponent.Instance;
+
+        private McProtocolTcp mcProtocolTcp;
+        public event PLCCommHandler commHandler;
+        private Thread plcworker;
+        private bool plcrunning;
 
         public UserControl1()
         {
@@ -54,9 +67,58 @@ namespace Hermle_Auto.Views
                     });
                 }
             };
+
+            plcrunning = true;
+            mcProtocolTcp = new McProtocolTcp(C.PLC_IP, C.PLC_PORT, McFrame.MC3E);
+            plcworker = new Thread(async () => await ReadThreadHandler(mcProtocolTcp));
+            plcworker.Start();
+
+            Unloaded += UIUnloaded;
         }
 
-  
+        private void UIUnloaded(object sender, RoutedEventArgs e)
+        {
+            plcrunning = false;
+        }
+
+        private async Task ReadThreadHandler(McProtocolTcp conn)
+        {
+            int[] addrs =
+            {
+                2106, 2107,
+                2116, 2118, 2120, 2122,
+                2124, 2126, 2128, 2130,
+                2132, 2134, 2136, 2138,
+                2146,
+
+                2206, 2207,
+                2216, 2218, 2220, 2222,
+                2224, 2226, 2228, 2230,
+                            2336, 2338,
+                2246
+            };
+            int[] getData = new int[1];
+
+            while (plcrunning)
+            {
+                for (int i = 0; i < addrs.Length; i++)
+                {
+                    await conn.GetBitDevice(PlcDeviceType.M, addrs[0], 1, getData);
+                    if (getData[0] == 1)
+                    {
+                        Console.WriteLine($" Addr {addrs[i]} is onnnn!");
+                    }
+                    else
+                    {
+                        Console.WriteLine($" Addr {addrs[i]} is offffffffffff");
+                    }
+                }
+                Thread.Sleep(500);
+            }
+        }
+
+
+
         private void OpenPasswordWindow_Click(object sender, RoutedEventArgs e)
         {
             // Password.xaml 창을 불러오기

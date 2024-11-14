@@ -15,6 +15,10 @@ namespace HermleCS.Comm
 
         public const int ERRNO_EXCEPTION = 500;
 
+        // PLC Information
+        public const string PLC_IP = "192.168.50.100";
+        public const int PLC_PORT = 5100;
+
         // DRILL CONSTANT
         public const int DRILL_LOCATION_SHELF_COUNT = 3;
         public const int DRILL_LOCATION_COLUMN_COUNT = 12;
