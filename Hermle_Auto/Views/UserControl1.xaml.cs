@@ -46,7 +46,9 @@ namespace Hermle_Auto.Views
         {
             InitializeComponent();
 
-            this.DataContext = userControl1ViewModel;
+            try
+            {
+                this.DataContext = userControl1ViewModel;
 
             workPieceView.WorkPieceChanged += userControl1ViewModel.OnWorkPieceUpdate;
             //workPieceView.Visibility = Visibility.Visible;
@@ -73,7 +75,13 @@ namespace Hermle_Auto.Views
             plcworker = new Thread(async () => await ReadThreadHandler(mcProtocolTcp));
             plcworker.Start();
 
-            Unloaded += UIUnloaded;
+                Unloaded += UIUnloaded;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine (ex.ToString ());
+            }
         }
 
         private void UIUnloaded(object sender, RoutedEventArgs e)
@@ -101,22 +109,132 @@ namespace Hermle_Auto.Views
 
             while (plcrunning)
             {
-                for (int i = 0; i < addrs.Length; i++)
+                //for (int i = 0; i < addrs.Length; i++)
+                //{
+                //    // 2024/11/19
+                //    if (conn.Connected == false)
+                //    {
+                //        continue;
+                //    }
+                //    //---
+
+                //    await conn.GetBitDevice(PlcDeviceType.M, addrs[0], 1, getData);
+                //    if (getData[0] == 1)
+                //    {
+                //        Console.WriteLine($" Addr {addrs[i]} is onnnn!");
+                //    }
+                //    else
+                //    {
+                //        Console.WriteLine($" Addr {addrs[i]} is offffffffffff");
+                //    }
+                //}
+
+                if (conn.Connected == false)
                 {
-                    await conn.GetBitDevice(PlcDeviceType.M, addrs[0], 1, getData);
-                    if (getData[0] == 1)
+                    try
                     {
-                        Console.WriteLine($" Addr {addrs[i]} is onnnn!");
+                        conn.Open ();
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        Console.WriteLine($" Addr {addrs[i]} is offffffffffff");
+                        Console.WriteLine (ex.ToString ());
                     }
                 }
+                // 2024/11/19 flagmoon
+                if (conn.Connected == true)
+                {
+                    int length      = 2100 - 2080;
+                    int len         = (length % 16) + (length % 16) > 0 ? 1 : 0;
+                    int[]   data    = new int[len];
+                    int[]   temp;
+
+                    // M2080
+                    await conn.ReadDeviceBlock ("M2080", data.Length, data);
+
+                    temp    = GetBit (data, length);
+
+                    for (int i = 0; i < D.Instance.M2080.Length; i++)
+                    {
+                        D.Instance.M2080[i]     = temp[i];    
+                    }
+                    //---
+
+                    // M2000
+                    length  = 2040 - 2000;
+                    len     = (length % 16) + (length % 16) > 0 ? 1 : 0;
+                    data    = new int[len];
+
+                    await conn.ReadDeviceBlock ("M2000", data.Length, data);
+                    temp    = GetBit (data, length);
+                    for (int i = 0; i < D.Instance.M2000.Length; i++)
+                    {
+                        D.Instance.M2000[i]     = temp[i];    
+                    }
+                    //---
+
+                    // M2100
+                    length  = D.Instance.M2100.Length;
+                    len     = (length % 16) + (length % 16) > 0 ? 1 : 0;
+                    data    = new int[len];
+
+                    await conn.ReadDeviceBlock ("M2100", data.Length, data);
+                    temp        = GetBit (data, length);
+                    for (int i = 0; i < D.Instance.M2100.Length; i++)
+                    {
+                        if (D.Instance.M2100[i] != temp[i])
+                        {
+                            D.Instance.M2100[i]     = temp[i];    
+                            D.Instance.M2100Changed = true;
+                        }
+                    }
+                    //---
+
+                    // M2200
+                    length  = D.Instance.M2200.Length;
+                    len     = (length % 16) + (length % 16) > 0 ? 1 : 0;
+                    data    = new int[len];
+
+                    await conn.ReadDeviceBlock ("M2200", data.Length, data);
+                    temp        = GetBit (data, length);
+                    for (int i = 0; i < D.Instance.M2200.Length; i++)
+                    {
+                        if (D.Instance.M2200[i] != temp[i])
+                        {
+                            D.Instance.M2200[i]     = temp[i];    
+                            D.Instance.M2200Changed = true;
+                        }
+                    }
+                    //---
+                }
+                //---
+
                 Thread.Sleep(500);
             }
         }
 
+        public int[] GetBit (int[] data, int length)
+        {
+            int[]     result  = new int[length];
+            try
+            {
+                for (int n = 0; n < length; n++) 
+                {
+                    result[n]   = 0;
+                }
+                for (int i = 0; i < result.Length; i++) 
+                {
+                    int idx         = (int)(i / 16);
+                    int pos         = i % 16;
+                    result[i]       = (data[idx] >> pos) & 0x01;;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine (ex.ToString ());
+            }
+
+            return result;
+        }
 
 
         private void OpenPasswordWindow_Click(object sender, RoutedEventArgs e)
