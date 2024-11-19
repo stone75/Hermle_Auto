@@ -22,6 +22,8 @@ namespace Hermle_Auto
     {
         private McProtocolTcp mcProtocolTcp;
 
+        public delegate void CallPLCConnect();
+        public event CallPLCConnect callPLCConnect;
 
         public CommunicationWindow()
         {
@@ -53,7 +55,8 @@ namespace Hermle_Auto
             TextRange textRange = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
             textRange.Text = message;
         }
-
+     
+        
         private async void Button_Connect_Click(object sender, RoutedEventArgs e)
         {
 
@@ -146,6 +149,13 @@ namespace Hermle_Auto
 
             await mcProtocolTcp.SetBitDevice(PlcDeviceType.M, write_addr, 1, writebuf);
 
+        }
+
+
+
+        private void Button_PLCConnect_Click(object sender, RoutedEventArgs e)
+        {
+            callPLCConnect?.Invoke();
         }
 
 

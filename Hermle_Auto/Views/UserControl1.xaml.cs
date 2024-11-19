@@ -23,6 +23,7 @@ using Hermle_Auto.ViewModels;
 using HermleCS.Data;
 using System.Net.Http;
 using System.Security.Policy;
+using System.Windows.Threading;
 
 public delegate void PLCCommHandler(int addr, string message);
 
@@ -42,6 +43,9 @@ namespace Hermle_Auto.Views
         private Thread plcworker;
         private bool plcrunning;
 
+
+
+
         public UserControl1()
         {
             InitializeComponent();
@@ -50,6 +54,10 @@ namespace Hermle_Auto.Views
 
             workPieceView.WorkPieceChanged += userControl1ViewModel.OnWorkPieceUpdate;
             //workPieceView.Visibility = Visibility.Visible;
+
+
+
+
 
             httpclient.MessageReceived += (addr, message) =>
             {
@@ -68,13 +76,38 @@ namespace Hermle_Auto.Views
                 }
             };
 
-            plcrunning = true;
-            mcProtocolTcp = new McProtocolTcp(C.PLC_IP, C.PLC_PORT, McFrame.MC3E);
-            plcworker = new Thread(async () => await ReadThreadHandler(mcProtocolTcp));
-            plcworker.Start();
+
+            StartPLC();
+
 
             Unloaded += UIUnloaded;
         }
+
+
+        public void StartPLC()
+        {
+            try
+            {
+                mcProtocolTcp = new McProtocolTcp(C.PLC_IP, C.PLC_PORT, McFrame.MC3E);
+
+
+                plcworker = new Thread(async () => await ReadThreadHandler(mcProtocolTcp));
+                plcrunning = true;
+                plcworker.Start();
+
+                logText.Text = "PLC Connect";
+                logText.Foreground = Brushes.Green;
+             
+
+            }
+            catch (Exception ex)
+            {
+                logText.Text = "PLC Fail Connect";
+                logText.Foreground = Brushes.Red;
+                MessageBox.Show("e : PLC 연결 실패");
+            }
+        }
+
 
         private void UIUnloaded(object sender, RoutedEventArgs e)
         {
@@ -83,8 +116,9 @@ namespace Hermle_Auto.Views
 
         private async Task ReadThreadHandler(McProtocolTcp conn)
         {
-            int[] addrs =
-            {
+               
+             int[] addrs =
+             {
                 2106, 2107,
                 2116, 2118, 2120, 2122,
                 2124, 2126, 2128, 2130,
@@ -103,18 +137,40 @@ namespace Hermle_Auto.Views
             {
                 for (int i = 0; i < addrs.Length; i++)
                 {
-                    await conn.GetBitDevice(PlcDeviceType.M, addrs[0], 1, getData);
-                    if (getData[0] == 1)
+
+                    try
                     {
-                        Console.WriteLine($" Addr {addrs[i]} is onnnn!");
+                        
+                        await conn.GetBitDevice(PlcDeviceType.M, addrs[0], 1, getData);
+                     
+                       
+
+                        if (getData[0] == 1)
+                        {
+                            Console.WriteLine($" Addr {addrs[i]} is onnnn!");
+                        }
+                        else
+                        {
+                            Console.WriteLine($" Addr {addrs[i]} is offffffffffff");
+                        }
                     }
-                    else
+                    catch
                     {
-                        Console.WriteLine($" Addr {addrs[i]} is offffffffffff");
+                        Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+                        {
+                            logText.Text = "PLC Fail Connect";
+                            logText.Foreground = Brushes.Red;
+                        }));
+
+                        
+                        MessageBox.Show("eee : PLC 연결 실패");
+                        return;
                     }
+                    
                 }
                 Thread.Sleep(500);
             }
+            
         }
 
 
@@ -131,6 +187,9 @@ namespace Hermle_Auto.Views
         {
             // Password.xaml 창을 불러오기
             CommunicationWindow Window = new CommunicationWindow();
+
+            Window.callPLCConnect += StartPLC;
+
             Window.ShowDialog(); // 모달 창으로 실행
             
         }

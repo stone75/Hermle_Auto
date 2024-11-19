@@ -533,7 +533,9 @@ ConverterParameter='Info'}">
             <Grid Grid.Row="7" Grid.ColumnSpan="6" Margin="5,0,5,5" Grid.RowSpan="1">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="50,0,50,10">
                     <TextBlock Text="Robot Status:" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="20"/>
-                    <ProgressBar Value="80" Width="200" Height="20" Margin="0,0,10,0"/>
+                    
+                    <ProgressBar Value="80" Width="200" Height="20" Margin="0,0,10,0" />
+                    
                     <TextBlock x:Name="logText" Text="ROBOT RUN" Foreground="Green" FontWeight="Bold" FontSize="20"/>
 
                     <TextBlock Text="Command :" FontWeight="Bold" VerticalAlignment="Center" Margin="100,0,10,0" FontSize="20"/>
