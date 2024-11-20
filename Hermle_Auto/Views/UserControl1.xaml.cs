@@ -24,9 +24,10 @@ using HermleCS.Data;
 using System.Net.Http;
 using System.Security.Policy;
 using System.Windows.Threading;
+using Hermle_Auto.Comm;
 
 public delegate void PLCCommHandler(int addr, string message);
-
+public delegate Task PLCCommSender(McProtocolTcp conn, PlcDeviceType type, int addr, int value);
 
 namespace Hermle_Auto.Views
 {
@@ -38,8 +39,11 @@ namespace Hermle_Auto.Views
         UserControl1ViewModel userControl1ViewModel = new UserControl1ViewModel();
         private CommHTTPComponent httpclient = CommHTTPComponent.Instance;
 
+        private CommPLC commPLC = CommPLC.Instance;
         private McProtocolTcp mcProtocolTcp;
         public event PLCCommHandler commHandler;
+        public event PLCCommSender commSender;
+
         private Thread plcworker;
         private bool plcrunning;
 
@@ -76,6 +80,8 @@ namespace Hermle_Auto.Views
                 }
             };
 
+            mcProtocolTcp = commPLC.mcProtocolTcp;
+            //commSender += WritePLC;
 
             StartPLC();
 
@@ -89,7 +95,7 @@ namespace Hermle_Auto.Views
             try
             {
                 mcProtocolTcp = new McProtocolTcp(C.PLC_IP, C.PLC_PORT, McFrame.MC3E);
-
+                mcProtocolTcp.Open();
 
                 plcworker = new Thread(async () => await ReadThreadHandler(mcProtocolTcp));
                 plcrunning = true;
@@ -142,16 +148,22 @@ namespace Hermle_Auto.Views
                     {
                         
                         await conn.GetBitDevice(PlcDeviceType.M, addrs[0], 1, getData);
-                     
-                       
 
                         if (getData[0] == 1)
                         {
                             Console.WriteLine($" Addr {addrs[i]} is onnnn!");
+                            Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+                            {
+                                logText.Text = $" Addr {addrs[i]} is on!";
+                            }));
                         }
                         else
                         {
-                            Console.WriteLine($" Addr {addrs[i]} is offffffffffff");
+                            Console.WriteLine($" Addr {addrs[i]} is off");
+                            Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+                            {
+                                logText.Text = $" Addr {addrs[i]} is off!";
+                            }));
                         }
                     }
                     catch
@@ -162,7 +174,6 @@ namespace Hermle_Auto.Views
                             logText.Foreground = Brushes.Red;
                         }));
 
-                        
                         MessageBox.Show("eee : PLC 연결 실패");
                         return;
                     }
@@ -172,7 +183,6 @@ namespace Hermle_Auto.Views
             }
             
         }
-
 
 
         private void OpenPasswordWindow_Click(object sender, RoutedEventArgs e)
@@ -209,6 +219,110 @@ namespace Hermle_Auto.Views
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void btnResume_Click(object sender, RoutedEventArgs e)
+        {
+            CommPLC commplc = CommPLC.Instance;
+            D d = D.Instance;
+
+            try
+            {
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2004, 1);
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.D, 2000, d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+        }
+
+        private void btnPause_Click(object sender, RoutedEventArgs e)
+        {
+            CommPLC commplc = CommPLC.Instance;
+            D d = D.Instance;
+
+            try
+            {
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2003, 1);
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.D, 2000, d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+        }
+
+        private void btnReset_Click(object sender, RoutedEventArgs e)
+        {
+            CommPLC commplc = CommPLC.Instance;
+            D d = D.Instance;
+
+            try
+            {
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2005, 1);
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.D, 2000, d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+        }
+
+        private void btnManualMode_Checked(object sender, RoutedEventArgs e)
+        {
+            CommPLC commplc = CommPLC.Instance;
+
+            try
+            {
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2002, 1);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+        }
+
+        private void btnAutoMode_Checked(object sender, RoutedEventArgs e)
+        {
+            CommPLC commplc = CommPLC.Instance;
+
+            try
+            {
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2000, 1);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+        }
+
+        private void btnSemiMode_Checked(object sender, RoutedEventArgs e)
+        {
+            CommPLC commplc = CommPLC.Instance;
+
+            try
+            {
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2001, 1);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            CommPLC commplc = CommPLC.Instance;
+
+            try
+            {
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2006, 1);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
         }
     }
 

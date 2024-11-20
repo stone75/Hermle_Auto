@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HermleCS.Comm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -125,6 +126,87 @@ namespace Hermle_Auto.Views
             //DrillCodeTextBox.Text = currentDrillCode.ToString();
 
             //WpOptionLineNum = currentLineNumber.ToString();
+        }
+
+        private void btnResetAllTests_Click(object sender, RoutedEventArgs e)
+        {
+            CommHTTPComponent http = CommHTTPComponent.Instance;
+
+            try
+            {
+                http.GetAPI(C.ROBOT_SERVER + "/H_TEST_KIOSK_TO_POCKET");
+                http.GetAPI(C.ROBOT_SERVER + "/H_TEST_POCKET_TO_KIOSK");
+                http.GetAPI(C.ROBOT_SERVER + "/H_TEST_POCKET_TO_CHUCK");
+                http.GetAPI(C.ROBOT_SERVER + "/H_TEST_CHUCK_TO_POCKET");
+                http.GetAPI(C.ROBOT_SERVER + "/H_TEST_POCKET_TO_POCKET");
+                http.GetAPI(C.ROBOT_SERVER + "/H_TEST_ALL_POCKETS");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ROBOT 예외상황 : " + ex.Message);
+            }
+        }
+
+        private string CurrentJob;
+        private void btnKioskToPocket_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentJob = "/H_TEST_KIOSK_TO_POCKET";
+        }
+
+        private void btnPocketToKiosk_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentJob = "/H_TEST_POCKET_TO_KIOSK";
+        }
+
+        private void btnPocketToChunk_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentJob = "/H_TEST_POCKET_TO_CHUNK";
+        }
+
+        private void btnChuckToPocket_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentJob = "/H_TEST_CHUNK_TO_POCKET";
+        }
+
+        private void btnStart_Click(object sender, RoutedEventArgs e)
+        {
+            CommHTTPComponent http = CommHTTPComponent.Instance;
+
+            try
+            {
+                http.GetAPI(C.ROBOT_SERVER + CurrentJob);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ROBOT 예외상황 : " + ex.Message);
+            }
+
+        }
+
+        private string CurrentJob2;
+        private void btnStationToSpindle_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentJob2 = "/H_TEST_STATION_TO_SPINDLE";
+        }
+
+        private void btnSpindleToStation_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentJob2 = "/H_TEST_SPINDLE_TO_STATION";
+        }
+
+        private void btnStart1_Click(object sender, RoutedEventArgs e)
+        {
+            CommHTTPComponent http = CommHTTPComponent.Instance;
+
+            try
+            {
+                http.GetAPI(C.ROBOT_SERVER + CurrentJob2);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ROBOT 예외상황 : " + ex.Message);
+            }
+
         }
     }
 }

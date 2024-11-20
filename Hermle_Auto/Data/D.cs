@@ -28,6 +28,7 @@ namespace HermleCS.Data
         public Status[,,] RoundStatus = new Status[C.ROUND_STATUS_SHELF_COUNT, C.ROUND_STATUS_COLUMN_COUNT, C.ROUND_STATUS_POCKET_COUNT];
 
         public WorkPiece[] WorkPiecesList = new WorkPiece[C.WORKPIECE_COUNT];
+        public int CurrentWorkPieceIndex = 0;
 
         private D() { }
 
