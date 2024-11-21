@@ -60,6 +60,7 @@ namespace Hermle_Auto.Views
             //workPieceView.Visibility = Visibility.Visible;
 
 
+            D.Instance.ReadIniFile();
 
 
 
@@ -95,6 +96,7 @@ namespace Hermle_Auto.Views
             try
             {
                 mcProtocolTcp = new McProtocolTcp(C.PLC_IP, C.PLC_PORT, McFrame.MC3E);
+
                 mcProtocolTcp.Open();
 
                 plcworker = new Thread(async () => await ReadThreadHandler(mcProtocolTcp));
@@ -110,7 +112,7 @@ namespace Hermle_Auto.Views
             {
                 logText.Text = "PLC Fail Connect";
                 logText.Foreground = Brushes.Red;
-                MessageBox.Show("e : PLC 연결 실패");
+                MessageBox.Show("PLC 연결 실패");
             }
         }
 
@@ -174,7 +176,7 @@ namespace Hermle_Auto.Views
                             logText.Foreground = Brushes.Red;
                         }));
 
-                        MessageBox.Show("eee : PLC 연결 실패");
+                        MessageBox.Show("PLC 연결 실패");
                         return;
                     }
                     

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -106,6 +107,7 @@ namespace Hermle_Auto.Views
         }
 
 
+
         // Observable collection to hold the data for DataGrid
         public ObservableCollection<WorkPiece> WorkPieces2 { get; set; } = new ObservableCollection<WorkPiece>();
         public WorkPiece2View()
@@ -117,8 +119,6 @@ namespace Hermle_Auto.Views
             WorkPieceTable.ItemsSource = WorkPieces2;
 
             d = D.Instance;
-
-
 
 
 
@@ -290,8 +290,42 @@ namespace Hermle_Auto.Views
             WorkPieceLoadCSV();
         }
 
-            // Event handler for the button click
-       private void AddWorkPieceButton_Click(object sender, RoutedEventArgs e)
+
+
+
+        private void OffsetReadButton_Click(object sender, RoutedEventArgs e)
+        {
+            //abovePocketTextBox
+
+            abovePocketTextBox.Text = D.Instance.iniFile.offsets.AbovePocket.ToString();
+            aboveChuckTextBox.Text = D.Instance.iniFile.offsets.AboveChuck.ToString();
+
+        }
+        private void OffsetSendButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            //PLC or Robot 메시지 전송 코드
+
+
+            if (int.TryParse(abovePocketTextBox.Text, out int result))
+            {
+                D.Instance.iniFile.offsets.AbovePocket = result;
+            }
+
+            if (int.TryParse(aboveChuckTextBox.Text, out int result2))
+            {
+                D.Instance.iniFile.offsets.AboveChuck = result2;
+            }
+
+            D.Instance.WriteIniFile();
+
+
+
+            //aboveChuckTextBox
+        }
+
+        // Event handler for the button click
+        private void AddWorkPieceButton_Click(object sender, RoutedEventArgs e)
         {
             // Create a new WorkPiece object and populate with the values from the TextBoxes and ComboBox
 

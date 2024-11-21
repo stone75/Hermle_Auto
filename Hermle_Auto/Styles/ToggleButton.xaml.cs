@@ -48,7 +48,31 @@ namespace Hermle_Auto
             control.AnimateSwitch();
         }
 
+
         private void AnimateSwitch()
+        {
+            // Calculate the target margin
+            double targetLeftMargin = IsChecked ? this.ActualWidth - SwitchKnob.ActualWidth - 4 : 2;
+
+            // Get the current margin
+            var currentMargin = SwitchKnob.Margin;
+
+            // Create the new Thickness with the target position
+            var targetMargin = new Thickness(targetLeftMargin, currentMargin.Top, currentMargin.Right, currentMargin.Bottom);
+
+            // Create a ThicknessAnimation
+            var animation = new ThicknessAnimation
+            {
+                To = targetMargin,
+                Duration = TimeSpan.FromSeconds(0.2),
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseInOut } // Optional for smooth transition
+            };
+
+            // Apply the animation to the Margin property
+            SwitchKnob.BeginAnimation(FrameworkElement.MarginProperty, animation);
+        }
+
+     /*   private void AnimateSwitch()
         {
             double targetPosition = IsChecked ? this.ActualWidth - SwitchKnob.ActualWidth - 4 : 2;
 
@@ -59,6 +83,6 @@ namespace Hermle_Auto
             };
 
             SwitchKnob.BeginAnimation(MarginProperty, animation);
-        }
+        }*/
     }
 }

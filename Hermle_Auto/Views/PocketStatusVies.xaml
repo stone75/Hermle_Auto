@@ -40,7 +40,7 @@
             <!-- DataGrid (좌측) -->
             <DataGrid x:Name="PocketTable" Grid.Row="0" Grid.Column="1" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column" Margin="10" 
                       ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Grid.ColumnSpan="2">
-            <DataGrid.Columns>
+                <DataGrid.Columns>
                     <DataGridTextColumn Header="Pocket" Binding="{Binding Pocket}" Width="90"/>
                     <DataGridTextColumn Header="Work Piece" Binding="{Binding WorkPiece}" Width="90"/>
                     <DataGridTextColumn Header="Diameter" Binding="{Binding Diameter}" Width="90"/>
@@ -49,37 +49,44 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <Button Grid.Row="1" Grid.Column="1" Content="Reset Table" HorizontalAlignment="Left" VerticalAlignment="Center" Width="300" Height="40" Margin="10" Style="{DynamicResource ActButton}"/>
-            
-            <Button Grid.Row="1" Grid.Column="3" Content="Refresh" Width="NaN" Height="NaN" Margin="10" Style="{DynamicResource ActButton}"/>
+            <Button Grid.Row="1" Grid.Column="1" Content="Reset Table" HorizontalAlignment="Left" VerticalAlignment="Center" Width="300" Height="40" Margin="10" Style="{DynamicResource ActButton}"  Click="ResetButton"/>
+
+            <Button Grid.Row="1" Grid.Column="3" Content="Refresh" Width="NaN" Height="NaN" Margin="10" Style="{DynamicResource ActButton}"  Click="RefreshButton"/>
 
 
 
             <TextBox x:Name="WorkPieceTextBox2" Text="Drill" Width="85" Height="35" Grid.Column="3" VerticalAlignment="Top" Margin="0,50,0,0" HorizontalAlignment="Center" FontSize="25" TextAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" />
-            
-            <Grid Grid.Column="3" Height="140" VerticalAlignment="Bottom" Margin="0,0,0,20" >
-                <TextBox x:Name="WPLineNumberTextBox"
-     Text="1"
-     Width="50"
-     Height="50"
-     HorizontalAlignment="Center"
-     VerticalAlignment="Center"
-     IsReadOnly="True"
-     TextAlignment="Center"
-     FontSize="25" Grid.Column="2" VerticalContentAlignment="Center"/>
-                <!-- 숫자를 증가시키는 버튼 -->
-                <Button Content="+" Width="50" Height="50"
+
+
+
+            <StackPanel Grid.Column="3" Height="170" VerticalAlignment="Bottom" Margin="0,0,0,20">
+                <Grid  Height="140">
+                    <TextBox x:Name="ShelfTextBox"
+             Text="1"
+             Width="50"
+             Height="50"
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center"
+             IsReadOnly="True"
+             TextAlignment="Center"
+             FontSize="25" Grid.Column="2" VerticalContentAlignment="Center"/>
+                    <!-- 숫자를 증가시키는 버튼 -->
+                    <Button Content="+" Width="50" Height="50"
     HorizontalAlignment="Center"
     VerticalAlignment="Top"
     Margin="0"
     Click="IncreaseWorkPicec" Grid.Column="2"/>
-                <!-- 숫자를 감소시키는 버튼 -->
-                <Button Content="-" Width="50" Height="50"
-    HorizontalAlignment="Center"
-    VerticalAlignment="Bottom"
-    Margin="0"
-    Click="DecreaseWorkPicec" Grid.Column="2"/>
-            </Grid>
+                    <!-- 숫자를 감소시키는 버튼 -->
+                    <Button Content="-" Width="50" Height="50"
+HorizontalAlignment="Center"
+VerticalAlignment="Bottom"
+Margin="0"
+Click="DecreaseWorkPicec" Grid.Column="2"/>
+                </Grid>
+            
+                <Label Content="Shelf" HorizontalContentAlignment="Center" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Top" Height="50" Margin="0,0,0,0"/>
+            </StackPanel>
+            
 
 
             <!-- Controls (우측) -->
@@ -89,7 +96,7 @@
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Pick Status From List" Width="210" VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="18" HorizontalAlignment="Left" HorizontalContentAlignment="Left"/>
-                            <ComboBox  x:Name="StatusListComboBox" Width="120" Margin="5,5,5,5" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,3,5,3">
+                            <ComboBox  x:Name="WorkPieceStatusListComboBox" Width="120" Margin="5,5,5,5" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5,3,5,3">
                                 <ComboBoxItem Content="Empty"/>
                                 <ComboBoxItem Content="Unmachined"/>
                                 <ComboBoxItem Content="Machined"/>
@@ -106,7 +113,7 @@
                             <TextBox x:Name="WorkPieceTextBox"  Width="120" Height="25" Padding="5,0,0,0" Margin="5,0,0,0"/>
                         </StackPanel>
 
-                        <Button Content="Change Status for WorkPiece Pockets" Width="300" Height="30" Margin="0,10,0,0" FontSize="16" FontFamily="Arial" FontWeight="Bold"/>
+                        <Button Content="Change Status for WorkPiece Pockets" Width="300" Height="30" Margin="0,10,0,0" FontSize="16" FontFamily="Arial" FontWeight="Bold" Click="ChangeWorkPiecePocketButton"/>
                     </StackPanel>
                 </GroupBox>
 
@@ -115,31 +122,37 @@
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Pick Status From List" Width="210" VerticalAlignment="Center" FontSize="18" FontWeight="Bold" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
-                            <ComboBox Width="120" Text="Single Status" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <ComboBox x:Name="SinglePocketStatusListComboBox" Width="120" Text="Single Status" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <ComboBoxItem Content="Empty"/>
+                                <ComboBoxItem Content="Unmachined"/>
+                                <ComboBoxItem Content="Machined"/>
+                                <ComboBoxItem Content="Reserved"/>
+                                <ComboBoxItem Content="Mask"/>
+                                <ComboBoxItem Content="Occupied"/>
+                                <ComboBoxItem Content="Broken"/>
+                                <ComboBoxItem Content="Disable"/>
+                            </ComboBox>
                         </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,0" Height="70">
                             <Grid Grid.Row="0" Width="160">
+
+
                                 <TextBox  x:Name="PocketTextBox"  Text="100" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
-                                         VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" FontSize="25" Grid.Column="0" VerticalContentAlignment="Center"/>
+                                         VerticalAlignment="Bottom" IsReadOnly="True" TextAlignment="Center" FontSize="25" Grid.Column="0" VerticalContentAlignment="Center"/>
                                 <!-- 숫자를 증가시키는 버튼 -->
-                                <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,10,0,10" Click="IncreasePocketCount" Grid.Column="0"/>
+                                <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,10,0,0" Click="IncreasePocketCount" Grid.Column="0"/>
                                 <!-- 숫자를 감소시키는 버튼 -->
-                                <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,10,10" Click="DecreasePocketCount" Grid.Column="0"/>
+                                <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,10,10,0" Click="DecreasePocketCount" Grid.Column="0"/>
+
+                                <Label Content="Pocket" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Top" Height="50" Margin="0,-25,0,0"/>
                             </Grid>
 
-                            <Grid Grid.Row="0" Width="160" Margin="10,0,0,0">
-                                <TextBox  x:Name="DrillCodeTextBox"  Text="1" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
-               VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" FontSize="25" Grid.Column="0" VerticalContentAlignment="Center"/>
-                                <!-- 숫자를 증가시키는 버튼 -->
-                                <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,10,10,10" Click="IncreaseDrillCore" Grid.Column="0"/>
-                                <!-- 숫자를 감소시키는 버튼 -->
-                                <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,10,10,10" Click="DecreaseDrillCore" Grid.Column="0"/>
-                            </Grid>
+
 
                         </StackPanel>
 
-                        <Button Content="Change Status for Single Pocket" Width="300" Height="30" Margin="0,10,0,0" FontSize="16" FontFamily="Arial" FontWeight="Bold" />
+                        <Button Content="Change Status for Single Pocket" Width="300" Height="30" Margin="0,10,0,0" FontSize="16" FontFamily="Arial" FontWeight="Bold"  Click="ChangeSinglePocketButton"/>
                     </StackPanel>
                 </GroupBox>
 
