@@ -477,6 +477,7 @@ namespace Hermle_Auto.Views
             {
                 // 선택된 행의 인덱스 가져오기
                 int rowIndex = WorkPieceTable.Items.IndexOf(selectedItem);
+                d.CurrentWorkPieceIndex = rowIndex;
 
                 // 행 인덱스 출력
                 //C.log($"Selected Row Index: {rowIndex}");

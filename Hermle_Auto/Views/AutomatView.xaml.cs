@@ -36,7 +36,7 @@ namespace Hermle_Auto.Views
             try
             {
                 commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2009, 1);
-                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.D, 2000, d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
+                commplc.WritePLCBlock(2000, d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
             }
             catch (Exception ex)
             {

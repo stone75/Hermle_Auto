@@ -229,7 +229,7 @@ namespace Hermle_Auto.Views
             try
             {
                 commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2004, 1);
-                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.D, 2000, d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
+                commplc.WritePLCBlock(2000, d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
             }
             catch (Exception ex)
             {
@@ -245,7 +245,7 @@ namespace Hermle_Auto.Views
             try
             {
                 commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2003, 1);
-                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.D, 2000, d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
+                commplc.WritePLCBlock(2000, d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
             }
             catch (Exception ex)
             {
@@ -261,7 +261,7 @@ namespace Hermle_Auto.Views
             try
             {
                 commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2005, 1);
-                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.D, 2000, d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
+                commplc.WritePLCBlock(2000, d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
             }
             catch (Exception ex)
             {
