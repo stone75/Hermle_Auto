@@ -22,7 +22,7 @@ namespace Hermle_Auto.Views
     public partial class ManualView : UserControl
     {
         private double currentStepValue = 0.1; // 기본값
-        private CommHTTPComponent httpclient = CommHTTPComponent.Instance;
+        //private CommHTTPComponent httpclient = CommHTTPComponent.Instance;
         private bool isMoving = false;
 
     
@@ -36,10 +36,10 @@ namespace Hermle_Auto.Views
                 defaultButton.IsChecked = true;
             }
 
+            /*
             httpclient.MessageReceived += (addr, message) =>
             {
                 string log = "Log : " + addr + " / " + message;
-
                 if (logText.Dispatcher.CheckAccess())
                 {
                     logText.Text = log;
@@ -52,6 +52,7 @@ namespace Hermle_Auto.Views
                     });
                 }
             };
+            */
         }
 
         private void StepButton_Checked(object sender, RoutedEventArgs e)
@@ -66,6 +67,67 @@ namespace Hermle_Auto.Views
             }
         }
 
+        private void Jogo_Lobo_Click(object sender, RoutedEventArgs e)
+        {
+            //GlobalDataLists.data[1].DataValue = "a";
+            Button button = sender as Button;
+
+            //plc 체크 선행
+
+
+            if (button.Content.ToString() == "X+")
+            {
+
+            }
+            else if (button.Content.ToString() == "X-")
+            {
+
+            }
+            else if (button.Content.ToString() == "Y-")
+            {
+
+            }
+            else if (button.Content.ToString() == "Y+")
+            {
+
+            }
+            else if (button.Content.ToString() == "Z-")
+            {
+
+            }
+            else if (button.Content.ToString() == "Z+")
+            {
+
+            }
+            else if (button.Content.ToString() == "Rx-")
+            {
+
+            }
+            else if (button.Content.ToString() == "Rx+")
+            {
+
+            }
+            else if (button.Content.ToString() == "Ry-")
+            {
+
+            }
+            else if (button.Content.ToString() == "Ry+")
+            {
+
+            }
+            else if (button.Content.ToString() == "Rz-")
+            {
+
+            }
+            else if (button.Content.ToString() == "Rz+")
+            {
+
+            }
+
+        }
+
+
+
         // 현재 선택된 스텝 값을 가져오는 속성
         public double CurrentStepValue
         {
@@ -74,6 +136,7 @@ namespace Hermle_Auto.Views
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+/*
             if (isMoving)
             {
                 // httpclient.commandMove();
@@ -91,29 +154,36 @@ namespace Hermle_Auto.Views
             }
 
             isMoving = !isMoving;
+*/
         }
 
         private void ResetBtn_Click(object sender, RoutedEventArgs e)
         {
+/*
             robotcmd.Text = "t.php";
             string url = robotaddr.Text + robotcmd.Text;
 
             httpclient.commandCommand(url);
+*/
         }
 
         private void PauseBtn_Click(object sender, RoutedEventArgs e)
         {
+/*
             robotcmd.Text = "CHUCK_TO_POCKET.TP";
             string url = robotaddr.Text + robotcmd.Text;
 
             httpclient.commandCommand(url);
+*/
         }
 
         private void CustomBtn_Click(object sender, RoutedEventArgs e)
         {
+/*
             string url = robotaddr.Text + custCmd.Text;
 
             httpclient.commandCommand(url);
+*/
         }
     }
 }
