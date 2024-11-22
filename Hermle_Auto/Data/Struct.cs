@@ -69,6 +69,12 @@ namespace HermleCS.Data
         public string wptooltype;
     }
 
+    public struct HTTPResponse
+    {
+        public int result { get; set; }
+        public string msg { get; set; }
+    }
+
     public struct IniFile
     {
 

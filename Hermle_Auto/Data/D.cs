@@ -35,6 +35,8 @@ namespace HermleCS.Data
 
         public IniFile iniFile = new IniFile();
 
+        public string CURRENT_JOBNAME;
+
         private D() { }
 
         public static D Instance

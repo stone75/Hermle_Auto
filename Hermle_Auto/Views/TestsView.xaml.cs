@@ -1,8 +1,11 @@
 ﻿using HermleCS.Comm;
+using HermleCS.Data;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Net.WebRequestMethods;
 
 namespace Hermle_Auto.Views
 {
@@ -259,6 +263,133 @@ namespace Hermle_Auto.Views
                 MessageBox.Show("ROBOT 예외상황 : " + ex.Message);
             }
 
+        }
+
+        private void btnStartTest_Click(object sender, RoutedEventArgs e)
+        {
+            D d = D.Instance;
+            CommHTTPComponent http = CommHTTPComponent.Instance;
+
+            // 1. TP 파일 이름 셋팅
+            // 14 번에서 처리함. 중간에 예외 사항이 생길 수 있음.
+            //d.CURRENT_JOBNAME = "TEST_POCKET_TO_POCKET";
+
+            // 2. Shelf, Column, Pocket From / Pocket To 값 셋팅
+
+            // 3. Check Tool Type
+
+            // 4. HSK 조건 확인
+
+            // 5. BuildArrayPosition
+
+            // 6. Write Position
+            // 일단은 그냥 DrillGeneralLocation 으로 처리. 
+            // @ To do...Tool에따라 변경필요할 듯.
+            string url;
+            int groupSize = 8;
+            string res;
+
+            for (int i = 0; i < C.DRILL_GENLOCATION_COUNT; i += groupSize)
+            {
+                int count = 0;
+                string param = "";
+
+                for (int j = i; j < i + groupSize && j < C.DRILL_GENLOCATION_COUNT; j++)
+                {
+                    count++;
+                    param += "&x" + (j + 1) + "=" + d.DrillGeneralLocations[j].x;
+                    param += "&y" + (j + 1) + "=" + d.DrillGeneralLocations[j].y;
+                    param += "&z" + (j + 1) + "=" + d.DrillGeneralLocations[j].z;
+                    param += "&rx" + (j + 1) + "=" + d.DrillGeneralLocations[j].rx;
+                    param += "&ry" + (j + 1) + "=" + d.DrillGeneralLocations[j].ry;
+                    param += "&rz" + (j + 1) + "=" + d.DrillGeneralLocations[j].rz;
+                }
+
+                url = "COUNT=" + count + param;
+
+                try
+                {
+                    res = http.GetAPI(C.ROBOT_SERVER + "/H_WRITE_POSITION?" + url);
+                    HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
+                    if (httpresponse.result != 0)
+                    {
+                        MessageBox.Show("Write Position Error : " + httpresponse.msg);
+                        return;
+                    }
+                } catch (Exception ex)
+                {
+                    MessageBox.Show("Robot HTTP Communication Exception : " + ex.Message);
+                }
+            }
+
+            // 7. WriteSensorLocation
+            // @ To do... 어떤 내용인지 확인 필요.
+
+            // 8. BuildArrayPosition
+
+            // 9. Write Position
+            // @ To do... Write Position 을 왜 2번이나 하는거지?
+            for (int i = 0; i < C.DRILL_GENLOCATION_COUNT; i += groupSize)
+            {
+                int count = 0;
+                string param = "";
+
+                for (int j = i; j < i + groupSize && j < C.DRILL_GENLOCATION_COUNT; j++)
+                {
+                    count++;
+                    param += "&x" + (j + 1) + "=" + d.DrillGeneralLocations[j].x;
+                    param += "&y" + (j + 1) + "=" + d.DrillGeneralLocations[j].y;
+                    param += "&z" + (j + 1) + "=" + d.DrillGeneralLocations[j].z;
+                    param += "&rx" + (j + 1) + "=" + d.DrillGeneralLocations[j].rx;
+                    param += "&ry" + (j + 1) + "=" + d.DrillGeneralLocations[j].ry;
+                    param += "&rz" + (j + 1) + "=" + d.DrillGeneralLocations[j].rz;
+                }
+                url = "COUNT=" + count + param;
+
+                try
+                {
+                    res = http.GetAPI(C.ROBOT_SERVER + "/H_WRITE_POSITION?" + url);
+                    HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
+                    if (httpresponse.result != 0)
+                    {
+                        MessageBox.Show("Write Position Error : " + httpresponse.msg);
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Robot HTTP Communication Exception : " + ex.Message);
+                }
+            }
+
+            // 10. WriteSensorLocation
+
+            // 11. Tool Type Write
+            // @ To do... 기존 VB에서 WriteOneCommByte(52, tooltype.Drill)
+
+            // 12. Diameter Write
+            // @ To do... 기존 VB에서 WriteDrillCode(AppDiameter)
+
+            // 13. Send SensorState
+            // @ To do... 기존 VB에서 SendToolSensorState()
+
+            // 14. Job Start
+            try
+            {
+                d.CURRENT_JOBNAME = "TEST_POCKET_TO_POCKET";
+                res = http.GetAPI(C.ROBOT_SERVER + "/H_COMMAND?task_str=" + d.CURRENT_JOBNAME);
+
+                HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
+                if (httpresponse.result != 0)
+                {
+                    MessageBox.Show("Command Error : " + httpresponse.msg);
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Robot HTTP Communication Exception : " + ex.Message);
+            }
         }
     }
 }
