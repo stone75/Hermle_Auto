@@ -186,18 +186,21 @@
                             </Grid.RowDefinitions>
 
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <TextBlock Text="50" HorizontalAlignment="Center" 
+                                <TextBlock x:Name="speedTextBlock" Text="50" HorizontalAlignment="Center" 
                                       Margin="0,5,0,5" FontSize="20"/>
                                 <TextBlock Text="%" HorizontalAlignment="Center" 
                                       Margin="0,5,0,5" FontSize="20"/>
                             </StackPanel>
 
 
+                            <Slider Grid.Row="1" Maximum="100" Value="50" VerticalAlignment="Center" TickFrequency="1" ValueChanged="SpeedSlider_ValueChanged" SmallChange="1"/>
+                            <!-- 
                             <Slider Grid.Row="1" 
                                Minimum="0" Maximum="100" Value="50"
                                TickFrequency="10" TickPlacement="Both"
                                IsSnapToTickEnabled="True"
                                Margin="10"/>
+                            -->
                         </Grid>
                     </GroupBox>
                 </Grid>

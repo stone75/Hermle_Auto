@@ -72,13 +72,13 @@
                 <Border Style="{StaticResource TitleBorder}" Grid.Row="0"/>
 
                 <Label Grid.Row="1" Content="WorkPiece" VerticalContentAlignment="Bottom" Margin="5,0,0,0" FontSize="20" HorizontalAlignment="Right"/>
-                <styles:ToggleButton x:Name="myToggle" Width="80" Height="30" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <styles:ToggleButton x:Name="WorkPieceToggle" Width="80" Height="30" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
                 <Label Grid.Row="2" Content="One Tool" VerticalContentAlignment="Bottom" HorizontalAlignment="Right" FontSize="20"/>
-                <styles:ToggleButton x:Name="myToggle2" Width="80" Height="30" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <styles:ToggleButton x:Name="OneToolToggle" Width="80" Height="30" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 
                 <Label Grid.Row="4" Content="Night Mode" VerticalContentAlignment="Bottom" FontSize="20" HorizontalAlignment="Right"/>
-                <styles:ToggleButton x:Name="myToggle3" Width="80" Height="30" Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <styles:ToggleButton x:Name="NightModeToggle" Width="80" Height="30" Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
                 <Button Grid.Row="6" Content="Reset Work Place" Grid.ColumnSpan="2" Width="Auto" Padding="1,1,1,1" Margin="10,2,10,2"/>
             </Grid>
@@ -100,12 +100,12 @@
                 <!-- Speed Section Content -->
                 <Label Grid.Row="0" Content="Speed" Margin="10,0"/>
                 <Border Grid.Row="0" Style="{StaticResource TitleBorder}"/>
-                
-                
-                <Slider Grid.Row="1" Maximum="100" Value="50" VerticalAlignment="Center"/>
-                <Label Grid.Row="1" Content="50%" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Grid.Column="1" FontSize="20"/>
 
 
+                <Slider Grid.Row="1" Maximum="100" Value="50" VerticalAlignment="Center" TickFrequency="1" ValueChanged="SpeedSlider_ValueChanged" SmallChange="1"/>
+                <Label x:Name="speedLabel" Grid.Row="1" Content="50%" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Grid.Column="1" FontSize="20"/>
+
+        
              <!-- 
                 <Grid Grid.Row="3" Grid.RowSpan="99" Grid.ColumnSpan="2">
                     <Grid Width="180" Height="60">
@@ -143,8 +143,8 @@
                 <Border Grid.Row="0"  Style="{StaticResource TitleBorder}"/>
                 <Label Grid.Row="1" Content="Amount"/>
                 <Label Grid.Row="2" Content="Amount Left" Grid.ColumnSpan="2"/>
-                <TextBox Grid.Row="1" Grid.Column="2" VerticalContentAlignment="Center" Margin="5" Text="34" FontSize="20" TextAlignment="Center"/>
-                <TextBox Grid.Row="2" Grid.Column="2" VerticalContentAlignment="Center" Margin="5" Text="34" FontSize="20" TextAlignment="Center"/>
+                <TextBox x:Name="ToolsAmount" Grid.Row="1" Grid.Column="2" VerticalContentAlignment="Center" Margin="5" Text="34" FontSize="20" TextAlignment="Center"/>
+                <TextBox x:Name="ToolsAmountLeft" Grid.Row="2" Grid.Column="2" VerticalContentAlignment="Center" Margin="5" Text="34" FontSize="20" TextAlignment="Center"/>
             </Grid>
         </Border>
 
@@ -158,7 +158,7 @@
                 <!-- Robot Status Section Content -->
                 <Label Grid.Row="0" Content="Robot Status" Margin="10,0"/>
                 <Border Grid.Row="0" Style="{StaticResource TitleBorder}"/>
-                <ListBox Grid.Row="1">
+                <ListBox x:Name="RobotStatusListBox" Grid.Row="1">
                     <ListBoxItem Content="15:46:47" FontWeight="Bold"/>
                     <ListBoxItem Content="15:46:50" FontWeight="Bold"/>
                     <ListBoxItem Content="15:46:54" FontWeight="Bold"/>

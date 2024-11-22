@@ -49,17 +49,17 @@
 
                     <!-- Load Tool To Pocket 버튼과 Stop TextBox -->
                     <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
-                        <Button Content="Load Tool To Pocket" Width="350" Height="40"  Style="{DynamicResource ActButton}"/>
+                        <Button Content="Load Tool To Pocket" Width="350" Height="40"  Style="{DynamicResource ActButton}" Click="LoadToolToPocketClick"/>
                         <TextBox Text="Stop" Width="80" Height="30" Background="Red" Foreground="White" TextAlignment="Center" VerticalContentAlignment="Center" Margin="10,0,0,0"/>
                     </StackPanel>
 
                     <!-- Work Piece 라벨과 숫자 -->
                     <Label Grid.Row="0" Grid.Column="2" Content="Work Piece" Width="120" Height="40" FontSize="20" Background="#FFF5E5" BorderBrush="Gray" BorderThickness="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
-                    <TextBox Grid.Row="0" Grid.Column="3" Text="1" Width="50" Height="40" Background="LightGreen" TextAlignment="Center" VerticalContentAlignment="Center" Margin="5"/>
+                    <TextBox x:Name="workpieceTextBox" Grid.Row="0" Grid.Column="3" Text="1" Width="50" Height="40" Background="LightGreen" TextAlignment="Center" VerticalContentAlignment="Center" Margin="5"/>
 
                     <!-- Unload Tool From Pocket 버튼과 Stop TextBox -->
                     <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
-                        <Button Content="Unload Tool From Pocket" Width="350" Height="40"  Style="{DynamicResource ActButton}"/>
+                        <Button Content="Unload Tool From Pocket" Width="350" Height="40"  Style="{DynamicResource ActButton}" Click="UnLoadToolFromPocketClick"/>
                         <TextBox Text="Stop" Width="80" Height="30" Background="Red" Foreground="White" TextAlignment="Center" VerticalContentAlignment="Center" Margin="10,0,0,0"/>
                     </StackPanel>
 
@@ -88,13 +88,15 @@ HorizontalAlignment="Left"
 VerticalAlignment="Center"
 Margin="10,0,10,0"
 Click="DecreasePocket" Grid.Column="2"/>
+
+                        <Label Content="Pocket" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Top" Height="50" Margin="0,-30,0,0"/>
                     </Grid>
 
                     <!-- Shelf 라벨과 콤보박스 -->
                     <Label Grid.Row="1" Grid.Column="4" Content="Shelf" Width="50" Height="40" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"/>
 
                     <Grid Grid.Row="1" Grid.Column="4">
-                        <TextBox x:Name="PocketTextBox2"
+                        <TextBox x:Name="ShelfTextBox"
  Text="1"
  Width="100"
  Height="40"
@@ -108,13 +110,14 @@ Click="DecreasePocket" Grid.Column="2"/>
 HorizontalAlignment="Right"
 VerticalAlignment="Center"
 Margin="10"
-Click="IncreasePocket" Grid.Column="2"/>
+Click="IncreaseShelf" Grid.Column="2"/>
                         <!-- 숫자를 감소시키는 버튼 -->
                         <Button Content="-" Width="40" Height="40"
 HorizontalAlignment="Left"
 VerticalAlignment="Center"
 Margin="10"
-Click="DecreasePocket" Grid.Column="2"/>
+Click="DecreaseShelf" Grid.Column="2"/>
+                        <Label Content="Shelf" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Top" Height="50" Margin="0,-30,0,0"/>
                     </Grid>
                 </Grid>
             </GroupBox>

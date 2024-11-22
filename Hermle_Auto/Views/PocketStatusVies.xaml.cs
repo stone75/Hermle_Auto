@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.Common;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -14,6 +15,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -82,7 +84,134 @@ namespace Hermle_Auto.Views
         private void ChangeSinglePocketButton(object sender, RoutedEventArgs e)
         {
 
+            var toolType = D.Instance.GetToolType();
+            int pocketNumber;
+            int diameter = 0;
+            int status;
+            int ret;
+            PocketStatus oldStatus;
+
+            //ShelfCount
+            try
+            { 
+                /*''check if the shelf tooltype is the same as the gripper tool type.
+                   If AppShelvs(shelf).ShelfToolType<> AppToolType Then
+                       ret = MsgBox("the shelf number is incorrect." & vbCrLf _
+                           & "the shelf type is not the same as the gripper type" _
+                           , vbCritical _
+                           , "BtnSingleStatus_Click()")
+                        Exit Sub
+                    End If
+                  if (AppShelves[shelf].ShelfToolType != AppToolType)
+                    {
+                        MessageBox.Show("The shelf number is incorrect.\n" +
+                                        "The shelf type is not the same as the gripper type.",
+                                        "BtnSingleStatus_Click()",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Error);
+                        return;
+                    }*/
+                /*if (string.IsNullOrEmpty(TxtSinglePocketNumber.Text))
+                    throw new ArgumentException("Pocket number is empty.");*/
+
+                
+                //TxtSingleToolDiameter -> 어디있는 값인지 확인 필요
+                //if (toolType == "HSK" && string.IsNullOrEmpty(TxtSingleToolDiameter.Text))
+                //    throw new ArgumentException("Tool diameter is empty for HSK type.");
+
+
+                if (SinglePocketStatusListComboBox.Text == "Single Status")
+                    throw new ArgumentException("Status not selected.");
+
+                // Validate numeric input
+                if (!int.TryParse(PocketTextBox.Text, out pocketNumber))
+                    throw new ArgumentException("Pocket number is not numeric.");
+
+
+                //TxtSingleToolDiameter -> 어디있는 값인지 확인 필요
+                /*if (toolType == "HSK" && !int.TryParse(TxtSingleToolDiameter.Text, out diameter))
+                    throw new ArgumentException("Tool diameter is not numeric.");*/
+
+
+                // Get user inputs
+                status = SinglePocketStatusListComboBox.SelectedIndex + 1;
+                pocketNumber = int.Parse(PocketTextBox.Text);
+
+                // Adjust pocket number and diameter based on tool type
+                if (toolType == "HSK")
+                {
+                    if (pocketNumber >= 101 && pocketNumber <= 110)
+                     { 
+                        pocketNumber = pocketNumber - 100; 
+                    }
+                    else if (pocketNumber >= 201 && pocketNumber <= 210)
+                    { 
+                        pocketNumber = pocketNumber - 200; 
+                    }
+                    else if (pocketNumber >= 301 && pocketNumber <= 310)
+                    {
+                        pocketNumber = pocketNumber - 300;
+                    }
+
+                    diameter = 0;
+                }
+                else if (toolType == "Drill" || toolType == "Round")
+                {
+                    if (pocketNumber >= 101 && pocketNumber <= 112)
+                    {
+                        pocketNumber = pocketNumber - 100;
+                    }
+                    else if (pocketNumber >= 201 && pocketNumber <= 212)
+                    {
+                        pocketNumber = pocketNumber - 200;
+                    }
+                    else if (pocketNumber >= 301 && pocketNumber <= 312)
+                    {
+                        pocketNumber = pocketNumber - 300;
+                    }
+
+                    //TxtSingleToolDiameter -> 어디있는 값인지 확인 필요
+                    //diameter = int.Parse(TxtSingleToolDiameter.Text);
+                }
+
+                // Get the current pocket status
+                oldStatus = D.Instance.GetPocketStatus(ShelfCount, pocketNumber);
+
+                if (oldStatus == PocketStatus.Mask)
+                {
+                    ret = (int)MessageBox.Show("The current status is: MASK\n" +
+                                               "Do you want to continue?",
+                                               "Change status for single pocket",
+                                               MessageBoxButton.YesNo,
+                                               MessageBoxImage.Question);
+
+                    if (ret == (int)MessageBoxResult.No)
+                        return;
+
+                    SetPocketStatus(status, int.Parse(PocketTextBox.Text));
+                }
+
+                // Update pocket status
+                SetPocketStatus(status, int.Parse(PocketTextBox.Text));
+
+
+
+                RefreshButton(null, null);
+
+            }
+            catch (Exception ex)  
+            {
+                C.log(ex.ToString());
+            }
         }
+
+        
+
+        private void SetPocketStatus(int status, int pocketNumber)
+        {
+            // Mocked method for setting pocket status
+        }
+
 
         private void ResetButton(object sender, RoutedEventArgs e)
         {

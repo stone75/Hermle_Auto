@@ -61,27 +61,27 @@
 
                             <Grid Grid.Row="0" Width="160" HorizontalAlignment="Center" Height="95">
                                 <Label VerticalAlignment="Top" HorizontalAlignment="Center">Pocket</Label>
-                                <TextBox  x:Name="PocketTextBox"  Text="100" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
+                                <TextBox  x:Name="PocketLTextBox"  Text="100" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
                                         VerticalAlignment="Bottom" IsReadOnly="True" TextAlignment="Center" FontSize="25" Grid.Column="0" VerticalContentAlignment="Center"/>
                                 <!-- 숫자를 증가시키는 버튼 -->
-                                <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,10,0,0" Click="IncreasePocketCount" Grid.Column="0"/>
+                                <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,10,0,0" Click="IncreasePocketCount_L" Grid.Column="0"/>
                                 <!-- 숫자를 감소시키는 버튼 -->
-                                <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,10,10,0" Click="DecreasePocketCount" Grid.Column="0"/>
+                                <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,10,10,0" Click="DecreasePocketCount_L" Grid.Column="0"/>
                             </Grid>
 
                             <Grid Grid.Row="0" Width="160" HorizontalAlignment="Center" Grid.Column="1" Height="95">
                                 <Label VerticalAlignment="Top" HorizontalAlignment="Center">Pocket</Label>
-                                <TextBox  x:Name="PocketTextBox2"  Text="100" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
+                                <TextBox  x:Name="PocketRTextBox"  Text="100" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
             VerticalAlignment="Bottom" IsReadOnly="True" TextAlignment="Center" FontSize="25" Grid.Column="0" VerticalContentAlignment="Center"/>
                                 <!-- 숫자를 증가시키는 버튼 -->
-                                <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,10,0,0" Click="IncreasePocketCount" Grid.Column="0"/>
+                                <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,10,0,0" Click="IncreasePocketCount_R" Grid.Column="0"/>
                                 <!-- 숫자를 감소시키는 버튼 -->
-                                <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,10,10,0" Click="DecreasePocketCount" Grid.Column="0"/>
+                                <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,10,10,0" Click="DecreasePocketCount_R" Grid.Column="0"/>
                             </Grid>
 
                             <StackPanel Margin="0,0,10,0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Orientation="Horizontal">
-                                <Button Content="Start Test" Grid.ColumnSpan="2" Width="200" Padding="1,1,1,1" Margin="10,2,10,2" Grid.Row="1" FontSize="22" Height="60" HorizontalAlignment="Center"/>
-                                <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center">Loop</CheckBox>
+                                <Button Content="Start Test" Grid.ColumnSpan="2" Width="200" Padding="1,1,1,1" Margin="10,2,10,2" Grid.Row="1" FontSize="22" Height="60" HorizontalAlignment="Center" Click="btnPocketStartTest_Click"/>
+                                <CheckBox x:Name="PtoPLoopCheckBox" VerticalAlignment="Center" VerticalContentAlignment="Center">Loop</CheckBox>
 
                             </StackPanel>
 
@@ -103,27 +103,27 @@
 
                             <Grid Grid.Row="0" Width="160" HorizontalAlignment="Center" Height="95">
                                 <Label VerticalAlignment="Top" HorizontalAlignment="Center">Shelf</Label>
-                                <TextBox  x:Name="PocketTextBox3"  Text="1" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
+                                <TextBox  x:Name="PocketsShelfTextBox"  Text="1" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
                             VerticalAlignment="Bottom" IsReadOnly="True" TextAlignment="Center" FontSize="25" Grid.Column="0" VerticalContentAlignment="Center"/>
                                 <!-- 숫자를 증가시키는 버튼 -->
-                                <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,10,0,0" Click="IncreasePocketCount" Grid.Column="0"/>
+                                <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,10,0,0" Click="IncreasePocketsShelf" Grid.Column="0"/>
                                 <!-- 숫자를 감소시키는 버튼 -->
-                                <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,10,10,0" Click="DecreasePocketCount" Grid.Column="0"/>
+                                <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,10,10,0" Click="DecreasePocketsShelf" Grid.Column="0"/>
                             </Grid>
 
                             <Grid Grid.Row="0" Width="160" HorizontalAlignment="Center" Grid.Column="1" Height="95">
                                 <Label VerticalAlignment="Top" HorizontalAlignment="Center">Diameter</Label>
-                                <TextBox  x:Name="PocketTextBox4"  Text="1" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
+                                <TextBox  x:Name="DiameterTextBox"  Text="1" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
 VerticalAlignment="Bottom" IsReadOnly="True" TextAlignment="Center" FontSize="25" Grid.Column="0" VerticalContentAlignment="Center"/>
                                 <!-- 숫자를 증가시키는 버튼 -->
-                                <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,10,0,0" Click="IncreasePocketCount" Grid.Column="0"/>
+                                <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,10,0,0" Click="IncreasePocketsDiameter" Grid.Column="0"/>
                                 <!-- 숫자를 감소시키는 버튼 -->
-                                <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,10,10,0" Click="DecreasePocketCount" Grid.Column="0"/>
+                                <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,10,10,0" Click="DecreasePocketsDiameter" Grid.Column="0"/>
                             </Grid>
 
                             <StackPanel Margin="0,0,10,0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Orientation="Horizontal">
-                                <Button Content="Start Test" Grid.ColumnSpan="2" Width="200" Padding="1,1,1,1" Margin="10,2,10,2" Grid.Row="1" HorizontalAlignment="Center" FontSize="22" Height="60"/>
-                                <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center">Loop</CheckBox>
+                                <Button Content="Start Test" Grid.ColumnSpan="2" Width="200" Padding="1,1,1,1" Margin="10,2,10,2" Grid.Row="1" HorizontalAlignment="Center" FontSize="22" Height="60" Click="btnAllPocketsStartTest_Click"/>
+                                <CheckBox x:Name="AlltoPLoopCheckBox" VerticalAlignment="Center" VerticalContentAlignment="Center">Loop</CheckBox>
 
                             </StackPanel>
                         </Grid>
@@ -143,12 +143,12 @@ VerticalAlignment="Bottom" IsReadOnly="True" TextAlignment="Center" FontSize="25
                             <StackPanel Orientation="Horizontal" Margin="20,0,0,0" VerticalAlignment="Center">
                                 <TextBlock VerticalAlignment="Center">Select Drill Code :</TextBlock>
                                 <Grid Grid.Row="0" Width="160" HorizontalAlignment="Center" Margin="20,0,0,0">
-                                    <TextBox  x:Name="PocketTextBox5"  Text="1" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
+                                    <TextBox  x:Name="PocketDrillCodeTextBox"  Text="1" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
              VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" FontSize="25" Grid.Column="0" VerticalContentAlignment="Center"/>
                                     <!-- 숫자를 증가시키는 버튼 -->
-                                    <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,10,0,10" Click="IncreasePocketCount" Grid.Column="0"/>
+                                    <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,10,0,10" Click="IncreasePocketsDrillCode" Grid.Column="0"/>
                                     <!-- 숫자를 감소시키는 버튼 -->
-                                    <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,10,10" Click="DecreasePocketCount" Grid.Column="0"/>
+                                    <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,10,10" Click="DecreasePocketsDrillCode" Grid.Column="0"/>
                                 </Grid>
                             </StackPanel>
 
@@ -232,16 +232,16 @@ VerticalAlignment="Bottom" IsReadOnly="True" TextAlignment="Center" FontSize="25
 
                             <Grid Grid.Row="0" Width="160" HorizontalAlignment="Center" Margin="0,0,15,0">
                                 <Label VerticalAlignment="Top" HorizontalAlignment="Center">Pocket</Label>
-                                <TextBox  x:Name="PocketTextBox7"  Text="100" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
+                                <TextBox  x:Name="LoadPocketTextBox"  Text="100" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
                VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" FontSize="25" Grid.Column="0" VerticalContentAlignment="Center"/>
                                 <!-- 숫자를 증가시키는 버튼 -->
-                                <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,10,0,10" Click="IncreasePocketCount" Grid.Column="0"/>
+                                <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,10,0,10" Click="IncreaseLoadPocket" Grid.Column="0"/>
                                 <!-- 숫자를 감소시키는 버튼 -->
-                                <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,10,10" Click="DecreasePocketCount" Grid.Column="0"/>
+                                <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,10,10" Click="DecreaseLoadPocket" Grid.Column="0"/>
                             </Grid>
                             <StackPanel>
                                 <Button x:Name="btnStart" Content="Start" Grid.ColumnSpan="2" Width="230" Padding="1,1,1,1" Margin="10,2,10,2" Grid.Row="1" HorizontalAlignment="Center" FontSize="22" Height="60" Click="btnStart_Click"/>
-                                <Button Content="Stop Loop" Grid.ColumnSpan="2" Width="230" Padding="1,1,1,1" Margin="10,2,10,2" Grid.Row="1" HorizontalAlignment="Center" FontSize="22" Height="60"/>
+                                <Button Content="Stop Loop" Grid.ColumnSpan="2" Width="230" Padding="1,1,1,1" Margin="10,2,10,2" Grid.Row="1" HorizontalAlignment="Center" FontSize="22" Height="60"  Click="btnStopLoop_Click"/>
                             </StackPanel>
 
 
@@ -262,12 +262,12 @@ VerticalAlignment="Bottom" IsReadOnly="True" TextAlignment="Center" FontSize="25
                                 <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
                                     <TextBlock VerticalAlignment="Center">Select Drill Code :</TextBlock>
                                     <Grid Grid.Row="0" Width="160" HorizontalAlignment="Center" Margin="20,0,0,0">
-                                        <TextBox  x:Name="PocketTextBox8"  Text="1" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
+                                        <TextBox  x:Name="LoadDrillCodeTextBox"  Text="1" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
 VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" FontSize="25" Grid.Column="0" VerticalContentAlignment="Center"/>
                                         <!-- 숫자를 증가시키는 버튼 -->
-                                        <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,10,0,10" Click="IncreasePocketCount" Grid.Column="0"/>
+                                        <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,10,0,10" Click="IncreaseLoadDrillCode" Grid.Column="0"/>
                                         <!-- 숫자를 감소시키는 버튼 -->
-                                        <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,10,10" Click="DecreasePocketCount" Grid.Column="0"/>
+                                        <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,10,10" Click="DecreaseLoadDrillCode" Grid.Column="0"/>
                                     </Grid>
                                 </StackPanel>
 
@@ -300,7 +300,7 @@ VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" FontSize="25
 
                         <StackPanel Margin="10,0,8,0">
                             <Button x:Name="btnStationToSpindle" Content="Station to spindle" Width="250" Padding="1,1,1,1" FontSize="22" Height="50" Click="btnStationToSpindle_Click"/>
-                            <Button x:Name="btnSpindleToStation" Content="Spindle to station" Width="250" Padding="1,1,1,1" Margin="10,10,10,10" HorizontalAlignment="Center" FontSize="22" Height="50" Click="btnSpindleToStation_Click"/>
+                            <Button x:Name="btnSpindleToStation" Content="Spindle to station" Width="250" Padding="1,1,1,1" Margin="0,10,0,10" HorizontalAlignment="Center" FontSize="22" Height="50" Click="btnSpindleToStation_Click"/>
 
                         </StackPanel>
 
@@ -308,12 +308,12 @@ VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" FontSize="25
 
                         <Grid Grid.Row="0" Width="160" HorizontalAlignment="Center" Grid.Column="1" Margin="10,0,10,0">
                             <Label VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Column="1">Station</Label>
-                            <TextBox  x:Name="PocketTextBox6"  Text="1" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
+                            <TextBox  x:Name="SawStationTextBox"  Text="1" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
 VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" FontSize="25" Grid.Column="0" VerticalContentAlignment="Center"/>
                             <!-- 숫자를 증가시키는 버튼 -->
-                            <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,10,0,10" Click="IncreasePocketCount" Grid.Column="0"/>
+                            <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,10,0,10" Click="IncreaseSawStation" Grid.Column="0"/>
                             <!-- 숫자를 감소시키는 버튼 -->
-                            <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,10,10" Click="DecreasePocketCount" Grid.Column="0"/>
+                            <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,10,10" Click="DecreaseSawStation" Grid.Column="0"/>
                         </Grid>
 
 

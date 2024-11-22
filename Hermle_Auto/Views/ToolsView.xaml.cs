@@ -20,30 +20,68 @@ namespace Hermle_Auto.Views
     /// </summary>
     public partial class ToolsView : UserControl
     {
+        private int currentShelf = 1;
+        private int currentPocket = 1;
+
+
         public ToolsView()
         {
             InitializeComponent();
         }
 
 
-        private void IncreasePocket(object sender, RoutedEventArgs e)
+
+        private void IncreaseShelf(object sender, RoutedEventArgs e)
         {
-            //currentShelf++;
+            currentShelf++;
 
             //currentShelf = Math.Min(50, currentShelf);
 
             //WpOptionLineNum = currentLineNumber.ToString();
-            //ShelfTextBox.Text = currentShelf.ToString();
+            ShelfTextBox.Text = currentShelf.ToString();
+        }
+        private void DecreaseShelf(object sender, RoutedEventArgs e)
+        {
+            currentShelf--;
+
+            currentShelf = Math.Max(1, currentShelf);
+
+            ShelfTextBox.Text = currentShelf.ToString();
+
+            //WpOptionLineNum = currentLineNumber.ToString();
+        }
+
+        private void IncreasePocket(object sender, RoutedEventArgs e)
+        {
+            currentPocket++;
+
+            //currentPocket = Math.Min(50, currentPocket);
+
+            //WpOptionLineNum = currentLineNumber.ToString();
+            PocketTextBox.Text = currentPocket.ToString();
         }
         private void DecreasePocket(object sender, RoutedEventArgs e)
         {
-           /* currentShelf--;
+            currentPocket--;
 
-            currentShelf = Math.Max(1, currentShelf);*/
+            currentPocket = Math.Max(1, currentPocket);
 
-            //ShelfTextBox.Text = currentShelf.ToString();
+            PocketTextBox.Text = currentPocket.ToString();
 
             //WpOptionLineNum = currentLineNumber.ToString();
+        }
+
+
+        private void LoadToolToPocketClick(object sender, RoutedEventArgs e)
+        {
+
+
+        }
+
+        private void UnLoadToolFromPocketClick(object sender, RoutedEventArgs e)
+        {
+
+
         }
     }
 }

@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using HermleCS.Data;
+using HermleCS.Comm;
 
 namespace Hermle_Auto.Views
 {
@@ -26,6 +27,32 @@ namespace Hermle_Auto.Views
         public AutomatView()
         {
             InitializeComponent();
+
+            WorkPieceToggle.MouseDown += WorkPieceToggle_MouseDown;
+            OneToolToggle.MouseDown += WorkPieceToggle_MouseDown;
+            NightModeToggle.MouseDown += WorkPieceToggle_MouseDown;
+        }
+
+        private void WorkPieceToggle_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ToggleButton textBox = sender as ToggleButton;
+
+
+            if(textBox.Name == "WorkPiece")
+            {
+                C.log($"{textBox.Name} : {textBox.IsChecked}");
+            }
+            else if(textBox.Name == "One Tool")
+            {
+                C.log($"{textBox.Name} : {textBox.IsChecked}");
+            }
+            else if (textBox.Name == "Night Mode")
+            {
+                C.log($"{textBox.Name} : {textBox.IsChecked}");
+            }
+
+
+           
         }
 
         private void btnStartAutomat_Click(object sender, RoutedEventArgs e)
@@ -42,6 +69,19 @@ namespace Hermle_Auto.Views
             {
                 MessageBox.Show("PLC 예외상황 : " + ex.Message);
             }
+        }
+
+        private void SpeedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Slider slider = sender as Slider;
+
+            //speedLabel.Content(slider.Value.ToString("F0"));
+            if(speedLabel != null)
+            {
+                speedLabel.Content = slider.Value.ToString("F0") + "%";
+            }
+
+            //C.log($"{slider.Name} : {slider.Value}");
         }
     }
 }

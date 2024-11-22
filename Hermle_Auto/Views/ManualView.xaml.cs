@@ -185,5 +185,18 @@ namespace Hermle_Auto.Views
             httpclient.commandCommand(url);
 */
         }
+
+        private void SpeedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Slider slider = sender as Slider;
+
+            //speedLabel.Content(slider.Value.ToString("F0"));
+            if (speedTextBlock != null)
+            {
+                speedTextBlock.Text = slider.Value.ToString("F0");
+            }
+
+            //C.log($"{slider.Name} : {slider.Value}");
+        }
     }
 }

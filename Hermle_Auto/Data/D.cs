@@ -9,6 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Xml;
 //using System.Windows.Forms;
 
 namespace HermleCS.Data
@@ -864,6 +865,63 @@ namespace HermleCS.Data
 
             return null;
         }
+
+        public PocketStatus GetPocketStatus(int shelf, int pocketNumber)
+        {
+            //PocketStatus myStatus;
+
+            // Uncomment the following lines if needed
+            // if (!AppShelves[shelf].ShelfEnable)
+            // {
+            //     return PocketStatus.Occupied;
+            // }
+
+            Status[,,] statusArr = GetStatus(GetToolType());
+
+
+            return (PocketStatus)statusArr[shelf, 0, pocketNumber].status;
+
+
+           /* if (GetToolType() == "HSK")
+            {
+                myStatus =  AutomationStatus(shelf, pocketNumber).Status;
+            }
+            else if (GetToolType() == "Drill")
+            {
+                myStatus = AutomationStatus(shelf, pocketNumber).Status;
+            }
+            else if (GetToolType() == "Round")
+            {
+                myStatus = AutomationStatus(shelf, pocketNumber).Status;
+            }
+            else
+            {
+                throw new InvalidOperationException("Invalid tool type.");
+            }*/
+            //return myStatus;
+        }
+
+        public void SetPocketStatus(PocketStatus singlePocketStatus, int pocketName)
+        {
+            Status[,,] statusArr = GetStatus(GetToolType());
+
+            int shelf = pocketName / 100; // 100의 자리          // First character
+            int column = pocketName % 100; // 나머지 두 자리      // Next two characters
+
+
+            statusArr[shelf, 0, column].status = (int)singlePocketStatus;
+
+
+            WriteStatus(GetToolType());
+
+            //SaveAutomation();
+        }
+
+        public void SaveAutomation(PocketStatus singlePocketStatus, int pocketName)
+        {
+
+        }
+
         public string PocketStatusConberter(int status)
         {
             string str = "";
@@ -878,6 +936,25 @@ namespace HermleCS.Data
             if (status == 8) return "Disable";
 
             return str;
+        }
+
+        public GeneralLocations[] getGeneralLocations(string toolName)
+        {
+            toolName = (toolName + "").ToUpper();
+            if (toolName == "DRILL")
+            {
+                return DrillGeneralLocations;
+            }
+            else if (toolName == "HSK")
+            {
+                return HSKGeneralLocations;
+            }
+            else if (toolName == "ROUND")
+            {
+                return RoundGeneralLocations;
+            }
+
+            return null;
         }
     }
 }
