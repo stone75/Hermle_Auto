@@ -127,6 +127,9 @@ namespace Hermle_Auto.Views
                
              int[] addrs =
              {
+                2007, 
+                2020, 2022, 2024, 2025, 2028,
+
                 2106, 2107,
                 2116, 2118, 2120, 2122,
                 2124, 2126, 2128, 2130,
@@ -136,7 +139,7 @@ namespace Hermle_Auto.Views
                 2206, 2207,
                 2216, 2218, 2220, 2222,
                 2224, 2226, 2228, 2230,
-                            2336, 2338,
+                            2236, 2238,
                 2246
             };
             int[] getData = new int[1];
@@ -149,7 +152,7 @@ namespace Hermle_Auto.Views
                     try
                     {
                         
-                        await conn.GetBitDevice(PlcDeviceType.M, addrs[0], 1, getData);
+                        await conn.GetBitDevice(PlcDeviceType.M, addrs[i], 1, getData);
 
                         if (getData[0] == 1)
                         {
@@ -158,6 +161,11 @@ namespace Hermle_Auto.Views
                             {
                                 logText.Text = $" Addr {addrs[i]} is on!";
                             }));
+
+                            if (addrs[i] == 2007)
+                            {
+                                MessageBox.Show("E.Stop was pressed");
+                            }
                         }
                         else
                         {
