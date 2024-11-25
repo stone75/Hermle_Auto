@@ -29,9 +29,9 @@
             <!-- SemiAutomat GroupBox -->
             <GroupBox Header="SemiAutomat" Grid.Column="0" FontSize="22" FontWeight="Bold" Margin="27,25,24,25" Height="Auto" VerticalAlignment="Top">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Width="256">
-                    <Button Content="Parking Position" Width="232" Height="50" Margin="10" FontSize="20" FontWeight="Bold"/>
-                    <Button Content="Exchange Gripper Position" Width="235" Height="50" Margin="10" FontSize="20" FontWeight="Bold"/>
-                    <Button Content="Retract Position" Width="236" Height="50" Margin="10" FontSize="20" FontWeight="Bold"/>
+                    <Button x:Name="btnParkingPosition" Content="Parking Position" Width="232" Height="50" Margin="10" FontSize="20" FontWeight="Bold" Click="btnParkingPosition_Click"/>
+                    <Button x:Name="btnExchangeGripperPosition" Content="Exchange Gripper Position" Width="235" Height="50" Margin="10" FontSize="20" FontWeight="Bold"/>
+                    <Button x:Name="btnRetractPosition" Content="Retract Position" Width="236" Height="50" Margin="10" FontSize="20" FontWeight="Bold"/>
                 </StackPanel>
             </GroupBox>
 

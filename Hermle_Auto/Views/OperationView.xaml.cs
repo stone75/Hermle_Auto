@@ -20,9 +20,16 @@ namespace Hermle_Auto.Views
     /// </summary>
     public partial class OperationView : UserControl
     {
+        public event RobotStatusLogger logger;
+
         public OperationView()
         {
             InitializeComponent();
+        }
+
+        private void btnParkingPosition_Click(object sender, RoutedEventArgs e)
+        {
+            logger?.Invoke("Parking Position Button Clicked...");
         }
     }
 }

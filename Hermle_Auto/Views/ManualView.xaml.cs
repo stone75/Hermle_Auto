@@ -25,7 +25,9 @@ namespace Hermle_Auto.Views
         //private CommHTTPComponent httpclient = CommHTTPComponent.Instance;
         private bool isMoving = false;
 
-    
+        public event RobotStatusLogger logger;
+
+
         public ManualView()
         {
             InitializeComponent();
@@ -72,8 +74,9 @@ namespace Hermle_Auto.Views
             //GlobalDataLists.data[1].DataValue = "a";
             Button button = sender as Button;
 
-            //plc 체크 선행
+            logger?.Invoke($"Jogo Lobo Button Clicked.. {button.Content.ToString()}");
 
+            //plc 체크 선행
 
             if (button.Content.ToString() == "X+")
             {

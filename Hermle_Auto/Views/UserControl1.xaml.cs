@@ -29,6 +29,8 @@ using Hermle_Auto.Comm;
 public delegate void PLCCommHandler(int addr, string message);
 public delegate Task PLCCommSender(McProtocolTcp conn, PlcDeviceType type, int addr, int value);
 
+public delegate void RobotStatusLogger(string message);
+
 namespace Hermle_Auto.Views
 {
     /// <summary>
@@ -88,8 +90,10 @@ namespace Hermle_Auto.Views
 
 
             Unloaded += UIUnloaded;
-        }
 
+            operationView.logger += automatView.writelog;
+            operationView.logger += infoView.writelog;
+        }
 
         public void StartPLC()
         {

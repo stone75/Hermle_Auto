@@ -51,16 +51,17 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <Button Grid.Row="0" Grid.Column="0" Content="Clear Robot List" Margin="10,35,10,10" Style="{DynamicResource ActButton}" Width="250" Height="80" VerticalAlignment="Top"/>
+                            <Button Grid.Row="0" Grid.Column="0" x:Name="btnClearRobotList" Content="Clear Robot List" Margin="10,35,10,10" Style="{DynamicResource ActButton}" Width="250" Height="80" VerticalAlignment="Top" Click="btnClearRobotList_Click"/>
 
 
                             <StackPanel Grid.Column="1" Margin="10,10,10,0">
-
-                                <RichTextBox Height="300">
-
-                                </RichTextBox>
-
-
+                                <!--
+                                <RichTextBox Height="300"/>
+                                -->
+                                <TextBox x:Name="txtRobotInfo" FontSize="16" FontWeight="Bold" IsReadOnly="True" Height="308" Text="Robot Status Log..."/>
+                                <!--
+                                <RichTextBox Height="300"/>
+                                -->
                             </StackPanel>
                         </Grid>
                     </GroupBox>

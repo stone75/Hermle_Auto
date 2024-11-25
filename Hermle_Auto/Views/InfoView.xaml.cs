@@ -125,5 +125,16 @@ namespace Hermle_Auto.Views
 
             //WpOptionLineNum = currentLineNumber.ToString();
         }
+
+        public void writelog(string msg)
+        {
+            string formattedTime = DateTime.Now.ToString("HH:mm:ss");
+            txtRobotInfo.Text = $"{formattedTime} : {msg}\r\n" + txtRobotInfo.Text;
+        }
+
+        private void btnClearRobotList_Click(object sender, RoutedEventArgs e)
+        {
+            txtRobotInfo.Text = "Robot Status Log...";
+        }
     }
 }

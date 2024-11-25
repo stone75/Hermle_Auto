@@ -158,11 +158,16 @@
                 <!-- Robot Status Section Content -->
                 <Label Grid.Row="0" Content="Robot Status" Margin="10,0"/>
                 <Border Grid.Row="0" Style="{StaticResource TitleBorder}"/>
-                <ListBox Grid.Row="1">
+                <TextBox Grid.Row="1" x:Name="txtRobotStatus" FontSize="16" FontWeight="Bold" IsReadOnly="True">
+                    Robot Status Log...
+                </TextBox>
+                <!--
+                <ListBox Grid.Row="1" x:Name="listRobotStatus">
                     <ListBoxItem Content="15:46:47" FontWeight="Bold"/>
                     <ListBoxItem Content="15:46:50" FontWeight="Bold"/>
                     <ListBoxItem Content="15:46:54" FontWeight="Bold"/>
                 </ListBox>
+                -->
             </Grid>
         </Border>
     </Grid>

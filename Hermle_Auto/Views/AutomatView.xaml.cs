@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 
 using HermleCS.Data;
 
+
 namespace Hermle_Auto.Views
 {
     /// <summary>
@@ -26,12 +27,26 @@ namespace Hermle_Auto.Views
         public AutomatView()
         {
             InitializeComponent();
+//            logger += writelog;
         }
+
+        private void AutomatView_logger(string message)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void writelog(string msg)
+        {
+            string formattedTime = DateTime.Now.ToString("HH:mm:ss");
+            txtRobotStatus.Text = $"{formattedTime} : {msg}\r\n" + txtRobotStatus.Text;
+        }
+
 
         private void btnStartAutomat_Click(object sender, RoutedEventArgs e)
         {
             CommPLC commplc = CommPLC.Instance;
             D d = D.Instance;
+//            logger?.Invoke("Start Automat Button Cliecked...");
 
             try
             {
