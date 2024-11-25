@@ -52,7 +52,7 @@
                     <Grid >
                         <!-- DataGrid (좌측) -->
                         <DataGrid x:Name="PocketTable" Grid.Row="0" Grid.Column="1" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column" Margin="10,35,10,10" 
-            ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Grid.ColumnSpan="2" VerticalAlignment="Top" Height="250" Width="550">
+ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Grid.ColumnSpan="2" VerticalAlignment="Top" Height="250" Width="550">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Number" Binding="{Binding Number}" Width="90"/>
                                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="150"/>
@@ -64,26 +64,24 @@
 
                     </Grid>
 
-                    <Button Grid.Row="0" Grid.Column="1" Content="Refresh" Margin="10,35,10,10" Style="{DynamicResource ActButton}" Width="120" Height="120" VerticalAlignment="Top"/>
+                    <Button Grid.Row="0" Grid.Column="1" Content="Refresh" Margin="10,35,10,10" Style="{DynamicResource ActButton}" Width="120" Height="120" VerticalAlignment="Top" Click="RefreshButton_Click"/>
 
                     <GroupBox Header="Teach Locations" FontSize="18" Margin="0,20,0,20"  FontFamily="Arial" FontWeight="Bold" Grid.Column="2" VerticalAlignment="Top">
                         <StackPanel VerticalAlignment="Top">
                             <StackPanel>
                                 <Label Content=" Pick Status From List &#x0a; Location From Robot &#x0a; as General Position." Width="250" VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="18" HorizontalAlignment="Center" HorizontalContentAlignment="Left" Margin="0,10,0,10"/>
 
-                                <ComboBox  x:Name="StatusListComboBox" Width="250" Margin="5,5,5,5" VerticalAlignment="Center" Padding="5,3,5,3">
-                                    <ComboBoxItem Content="Empty"/>
-                                    <ComboBoxItem Content="Unmachined"/>
-                                    <ComboBoxItem Content="Machined"/>
-                                    <ComboBoxItem Content="Reserved"/>
-                                    <ComboBoxItem Content="Mask"/>
-                                    <ComboBoxItem Content="Occupied"/>
-                                    <ComboBoxItem Content="Broken"/>
-                                    <ComboBoxItem Content="Disable"/>
+                                <ComboBox  x:Name="SelectLocation" Width="250" Margin="5,5,5,5" VerticalAlignment="Center" Padding="5,3,5,3">
+                                    <ComboBoxItem IsSelected="True">Select Location</ComboBoxItem>
+                                    <ComboBoxItem Content="Kiosk"/>
+                                    <ComboBoxItem Content="Chunk"/>
+                                    <ComboBoxItem Content="Spindle"/>
+                                    <ComboBoxItem Content="Station 1"/>
+                                    <ComboBoxItem Content="Station 2"/>
                                 </ComboBox>
 
 
-                                <Button Grid.Row="0" Grid.Column="1" Content="Teach Position" Margin="10,20,10,10" Style="{DynamicResource ActButton}" HorizontalContentAlignment="Center" VerticalAlignment="Center" Width="250" Height="60"/>
+                                <Button Grid.Row="0" Grid.Column="1" Content="Teach Position" Margin="10,20,10,10" Style="{DynamicResource ActButton}" HorizontalContentAlignment="Center" VerticalAlignment="Center" Width="250" Height="60" Click="TeachPositionButton_Click"/>
 
                             </StackPanel>
 
@@ -373,22 +371,25 @@ ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResou
 
                                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Center">
 
-                                    <Grid Grid.Row="0" Width="160" Margin="10,0,20,0">
-                                        <TextBox  x:Name="DrillCodeTextBox2"  Text="1" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
+                                    <Grid Grid.Row="0" Width="160" Margin="10,10,20,0">
+                                        <TextBox  x:Name="ViewPocketShelfTextBox"  Text="1" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
 VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" FontSize="25" Grid.Column="0" VerticalContentAlignment="Center"/>
                                         <!-- 숫자를 증가시키는 버튼 -->
-                                        <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,10,10,10" Click="IncreaseDrillCore" Grid.Column="0"/>
+                                        <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,10,5,10" Click="IncreaseViewPocketShelf" Grid.Column="0"/>
                                         <!-- 숫자를 감소시키는 버튼 -->
-                                        <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,10,10,10" Click="DecreaseDrillCore" Grid.Column="0"/>
+                                        <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,10,10,10" Click="DecreaseViewPocketShelf" Grid.Column="0"/>
+                                        <Label Content="Shelf" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Top" Height="50" Margin="0,-40,0,0"/>
                                     </Grid>
 
-                                    <Grid Grid.Row="0" Width="160">
-                                        <TextBox  x:Name="PocketTextBox3"  Text="100" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
+                                    <Grid Grid.Row="0" Width="160" Margin="10,10,0,0">
+                                        <TextBox  x:Name="ViewPocketPocketTextBox"  Text="100" Width="100" Height="50" HorizontalAlignment="Center" Background="LightGreen"
 VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" FontSize="25" Grid.Column="0" VerticalContentAlignment="Center"/>
                                         <!-- 숫자를 증가시키는 버튼 -->
-                                        <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,10,0,10" Click="IncreasePocketCount" Grid.Column="0"/>
+                                        <Button Content="+" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,10,0,10" Click="IncreaseViewPocketPocket" Grid.Column="0"/>
                                         <!-- 숫자를 감소시키는 버튼 -->
-                                        <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,10,10" Click="DecreasePocketCount" Grid.Column="0"/>
+                                        <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,10,10" Click="DecreaseViewPocketPocket" Grid.Column="0"/>
+                                        
+                                        <Label Content="Pocket" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Top" Height="50" Margin="0,-40,0,0"/>
                                     </Grid>
 
 

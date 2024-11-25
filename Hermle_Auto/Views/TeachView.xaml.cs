@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HermleCS.Data;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -26,6 +27,11 @@ namespace Hermle_Auto.Views
         private int currentShelf = 1;
         private int currentPocket = 1;
         private int currentDrillCode = 1;
+
+
+        private int currentViewPocketShelf = 1;
+        private int currentViewPocket = 100;
+     
 
         private ObservableCollection<CoordinatePoint> coordinates;
         public CoordinatePoint FirstPoint { get; private set; }
@@ -94,7 +100,7 @@ namespace Hermle_Auto.Views
             //currentShelf = Math.Min(50, currentShelf);
 
             //WpOptionLineNum = currentLineNumber.ToString();
-            //ShelfTextBox.Text = currentShelf.ToString();
+            ShelfTextBox.Text = currentShelf.ToString();
         }
         private void DecreaseShelf(object sender, RoutedEventArgs e)
         {
@@ -102,7 +108,7 @@ namespace Hermle_Auto.Views
 
             currentShelf = Math.Max(1, currentShelf);
 
-            //ShelfTextBox.Text = currentShelf.ToString();
+            ShelfTextBox.Text = currentShelf.ToString();
 
             //WpOptionLineNum = currentLineNumber.ToString();
         }
@@ -114,7 +120,7 @@ namespace Hermle_Auto.Views
             //currentPocket = Math.Min(50, currentPocket);
 
             //WpOptionLineNum = currentLineNumber.ToString();
-            //PocketTextBox.Text = currentPocket.ToString();
+            PocketTextBox.Text = currentPocket.ToString();
         }
         private void DecreasePocket(object sender, RoutedEventArgs e)
         {
@@ -122,7 +128,7 @@ namespace Hermle_Auto.Views
 
             currentPocket = Math.Max(1, currentPocket);
 
-            //PocketTextBox.Text = currentPocket.ToString();
+            PocketTextBox.Text = currentPocket.ToString();
 
             //WpOptionLineNum = currentLineNumber.ToString();
         }
@@ -134,7 +140,7 @@ namespace Hermle_Auto.Views
             //currentDrillCode = Math.Min(50, currentDrillCode);
 
             //WpOptionLineNum = currentLineNumber.ToString();
-            //DrillCodeTextBox.Text = currentDrillCode.ToString();
+            DrillCodeTextBox.Text = currentDrillCode.ToString();
         }
         private void DecreaseDrillCode(object sender, RoutedEventArgs e)
         {
@@ -142,52 +148,202 @@ namespace Hermle_Auto.Views
 
             currentDrillCode = Math.Max(1, currentDrillCode);
 
-            //DrillCodeTextBox.Text = currentDrillCode.ToString();
+            DrillCodeTextBox.Text = currentDrillCode.ToString();
 
             //WpOptionLineNum = currentLineNumber.ToString();
         }
 
 
-        private void IncreaseDrillCore(object sender, RoutedEventArgs e)
+        private void IncreaseViewPocketShelf(object sender, RoutedEventArgs e)
         {
-            currentDrillCode++;
+            currentViewPocketShelf++;
 
             //currentDrillCode = Math.Min(50, currentDrillCode);
 
             //WpOptionLineNum = currentLineNumber.ToString();
-            //DrillCodeTextBox.Text = currentDrillCode.ToString();
+            ViewPocketShelfTextBox.Text = currentViewPocketShelf.ToString();
         }
-        private void DecreaseDrillCore(object sender, RoutedEventArgs e)
+        private void DecreaseViewPocketShelf(object sender, RoutedEventArgs e)
         {
-            currentDrillCode--;
+            currentViewPocketShelf--;
 
-            currentDrillCode = Math.Max(1, currentDrillCode);
+            currentViewPocketShelf = Math.Max(1, currentViewPocketShelf);
 
-            //DrillCodeTextBox.Text = currentDrillCode.ToString();
+            ViewPocketShelfTextBox.Text = currentViewPocketShelf.ToString();
 
             //WpOptionLineNum = currentLineNumber.ToString();
         }
 
 
-        private void IncreasePocketCount(object sender, RoutedEventArgs e)
+        private void IncreaseViewPocketPocket(object sender, RoutedEventArgs e)
         {
-            currentDrillCode++;
+            currentViewPocket++;
 
             //currentDrillCode = Math.Min(50, currentDrillCode);
 
             //WpOptionLineNum = currentLineNumber.ToString();
-            //DrillCodeTextBox.Text = currentDrillCode.ToString();
+            ViewPocketPocketTextBox.Text = currentViewPocket.ToString();
         }
-        private void DecreasePocketCount(object sender, RoutedEventArgs e)
+        private void DecreaseViewPocketPocket(object sender, RoutedEventArgs e)
         {
-            currentDrillCode--;
+            currentViewPocket--;
 
-            currentDrillCode = Math.Max(1, currentDrillCode);
+            currentViewPocket = Math.Max(1, currentViewPocket);
 
-            //DrillCodeTextBox.Text = currentDrillCode.ToString();
+            ViewPocketPocketTextBox.Text = currentViewPocket.ToString();
 
             //WpOptionLineNum = currentLineNumber.ToString();
         }
+
+
+
+
+        Dictionary<string, string> DicNumName = new Dictionary<string, string>()
+            {
+                { "10","Spindle" },
+                { "11","Kiosk" },
+                { "12","Chuck" },
+                { "120","Station 1" },
+                { "121","Station 2" },
+            };
+
+        private void RefreshTeachGeneralLocations()
+        {
+            PocketTable.ItemsSource = null;
+
+
+            var toolType = D.Instance.GetToolType();
+            //var toolType = "DRILL";
+            //var toolType = "HSK";
+            //var toolType = "ROUND";
+            //var toolType = "";
+
+            var ret = D.Instance.ReadGeneralLocations(toolType);
+            if (ret < 0)
+            {
+                // Error
+                return;
+            }
+
+            var locations = D.Instance.getGeneralLocations(toolType);
+            if (locations == null)
+            {
+                // No locations
+                return;
+            }
+
+            var data = new[]
+            {
+                new { Number="", Name="", X=0.0, Y=0.0, Z=0.0, },
+            }.ToList();
+            data.Clear();
+
+            foreach (var l in locations)
+            {
+                var number = l.name;
+                if (DicNumName.ContainsKey(number))
+                {
+                    var name = DicNumName[number];
+                    data.Add(new { Number = number, Name = name, X = l.x, Y = l.y, Z = l.z, });
+                }
+            }
+
+            PocketTable.ItemsSource = data;
+        }
+
+        private void TeachPositionButton_Click(object sender, RoutedEventArgs e)
+        {
+            TeachPositionLocations();
+
+        }
+        private void TeachPositionLocations()
+        {
+            //1 - Robot : CurrentPosition recv
+            //2 GeneralLcation input
+
+
+            if (SelectLocation.Text == "Kiosk")
+            {
+                // Save position to the memory of PC.
+                /*             GeneralLocation[11].X = TempPosition[0];
+                               GeneralLocation[11].Y = TempPosition[1];
+                               GeneralLocation[11].Z = TempPosition[2];
+                               GeneralLocation[11].Rx = TempPosition[3];
+                               GeneralLocation[11].Ry = TempPosition[4];
+                               GeneralLocation[11].Rz = TempPosition[5]; */
+                // GeneralLocation = Robot Current Position 
+                // 3-1 : PC -> Robot Write Position(Robot Current Position )
+                // 3-2 : PC -> Robot H_COMMAND(calc_kiosk_points.TP)
+            }
+            else if (SelectLocation.Text == "Chuck")
+            {
+                /*                GeneralLocation[12].X = TempPosition[0];
+                                GeneralLocation[12].Y = TempPosition[1];
+                                GeneralLocation[12].Z = TempPosition[2];
+                                GeneralLocation[12].Rx = TempPosition[3];
+                                GeneralLocation[12].Ry = TempPosition[4];
+                                GeneralLocation[12].Rz = TempPosition[5]; */
+                // GeneralLocation = Robot Current Position 
+                // 3-1 : PC -> Robot Write Position(Robot Current Position )
+                // 3-2 :PC -> Robot H_COMMAND(calc_chuck_points.TP)
+
+            }
+            else if (SelectLocation.Text == "Spindle")
+            {
+                /*               GeneralLocation[10].X = TempPosition[0];
+                               GeneralLocation[10].Y = TempPosition[1];
+                               GeneralLocation[10].Z = TempPosition[2];
+                               GeneralLocation[10].Rx = TempPosition[3];
+                               GeneralLocation[10].Ry = TempPosition[4];
+                               GeneralLocation[10].Rz = TempPosition[5];
+                */
+                // 3-1 : GeneralLocation = Robot Current Position 
+                // 3-2 : PC -> Robot Write Position(Robot Current Position )
+
+            }
+            else if (SelectLocation.Text == "Station 1")
+            {
+                /*               GeneralLocation[120].X = TempPosition[0];
+                                GeneralLocation[120].Y = TempPosition[1];
+                                GeneralLocation[120].Z = TempPosition[2];
+                                GeneralLocation[120].Rx = TempPosition[3];
+                                GeneralLocation[120].Ry = TempPosition[4];
+                                GeneralLocation[120].Rz = TempPosition[5];
+                */
+                // 3-1 : GeneralLocation = Robot Current Position 
+                // 3-2 : PC -> Robot Write Position(Robot Current Position )
+
+            }
+            else if (SelectLocation.Text == "Station 2")
+            {
+                /*          GeneralLocation[121].X = TempPosition[0];
+                            GeneralLocation[121].Y = TempPosition[1];
+                            GeneralLocation[121].Z = TempPosition[2];
+                            GeneralLocation[121].Rx = TempPosition[3];
+                            GeneralLocation[121].Ry = TempPosition[4];
+                            GeneralLocation[121].Rz = TempPosition[5];
+                */
+                // 3-1 : GeneralLocation = Robot Current Position 
+                // 3-2 : PC -> Robot Write Position(Robot Current Position )
+            }
+            else if (SelectLocation.Text == "Select Location")
+            {
+                MessageBox.Show("Please select a valid location.", "Alert", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+
+            var toolType = D.Instance.GetToolType();
+
+            D.Instance.WriteGeneralLocations(toolType);
+
+
+
+        }
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshTeachGeneralLocations();
+        }
+
     }
 
     public class CoordinatePoint : INotifyPropertyChanged

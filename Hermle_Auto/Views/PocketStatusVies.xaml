@@ -55,7 +55,7 @@
 
 
 
-            <TextBox x:Name="WorkPieceTextBox2" Text="Drill" Width="85" Height="35" Grid.Column="3" VerticalAlignment="Top" Margin="0,50,0,0" HorizontalAlignment="Center" FontSize="25" TextAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" />
+            <TextBox x:Name="ToolTextBox" Text="Drill" Width="85" Height="35" Grid.Column="3" VerticalAlignment="Top" Margin="0,50,0,0" HorizontalAlignment="Center" FontSize="25" TextAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" />
 
 
 
@@ -121,8 +121,9 @@ Click="DecreaseWorkPicec" Grid.Column="2"/>
                 <GroupBox Header="Single Pocket" FontSize="18" FontFamily="Arial" FontWeight="Bold">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Content="Pick Status From List" Width="210" VerticalAlignment="Center" FontSize="18" FontWeight="Bold" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
-                            <ComboBox x:Name="SinglePocketStatusListComboBox" Width="120" Text="Single Status" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Label Content="Pick Status From List" Width="200" VerticalAlignment="Center" FontSize="18" FontWeight="Bold" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+                            <ComboBox x:Name="SinglePocketStatusListComboBox" Width="140" Text="Single Status" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="17">
+                                <ComboBoxItem IsSelected="True">Single Status</ComboBoxItem>
                                 <ComboBoxItem Content="Empty"/>
                                 <ComboBoxItem Content="Unmachined"/>
                                 <ComboBoxItem Content="Machined"/>

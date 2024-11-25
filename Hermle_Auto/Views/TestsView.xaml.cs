@@ -25,112 +25,164 @@ namespace Hermle_Auto.Views
     /// </summary>
     public partial class TestsView : UserControl
     {
+
+        private int pockets_PocketCount_L = 100;
+        private int pockets_PocketCount_R = 100;
+        private int pockets_DrillCode = 1;
+        private int pockets_Shelf = 1;
+        private int pockets_Diameter = 1;
+        private int load_PocketCount = 100;
+        private int load_DrillCode = 1;
+        private int saw_station = 1;
+
         public TestsView()
         {
             InitializeComponent();
         }
 
-        private void IncreaseShelf(object sender, RoutedEventArgs e)
+        private void IncreasePocketCount_L(object sender, RoutedEventArgs e)
         {
-            //currentShelf++;
+            pockets_PocketCount_L++;
 
-            //currentShelf = Math.Min(50, currentShelf);
-
-            //WpOptionLineNum = currentLineNumber.ToString();
-            //ShelfTextBox.Text = currentShelf.ToString();
+            PocketLTextBox.Text = pockets_PocketCount_L.ToString();
         }
-        private void DecreaseShelf(object sender, RoutedEventArgs e)
+        private void DecreasePocketCount_L(object sender, RoutedEventArgs e)
         {
-            //currentShelf--;
+            pockets_PocketCount_L--;
 
-            //currentShelf = Math.Max(1, currentShelf);
+            pockets_PocketCount_L = Math.Max(1, pockets_PocketCount_L);
 
-            //ShelfTextBox.Text = currentShelf.ToString();
-
-            //WpOptionLineNum = currentLineNumber.ToString();
-        }
-
-        private void IncreasePocket(object sender, RoutedEventArgs e)
-        {
-            //currentPocket++;
-
-            //currentPocket = Math.Min(50, currentPocket);
-
-            //WpOptionLineNum = currentLineNumber.ToString();
-            //PocketTextBox.Text = currentPocket.ToString();
-        }
-        private void DecreasePocket(object sender, RoutedEventArgs e)
-        {
-            //currentPocket--;
-
-           // currentPocket = Math.Max(1, currentPocket);
-
-            //PocketTextBox.Text = currentPocket.ToString();
-
-            //WpOptionLineNum = currentLineNumber.ToString();
-        }
-
-        private void IncreaseDrillCode(object sender, RoutedEventArgs e)
-        {
-            //currentDrillCode++;
-
-            //currentDrillCode = Math.Min(50, currentDrillCode);
-
-            //WpOptionLineNum = currentLineNumber.ToString();
-            //DrillCodeTextBox.Text = currentDrillCode.ToString();
-        }
-        private void DecreaseDrillCode(object sender, RoutedEventArgs e)
-        {
-            //currentDrillCode--;
-
-            //currentDrillCode = Math.Max(1, currentDrillCode);
-
-            //DrillCodeTextBox.Text = currentDrillCode.ToString();
-
-            //WpOptionLineNum = currentLineNumber.ToString();
+            PocketLTextBox.Text = pockets_PocketCount_L.ToString();
         }
 
 
-        private void IncreaseDrillCore(object sender, RoutedEventArgs e)
+        private void IncreasePocketCount_R(object sender, RoutedEventArgs e)
         {
-            //currentDrillCode++;
+            pockets_PocketCount_R++;
 
-            //currentDrillCode = Math.Min(50, currentDrillCode);
-
-            //WpOptionLineNum = currentLineNumber.ToString();
-            //DrillCodeTextBox.Text = currentDrillCode.ToString();
+            PocketRTextBox.Text = pockets_PocketCount_R.ToString();
         }
-        private void DecreaseDrillCore(object sender, RoutedEventArgs e)
+        private void DecreasePocketCount_R(object sender, RoutedEventArgs e)
         {
-            //currentDrillCode--;
+            pockets_PocketCount_R--;
 
-            //currentDrillCode = Math.Max(1, currentDrillCode);
+            pockets_PocketCount_R = Math.Max(1, pockets_PocketCount_R);
 
-            //DrillCodeTextBox.Text = currentDrillCode.ToString();
-
-            //WpOptionLineNum = currentLineNumber.ToString();
+            PocketRTextBox.Text = pockets_PocketCount_R.ToString();
         }
 
 
-        private void IncreasePocketCount(object sender, RoutedEventArgs e)
+        private void IncreasePocketsDrillCode(object sender, RoutedEventArgs e)
         {
-            //currentDrillCode++;
+            pockets_DrillCode++;
 
-            //currentDrillCode = Math.Min(50, currentDrillCode);
-
-            //WpOptionLineNum = currentLineNumber.ToString();
-            //DrillCodeTextBox.Text = currentDrillCode.ToString();
+            PocketDrillCodeTextBox.Text = pockets_DrillCode.ToString();
         }
-        private void DecreasePocketCount(object sender, RoutedEventArgs e)
+        private void DecreasePocketsDrillCode(object sender, RoutedEventArgs e)
         {
-            //currentDrillCode--;
+            pockets_DrillCode--;
 
-            //currentDrillCode = Math.Max(1, currentDrillCode);
+            pockets_DrillCode = Math.Max(1, pockets_DrillCode);
 
-            //DrillCodeTextBox.Text = currentDrillCode.ToString();
-
-            //WpOptionLineNum = currentLineNumber.ToString();
+            PocketDrillCodeTextBox.Text = pockets_DrillCode.ToString();
         }
+
+
+        private void IncreasePocketsShelf(object sender, RoutedEventArgs e)
+        {
+            pockets_Shelf++;
+
+            PocketsShelfTextBox.Text = pockets_Shelf.ToString();
+        }
+        private void DecreasePocketsShelf(object sender, RoutedEventArgs e)
+        {
+            pockets_Shelf--;
+
+            pockets_Shelf = Math.Max(1, pockets_Shelf);
+
+            PocketsShelfTextBox.Text = pockets_Shelf.ToString();
+        }
+
+
+        private void IncreasePocketsDiameter(object sender, RoutedEventArgs e)
+        {
+            pockets_Diameter++;
+
+            DiameterTextBox.Text = pockets_Diameter.ToString();
+        }
+        private void DecreasePocketsDiameter(object sender, RoutedEventArgs e)
+        {
+            pockets_Diameter--;
+
+            pockets_Diameter = Math.Max(1, pockets_Diameter);
+
+            DiameterTextBox.Text = pockets_Diameter.ToString();
+        }
+
+
+        private void IncreaseLoadPocket(object sender, RoutedEventArgs e)
+        {
+            load_PocketCount++;
+
+            LoadPocketTextBox.Text = load_PocketCount.ToString();
+        }
+        private void DecreaseLoadPocket(object sender, RoutedEventArgs e)
+        {
+            load_PocketCount--;
+
+            load_PocketCount = Math.Max(1, load_PocketCount);
+
+            LoadPocketTextBox.Text = load_PocketCount.ToString();
+        }
+
+
+
+        private void IncreaseLoadDrillCode(object sender, RoutedEventArgs e)
+        {
+            load_DrillCode++;
+
+            LoadDrillCodeTextBox.Text = load_DrillCode.ToString();
+        }
+        private void DecreaseLoadDrillCode(object sender, RoutedEventArgs e)
+        {
+            load_DrillCode--;
+
+            load_DrillCode = Math.Max(1, load_DrillCode);
+
+            LoadDrillCodeTextBox.Text = load_DrillCode.ToString();
+        }
+
+
+
+        private void IncreaseSawStation(object sender, RoutedEventArgs e)
+        {
+            saw_station++;
+
+            SawStationTextBox.Text = saw_station.ToString();
+        }
+        private void DecreaseSawStation(object sender, RoutedEventArgs e)
+        {
+            saw_station--;
+
+            saw_station = Math.Max(1, saw_station);
+
+            SawStationTextBox.Text = saw_station.ToString();
+        }
+
+
+        private void btnAllPocketsStartTest_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+        private void btnPocketStartTest_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void btnStopLoop_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
 
         private void btnResetAllTests_Click(object sender, RoutedEventArgs e)
         {

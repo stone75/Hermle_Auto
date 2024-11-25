@@ -86,6 +86,7 @@ namespace Hermle_Auto.Views
             mcProtocolTcp = commPLC.mcProtocolTcp;
             //commSender += WritePLC;
 
+            //작업시 제외
             StartPLC();
 
 
