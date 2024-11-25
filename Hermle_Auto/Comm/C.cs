@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,7 +53,8 @@ namespace HermleCS.Comm
 
         public const int WORKPIECE_COUNT = 50;
 
-        public static string ApplicationPath = "C:\\Users\\박병석\\source\\repos\\HermleCS";
+        //public static string ApplicationPath = "C:\\Users\\박병석\\source\\repos\\HermleCS";
+        public static string ApplicationPath = Directory.GetCurrentDirectory();
 
         public static void log(string msg)
         {

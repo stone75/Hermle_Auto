@@ -16,7 +16,7 @@ namespace Hermle_Auto.Core
         public IniFileReader(string filePath)
         {
             if (!File.Exists(filePath))
-                throw new FileNotFoundException("The specified INI file was not found.", filePath);
+                throw new FileNotFoundException($"The specified INI file was not found.{filePath}", filePath);
 
             FilePath = filePath;
 

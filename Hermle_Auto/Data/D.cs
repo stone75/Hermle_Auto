@@ -739,7 +739,8 @@ namespace HermleCS.Data
         {
            
 
-            string filePath = Path.Combine(C.ApplicationPath, "CSV", "IS2904.ini");
+            string filePath = Path.Combine(C.ApplicationPath, "IS2904.ini");
+            //string filePath = Path.Combine(C.ApplicationPath, "CSV", "IS2904.ini");
 
             try
             {
@@ -792,7 +793,8 @@ namespace HermleCS.Data
         {
 
 
-            string filePath = Path.Combine(C.ApplicationPath, "CSV", "IS2904.ini");
+            string filePath = Path.Combine(C.ApplicationPath, "IS2904.ini");
+            //string filePath = Path.Combine(C.ApplicationPath, "CSV", "IS2904.ini");
        
             try
             {

@@ -25,6 +25,7 @@ using System.Net.Http;
 using System.Security.Policy;
 using System.Windows.Threading;
 using Hermle_Auto.Comm;
+using System.Text.Json;
 
 public delegate void PLCCommHandler(int addr, string message);
 public delegate Task PLCCommSender(McProtocolTcp conn, PlcDeviceType type, int addr, int value);
@@ -45,6 +46,7 @@ namespace Hermle_Auto.Views
         private McProtocolTcp mcProtocolTcp;
         public event PLCCommHandler commHandler;
         public event PLCCommSender commSender;
+        public event RobotStatusLogger logger;
 
         private Thread plcworker;
         private bool plcrunning;
@@ -92,8 +94,15 @@ namespace Hermle_Auto.Views
 
             Unloaded += UIUnloaded;
 
+            logger += automatView.writelog;
+            logger += infoView.writelog;
+
             operationView.logger += automatView.writelog;
             operationView.logger += infoView.writelog;
+
+            automatView.logger += automatView.writelog;
+            automatView.logger += infoView.writelog;
+
         }
 
         public void StartPLC()
@@ -238,104 +247,183 @@ namespace Hermle_Auto.Views
 
         private void btnResume_Click(object sender, RoutedEventArgs e)
         {
+            CommHTTPComponent http = CommHTTPComponent.Instance;
             CommPLC commplc = CommPLC.Instance;
             D d = D.Instance;
 
+            logger?.Invoke("Resume Button is Clicked...");
             try
             {
+                logger?.Invoke($"[Robot] Resume : " + C.ROBOT_SERVER + "/H_RESUME?task_str=" + d.CURRENT_JOBNAME);
+                string res = http.GetAPI(C.ROBOT_SERVER + "/H_RESUME?task_str=" + d.CURRENT_JOBNAME);
+                HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
+                if (httpresponse.result == 0)
+                {
+                    logger?.Invoke("[Robot] Resume API Success...");
+                } else 
+                {
+                    logger?.Invoke("HTTP Response MSG : " + httpresponse.msg);
+                    return;
+                }
+
+
+                logger?.Invoke("[PLC] M2004 set 1");
                 commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2004, 1);
+                
+                logger?.Invoke("[PLC] D2000 set " + d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
                 commplc.WritePLCBlock(2000, d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
             }
             catch (Exception ex)
             {
+                logger?.Invoke("예외상황 : " + ex.Message);
                 MessageBox.Show("PLC 예외상황 : " + ex.Message);
             }
         }
 
         private void btnPause_Click(object sender, RoutedEventArgs e)
         {
+            CommHTTPComponent http = CommHTTPComponent.Instance;
             CommPLC commplc = CommPLC.Instance;
             D d = D.Instance;
 
+            logger?.Invoke("Pause Button is Clicked...");
             try
             {
+                logger?.Invoke($"[Robot] Resume : " + C.ROBOT_SERVER + "/H_PAUSE?task_str=" + d.CURRENT_JOBNAME);
+                string res = http.GetAPI(C.ROBOT_SERVER + "/H_PAUSE?task_str=" + d.CURRENT_JOBNAME);
+                HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
+                if (httpresponse.result == 0)
+                {
+                    logger?.Invoke("[Robot] Pause API Success...");
+                }
+                else
+                {
+                    logger?.Invoke("HTTP Response MSG : " + httpresponse.msg);
+                    return;
+                }
+
+
+                logger?.Invoke("[PLC] M2003 set 1");
                 commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2003, 1);
+
+                logger?.Invoke("[PLC] D2000 set " + d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
                 commplc.WritePLCBlock(2000, d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
             }
             catch (Exception ex)
             {
+                logger?.Invoke("예외상황 : " + ex.Message);
                 MessageBox.Show("PLC 예외상황 : " + ex.Message);
             }
         }
 
         private void btnReset_Click(object sender, RoutedEventArgs e)
         {
+            CommHTTPComponent http = CommHTTPComponent.Instance;
             CommPLC commplc = CommPLC.Instance;
             D d = D.Instance;
 
+            logger?.Invoke("Reset Button is Clicked...");
             try
             {
+                logger?.Invoke($"[Robot] Resume : " + C.ROBOT_SERVER + "/H_RESET");
+                string res = http.GetAPI(C.ROBOT_SERVER + "/H_RESET");
+                HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
+                if (httpresponse.result == 0)
+                {
+                    logger?.Invoke("[Robot] Reset API Success...");
+                }
+                else
+                {
+                    logger?.Invoke("HTTP Response MSG : " + httpresponse.msg);
+                    return;
+                }
+
+
+                logger?.Invoke("[PLC] M2005 set 1");
                 commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2005, 1);
-                commplc.WritePLCBlock(2000, d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
+
+                //logger?.Invoke("[PLC] D2000 set " + d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
+                //commplc.WritePLCBlock(2000, d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
             }
             catch (Exception ex)
             {
+                logger?.Invoke("예외상황 : " + ex.Message);
                 MessageBox.Show("PLC 예외상황 : " + ex.Message);
             }
         }
 
         private void btnManualMode_Checked(object sender, RoutedEventArgs e)
         {
+            CommHTTPComponent http = CommHTTPComponent.Instance;
             CommPLC commplc = CommPLC.Instance;
+            D d = D.Instance;
 
+            logger?.Invoke("Manual mode...");
             try
             {
+                logger?.Invoke("[PLC] 2002 set 1");
                 commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2002, 1);
             }
             catch (Exception ex)
             {
+                logger?.Invoke("예외상황 : " + ex.Message);
                 MessageBox.Show("PLC 예외상황 : " + ex.Message);
             }
         }
 
         private void btnAutoMode_Checked(object sender, RoutedEventArgs e)
         {
+            CommHTTPComponent http = CommHTTPComponent.Instance;
             CommPLC commplc = CommPLC.Instance;
+            D d = D.Instance;
 
+            logger?.Invoke("Auto mode...");
             try
             {
+                logger?.Invoke("[PLC] 2000 set 1");
                 commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2000, 1);
             }
             catch (Exception ex)
             {
+                logger?.Invoke("예외상황 : " + ex.Message);
                 MessageBox.Show("PLC 예외상황 : " + ex.Message);
             }
         }
 
         private void btnSemiMode_Checked(object sender, RoutedEventArgs e)
         {
+            CommHTTPComponent http = CommHTTPComponent.Instance;
             CommPLC commplc = CommPLC.Instance;
+            D d = D.Instance;
 
+            logger?.Invoke("Semi Auto mode...");
             try
             {
+                logger?.Invoke("[PLC] 2001 set 1");
                 commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2001, 1);
             }
             catch (Exception ex)
             {
+                logger?.Invoke("예외상황 : " + ex.Message);
                 MessageBox.Show("PLC 예외상황 : " + ex.Message);
             }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            CommHTTPComponent http = CommHTTPComponent.Instance;
             CommPLC commplc = CommPLC.Instance;
+            D d = D.Instance;
 
+            logger?.Invoke("R.E.Stop Button is Clicked...");
             try
             {
+                logger?.Invoke("[PLC] 2006 set 1");
                 commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2006, 1);
             }
             catch (Exception ex)
             {
+                logger?.Invoke("예외상황 : " + ex.Message);
                 MessageBox.Show("PLC 예외상황 : " + ex.Message);
             }
         }

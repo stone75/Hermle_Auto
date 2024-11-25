@@ -25,6 +25,8 @@ namespace Hermle_Auto.Views
     /// </summary>
     public partial class AutomatView : UserControl
     {
+        public event RobotStatusLogger logger;
+
         public AutomatView()
         {
             InitializeComponent();
@@ -67,7 +69,6 @@ namespace Hermle_Auto.Views
         {
             CommPLC commplc = CommPLC.Instance;
             D d = D.Instance;
-//            logger?.Invoke("Start Automat Button Cliecked...");
 
             try
             {
