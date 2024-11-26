@@ -124,7 +124,7 @@ namespace HermleCS.Data
 
             for (int i = 0; i < WorkPiecesList.GetLength(0); i++)
             {
-                rval += (i+1);
+                rval += (i + 1);
                 rval += workpiece[i].wpnumber + ",";
                 rval += workpiece[i].ncprogram + ",";
                 rval += workpiece[i].toolamount + ",";
@@ -315,7 +315,7 @@ namespace HermleCS.Data
             String targetfile;
             int count;
 
-            if ( toolname.Equals("DRILL") || toolname.Equals("drill") )
+            if (toolname.Equals("DRILL") || toolname.Equals("drill"))
             {
                 target = DrillGeneralLocations;
                 targetfile = "Drill";
@@ -712,7 +712,7 @@ namespace HermleCS.Data
                 return C.ERRNO_FAILED;
             }
 
-          
+
 
             return lines;
         }
@@ -737,7 +737,7 @@ namespace HermleCS.Data
 
         public void ReadIniFile()
         {
-           
+
 
             string filePath = Path.Combine(C.ApplicationPath, "IS2904.ini");
             //string filePath = Path.Combine(C.ApplicationPath, "CSV", "IS2904.ini");
@@ -795,30 +795,30 @@ namespace HermleCS.Data
 
             string filePath = Path.Combine(C.ApplicationPath, "IS2904.ini");
             //string filePath = Path.Combine(C.ApplicationPath, "CSV", "IS2904.ini");
-       
+
             try
             {
                 var iniReader = new IniFileReader(filePath);
 
 
-                iniReader.SetValue("gripper", "style",                  iniFile.gripper.style.ToString());
-                iniReader.SetValue("application", "AppToolType"       , iniFile.application.AppToolType      .ToString()          );
-                iniReader.SetValue("application", "ToolSensor"        , iniFile.application.ToolSensor       .ToString()          );
-                iniReader.SetValue("application", "simulator"         , iniFile.application.simulator        .ToString()          );
-                iniReader.SetValue("application", "saw"               , iniFile.application.saw              .ToString()          );
-                iniReader.SetValue("shelvs", "first"                  , iniFile.shelvs.first                 .ToString()          );
-                iniReader.SetValue("shelvs", "second"                 , iniFile.shelvs.second                .ToString()          );
-                iniReader.SetValue("shelvs", "third"                  , iniFile.shelvs.third                 .ToString()          );
-                iniReader.SetValue("ShelvsOffset", "First"            , iniFile.shelvsOffset.First           .ToString()          );
-                iniReader.SetValue("ShelvsOffset", "Second"           , iniFile.shelvsOffset.Second          .ToString()          );
-                iniReader.SetValue("ShelvsOffset", "Thierd"           , iniFile.shelvsOffset.Thierd          .ToString()          );
-                iniReader.SetValue("offsets", "AbovePocket"           , iniFile.offsets.AbovePocket          .ToString()          );
-                iniReader.SetValue("offsets", "AboveChuck"            , iniFile.offsets.AboveChuck           .ToString()          );
-                iniReader.SetValue("offsets", "ChuckStopper"          , iniFile.offsets.ChuckStopper         .ToString()          );
-                iniReader.SetValue("offsets", "ChuckDepth"            , iniFile.offsets.ChuckDepth           .ToString()         );
-                iniReader.SetValue("offsets", "PocketStopper"         , iniFile.offsets.PocketStopper        .ToString()       );
-                iniReader.SetValue("offsets", "KioskStopper"          , iniFile.offsets.KioskStopper         .ToString()       );
-                iniReader.SetValue("Documentation", "UseExternalFile" , iniFile.documentation.UseExternalFile.ToString()      );
+                iniReader.SetValue("gripper", "style", iniFile.gripper.style.ToString());
+                iniReader.SetValue("application", "AppToolType", iniFile.application.AppToolType.ToString());
+                iniReader.SetValue("application", "ToolSensor", iniFile.application.ToolSensor.ToString());
+                iniReader.SetValue("application", "simulator", iniFile.application.simulator.ToString());
+                iniReader.SetValue("application", "saw", iniFile.application.saw.ToString());
+                iniReader.SetValue("shelvs", "first", iniFile.shelvs.first.ToString());
+                iniReader.SetValue("shelvs", "second", iniFile.shelvs.second.ToString());
+                iniReader.SetValue("shelvs", "third", iniFile.shelvs.third.ToString());
+                iniReader.SetValue("ShelvsOffset", "First", iniFile.shelvsOffset.First.ToString());
+                iniReader.SetValue("ShelvsOffset", "Second", iniFile.shelvsOffset.Second.ToString());
+                iniReader.SetValue("ShelvsOffset", "Thierd", iniFile.shelvsOffset.Thierd.ToString());
+                iniReader.SetValue("offsets", "AbovePocket", iniFile.offsets.AbovePocket.ToString());
+                iniReader.SetValue("offsets", "AboveChuck", iniFile.offsets.AboveChuck.ToString());
+                iniReader.SetValue("offsets", "ChuckStopper", iniFile.offsets.ChuckStopper.ToString());
+                iniReader.SetValue("offsets", "ChuckDepth", iniFile.offsets.ChuckDepth.ToString());
+                iniReader.SetValue("offsets", "PocketStopper", iniFile.offsets.PocketStopper.ToString());
+                iniReader.SetValue("offsets", "KioskStopper", iniFile.offsets.KioskStopper.ToString());
+                iniReader.SetValue("Documentation", "UseExternalFile", iniFile.documentation.UseExternalFile.ToString());
 
                 // 파일 저장
                 iniReader.Save();
@@ -831,7 +831,7 @@ namespace HermleCS.Data
         }
         public string GetToolType()
         {
-            if(iniFile.application.AppToolType == 0)
+            if (iniFile.application.AppToolType == 0)
             {
                 return "Other";
             }
@@ -886,22 +886,22 @@ namespace HermleCS.Data
             return (PocketStatus)statusArr[shelf, 0, pocketNumber].status;
 
 
-           /* if (GetToolType() == "HSK")
-            {
-                myStatus =  AutomationStatus(shelf, pocketNumber).Status;
-            }
-            else if (GetToolType() == "Drill")
-            {
-                myStatus = AutomationStatus(shelf, pocketNumber).Status;
-            }
-            else if (GetToolType() == "Round")
-            {
-                myStatus = AutomationStatus(shelf, pocketNumber).Status;
-            }
-            else
-            {
-                throw new InvalidOperationException("Invalid tool type.");
-            }*/
+            /* if (GetToolType() == "HSK")
+             {
+                 myStatus =  AutomationStatus(shelf, pocketNumber).Status;
+             }
+             else if (GetToolType() == "Drill")
+             {
+                 myStatus = AutomationStatus(shelf, pocketNumber).Status;
+             }
+             else if (GetToolType() == "Round")
+             {
+                 myStatus = AutomationStatus(shelf, pocketNumber).Status;
+             }
+             else
+             {
+                 throw new InvalidOperationException("Invalid tool type.");
+             }*/
             //return myStatus;
         }
 
@@ -959,6 +959,50 @@ namespace HermleCS.Data
             }
 
             return null;
+        }
+
+
+        public List<Locations> GetPocketLocation(string toolName)
+        {
+            toolName = (toolName + "").ToUpper();
+            Locations[,,] selectedLocations = null;
+
+            if (toolName == "DRILL")
+            {
+                ReadLocations(toolName);
+                selectedLocations = DrillLocations;
+            }
+            else if (toolName == "HSK")
+            {
+                ReadLocations(toolName);
+                selectedLocations = HSKLocations;
+            }
+            else if (toolName == "ROUND")
+            {
+                ReadLocations(toolName);
+                selectedLocations = RoundLocations;
+            }
+
+            if (selectedLocations == null)
+            {
+                return new List<Locations>();
+            }
+
+            // Flatten the 3D array to a List<Locations>
+            List<Locations> locationsList = new List<Locations>();
+            foreach (var location in selectedLocations)
+            {
+                locationsList.Add(location);
+            }
+
+            // Limit the number of items in the list based on toolName
+            int limit = 0;
+            if (toolName == "DRILL") limit = 7;
+            else if (toolName == "HSK") limit = 10;
+            else if (toolName == "ROUND") limit = 8;
+
+            // Return only the specified number of items
+            return locationsList.Take(limit).ToList();
         }
     }
 }

@@ -31,7 +31,7 @@ namespace Hermle_Auto.Views
 
         private int currentViewPocketShelf = 1;
         private int currentViewPocket = 100;
-     
+
 
         private ObservableCollection<CoordinatePoint> coordinates;
         public CoordinatePoint FirstPoint { get; private set; }
@@ -344,6 +344,131 @@ namespace Hermle_Auto.Views
             RefreshTeachGeneralLocations();
         }
 
+        private Dictionary<string, List<Locations>> ShelvesLocations { get; set; }
+            = new Dictionary<string, List<Locations>>();
+
+        private void TeachFirstButton_Click(object sender, RoutedEventArgs e)
+        {
+            var shelf = ShelfTextBox.Text;
+            if (!ShelvesLocations.Keys.Contains(shelf))
+                ShelvesLocations.Add(shelf, new List<Locations>());
+
+            var locations = ShelvesLocations[shelf];
+
+            var loc = D.Instance.getCurrentLocation();
+            if (locations.Count < 1)
+                locations.Add(loc);
+            else
+                locations[0] = loc;
+
+            // Data
+            CoordinateGrid.ItemsSource = null;
+
+            var data = new[] {
+                new { X=0.0, Y=0.0, Z=0.0, },
+            }.ToList();
+            data.Clear();
+
+            foreach (var l in locations)
+            {
+                data.Add(new { X = l.x, Y = l.y, Z = l.z, });
+            }
+
+            CoordinateGrid.ItemsSource = data;
+        }
+
+        private void TeachLastButton_Click(object sender, RoutedEventArgs e)
+        {
+            var shelf = ShelfTextBox.Text;
+            if (!ShelvesLocations.Keys.Contains(shelf))
+                ShelvesLocations.Add(shelf, new List<Locations>());
+
+            var locations = ShelvesLocations[shelf];
+
+            var loc = D.Instance.getCurrentLocation();
+
+            if (locations.Count < 1)
+                locations.Add(loc);
+
+            if (locations.Count < 2)
+                locations.Add(loc);
+            else
+                locations[1] = loc;
+
+            // Data
+            CoordinateGrid.ItemsSource = null;
+
+            var data = new[] {
+                new { X=0.0, Y=0.0, Z=0.0, },
+            }.ToList();
+            data.Clear();
+
+            foreach (var l in locations)
+            {
+                data.Add(new { X = l.x, Y = l.y, Z = l.z, });
+            }
+
+            CoordinateGrid.ItemsSource = data;
+        }
+
+        private void CalcButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShelvesRefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            CoordinateGrid.ItemsSource = null;
+
+            var shelf = ShelfTextBox.Text;
+            if (!ShelvesLocations.Keys.Contains(shelf))
+                ShelvesLocations.Add(shelf, new List<Locations>());
+
+            var locations = ShelvesLocations[shelf];
+
+            CoordinateGrid.ItemsSource = locations;
+        }
+
+        private void TeachSinglePocketButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShowPocketLocationButton_Click(object sender, RoutedEventArgs e)
+        {
+            var shelf = () => int.TryParse(
+                ViewPocketShelfTextBox.Text, out int n) ? n : 0;
+            var pocket = () => int.TryParse(
+                ViewPocketPocketTextBox.Text, out int n) ? n : 0;
+
+            var toolname = "HSK";
+
+            // Tool Type 변수 설정 필요
+
+            //var toolname = D.Instance.GetToolType;
+
+            List<Locations> locations = D.Instance.GetPocketLocation(toolname);
+
+            // Data
+            CoordinateGrid.ItemsSource = null;
+
+            var data = new[]{
+                new {PocketNumber = "", X=0.0, Y=0.0, Z=0.0, Rx=0.0, Ry=0.0, Rz=0.0,},
+            }.ToList();
+            data.Clear();
+
+            int pocketNumber = 1; // 초기 값 설정
+
+            foreach (var l in locations)
+            {
+
+                data.Add(new { PocketNumber = pocketNumber.ToString(), X = l.x, Y = l.y, Z = l.z, Rx = l.rx, Ry = l.ry, Rz = l.rz, });
+
+                pocketNumber++;
+            }
+
+            PocketTable2.ItemsSource = data;
+        }
     }
 
     public class CoordinatePoint : INotifyPropertyChanged
