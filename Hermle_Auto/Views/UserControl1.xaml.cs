@@ -409,6 +409,8 @@ namespace Hermle_Auto.Views
             }
         }
 
+        
+        //RESTOP Click Event 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             CommHTTPComponent http = CommHTTPComponent.Instance;
@@ -426,6 +428,163 @@ namespace Hermle_Auto.Views
                 logger?.Invoke("예외상황 : " + ex.Message);
                 MessageBox.Show("PLC 예외상황 : " + ex.Message);
             }
+        }
+
+        // RESTOP Button Down/UP
+        private void RESTOPButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+
+                MessageBox.Show("Signal Set!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error during MouseDown: {ex.Message}");
+            }
+        }
+        // RESTOP Button Down/UP
+        private void RESTOPButton_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+
+                MessageBox.Show("Signal Clear!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error during MouseDown: {ex.Message}");
+            }
+        }
+
+        // Auto Mode 이벤트 핸들러
+        private void btnAutoMode_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+            if (sender is RadioButton radioButton)
+            {
+                radioButton.IsChecked = true; // 강제로 IsChecked 설정
+            }
+
+            try
+            {
+
+                MessageBox.Show("Auto Mode: Button Pressed!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error during MouseDown: {ex.Message}");
+            }
+        }
+
+        private void btnAutoMode_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            
+            try
+            {
+
+                MessageBox.Show("Auto Mode: Button Released!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error during MouseDown: {ex.Message}");
+            }
+        }
+
+        // Semi Mode 이벤트 핸들러
+        private void btnSemiMode_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is RadioButton radioButton)
+            {
+                radioButton.IsChecked = true; // 강제로 IsChecked 설정
+            }
+            try
+            {
+
+                MessageBox.Show("Semi Mode: Button Pressed!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error during MouseDown: {ex.Message}");
+            }
+        }
+
+        private void btnSemiMode_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            
+            try
+            {
+
+                MessageBox.Show("Semi Mode: Button Released!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error during MouseDown: {ex.Message}");
+            }
+        }
+
+        // Manual Mode 이벤트 핸들러
+        private void btnManualMode_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is RadioButton radioButton)
+            {
+                radioButton.IsChecked = true; // 강제로 IsChecked 설정
+            }
+            try
+            {
+
+                MessageBox.Show("Manual Mode: Button Pressed!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error during MouseDown: {ex.Message}");
+            }
+        }
+
+        private void btnManualMode_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+
+                MessageBox.Show("Manual Mode: Button Released!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error during MouseDown: {ex.Message}");
+            }
+           
+        }
+        // RESUME 버튼 이벤트 핸들러
+        private void btnResume_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Resume Button Pressed!");
+        }
+
+        private void btnResume_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Resume Button Released!");
+        }
+
+        // PAUSE 버튼 이벤트 핸들러
+        private void btnPause_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Pause Button Pressed!");
+        }
+
+        private void btnPause_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Pause Button Released!");
+        }
+
+        // RESET 버튼 이벤트 핸들러
+        private void btnReset_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Reset Button Pressed!");
+        }
+
+        private void btnReset_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Reset Button Released!");
         }
     }
 

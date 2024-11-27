@@ -56,7 +56,7 @@
 
             <!-- Top toolbar with buttons -->
             <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,0" Width="Auto" HorizontalAlignment="Left" Grid.ColumnSpan="4">
-                <Button Content="R.E.Stop" Style="{StaticResource SubButton}" Margin="5,5,15,5" Click="Button_Click"/>
+                <Button x:Name="RESTOPButton" Content="R.E.Stop"   Style="{StaticResource SubButton}" Margin="5,5,15,5"  PreviewMouseDown="RESTOPButton_MouseDown" PreviewMouseUp="RESTOPButton_MouseUp"/>
                 <Button Content="Options" Style="{StaticResource SubButton}" Click="OpenPasswordWindow_Click" Margin="5,5,15,5" />
                 <Button Content="Communication" Style="{StaticResource SubButton}" Click="OpenCommunicationWindow_Click" FontSize="18" Margin="5,5,15,5"/>
                 <Button Content="PLC CHEK" Style="{StaticResource SubButton}" Click="OpenPLC_CHECK_Click" FontSize="18" Margin="5,5,0,5"/>
@@ -66,7 +66,7 @@
 
             <!-- 상단에 버튼 3개 수평 배치 -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.RowSpan="1" Grid.Row="1" >
-                <RadioButton Content="Auto" x:Name="btnAutoMode" 
+                <!--     <RadioButton Content="Auto" x:Name="btnAutoMode" 
                      Style="{StaticResource RadioButtonStyle}"
                      Command="{Binding AutoCommand}"
                      IsChecked="{Binding SelectedMode, ConverterParameter=Auto, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}" Checked="btnAutoMode_Checked"/>
@@ -77,31 +77,87 @@
                 <RadioButton Content="Manual" x:Name="btnManualMode" 
                      Style="{StaticResource RadioButtonStyle}"
                      Command="{Binding ManualCommand}"
-                     IsChecked="{Binding SelectedMode, ConverterParameter=Manual, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}" Margin="5,5,0,5" Checked="btnManualMode_Checked"/>
+                     IsChecked="{Binding SelectedMode, ConverterParameter=Manual, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}" Margin="5,5,0,5" Checked="btnManualMode_Checked"/> -->
+            <RadioButton Content="Auto"
+                 x:Name="btnAutoMode"
+                 Style="{StaticResource RadioButtonStyle}"
+                 Command="{Binding AutoCommand}"
+                 IsChecked="{Binding SelectedMode, ConverterParameter=Auto, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}"
+                 PreviewMouseDown="btnAutoMode_PreviewMouseDown"
+                 PreviewMouseUp="btnAutoMode_PreviewMouseUp"
+                  />
+
+                <RadioButton Content="Semi"
+                 x:Name="btnSemiMode"
+                 Style="{StaticResource RadioButtonStyle}"
+                 Command="{Binding SemiCommand}"
+                 IsChecked="{Binding SelectedMode, ConverterParameter=Semi, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}"
+                 Margin="5,5,15,5"
+                 PreviewMouseDown="btnSemiMode_PreviewMouseDown"
+                 PreviewMouseUp="btnSemiMode_PreviewMouseUp" />
+
+            <RadioButton Content="Manual"
+                 x:Name="btnManualMode"
+                 Style="{StaticResource RadioButtonStyle}"
+                 Command="{Binding ManualCommand}"
+                 IsChecked="{Binding SelectedMode, ConverterParameter=Manual, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}"
+                 Margin="5,5,0,5"
+                 PreviewMouseDown="btnManualMode_PreviewMouseDown"
+                 PreviewMouseUp="btnManualMode_PreviewMouseUp" />
             </StackPanel>
             <!-- 상단에 버튼 3개 수평 배치 -->
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,0" Grid.Column="4" Width="Auto" Grid.ColumnSpan="3" VerticalAlignment="Top">
                 <!-- START 버튼 -->
-                <Button x:Name="btnResume" Style="{StaticResource SubButton}"
+                <!--   <Button x:Name="btnResume" Style="{StaticResource SubButton}"
                         Command="{Binding StartCommand}" Margin="5,5,15,5" Click="btnResume_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Resume" Margin="0,0,0,0" VerticalAlignment="Center" FontSize="28" FontWeight="Bold"/>
+                    </StackPanel>
+                </Button>-->
+
+                <!-- PAUSE 버튼 -->
+                <!--<Button Style="{StaticResource SubButton}"
+                        Command="{Binding PauseCommand}" x:Name="btnPause" Margin="5,5,15,5" Click="btnPause_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Pause" Margin="0,0,0,0" VerticalAlignment="Center" FontSize="28" FontWeight="Bold"/>
+                    </StackPanel>
+                </Button> -->
+
+                <!-- RESET 버튼 -->
+                <!-- <Button x:Name="btnReset" Style="{StaticResource SubButton}"
+                        Command="{Binding ResetCommand}" Click="btnReset_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Reset" Margin="0,0,0,0" VerticalAlignment="Center"  FontSize="28" FontWeight="Bold"/>
+                    </StackPanel>
+                </Button>-->
+
+                <!-- RESUME 버튼 -->
+                <Button x:Name="btnResume" Style="{StaticResource SubButton}"
+                    Command="{Binding StartCommand}" Margin="5,5,15,5"
+                    PreviewMouseDown="btnResume_PreviewMouseDown"
+                    PreviewMouseUp="btnResume_PreviewMouseUp">      
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Resume" Margin="0,0,0,0" VerticalAlignment="Center" FontSize="28" FontWeight="Bold"/>
                     </StackPanel>
                 </Button>
 
                 <!-- STOP 버튼 -->
-                <Button Style="{StaticResource SubButton}"
-                        Command="{Binding PauseCommand}" x:Name="btnPause" Margin="5,5,15,5" Click="btnPause_Click">
+                <Button x:Name="btnPause" Style="{StaticResource SubButton}"
+                    Command="{Binding PauseCommand}" Margin="5,5,15,5"
+                    PreviewMouseDown="btnPause_PreviewMouseDown"
+                    PreviewMouseUp="btnPause_PreviewMouseUp">       
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Pause" Margin="0,0,0,0" VerticalAlignment="Center" FontSize="28" FontWeight="Bold"/>
                     </StackPanel>
                 </Button>
 
-                <!-- PAUSE 버튼 -->
+                <!-- RESET 버튼 -->
                 <Button x:Name="btnReset" Style="{StaticResource SubButton}"
-                        Command="{Binding ResetCommand}" Click="btnReset_Click">
+                    Command="{Binding ResetCommand}"
+                    PreviewMouseDown="btnReset_PreviewMouseDown"
+                    PreviewMouseUp="btnReset_PreviewMouseUp">   
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Reset" Margin="0,0,0,0" VerticalAlignment="Center"  FontSize="28" FontWeight="Bold"/>
+                        <TextBlock Text="Reset" Margin="0,0,0,0" VerticalAlignment="Center" FontSize="28" FontWeight="Bold"/>
                     </StackPanel>
                 </Button>
             </StackPanel>
