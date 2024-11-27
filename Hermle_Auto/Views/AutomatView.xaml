@@ -80,7 +80,7 @@
                 <Label Grid.Row="4" Content="Night Mode" VerticalContentAlignment="Bottom" FontSize="20" HorizontalAlignment="Right"/>
                 <styles:ToggleButton x:Name="NightModeToggle" Width="80" Height="30" Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
-                <Button Grid.Row="6" Content="Reset Work Place" Grid.ColumnSpan="2" Width="Auto" Padding="1,1,1,1" Margin="10,2,10,2"/>
+                <Button Grid.Row="6" Content="Reset Work Piece" Grid.ColumnSpan="2" Width="Auto" Padding="1,1,1,1" Margin="10,2,10,2"/>
             </Grid>
         </Border>
 
