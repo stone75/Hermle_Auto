@@ -178,7 +178,7 @@ namespace Hermle_Auto.Views
 
                             if (addrs[i] == 2007)
                             {
-                                MessageBox.Show("E.Stop was pressed");
+                                //MessageBox.Show("E.Stop was pressed");
                             }
                         }
                         else
