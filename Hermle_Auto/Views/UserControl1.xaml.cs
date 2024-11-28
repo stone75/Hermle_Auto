@@ -126,7 +126,7 @@ namespace Hermle_Auto.Views
             {
                 logText.Text = "PLC Fail Connect";
                 logText.Foreground = Brushes.Red;
-                MessageBox.Show("PLC 연결 실패");
+                //MessageBox.Show("PLC 연결 실패");
             }
         }
 
@@ -198,7 +198,7 @@ namespace Hermle_Auto.Views
                             logText.Foreground = Brushes.Red;
                         }));
 
-                        MessageBox.Show("PLC 연결 실패");
+                        //MessageBox.Show("PLC 연결 실패");
                         return;
                     }
                     
@@ -276,7 +276,7 @@ namespace Hermle_Auto.Views
             catch (Exception ex)
             {
                 logger?.Invoke("예외상황 : " + ex.Message);
-                MessageBox.Show("PLC 예외상황 : " + ex.Message);
+                //MessageBox.Show("PLC 예외상황 : " + ex.Message);
             }
         }
 
@@ -312,7 +312,7 @@ namespace Hermle_Auto.Views
             catch (Exception ex)
             {
                 logger?.Invoke("예외상황 : " + ex.Message);
-                MessageBox.Show("PLC 예외상황 : " + ex.Message);
+                //MessageBox.Show("PLC 예외상황 : " + ex.Message);
             }
         }
 
@@ -348,7 +348,7 @@ namespace Hermle_Auto.Views
             catch (Exception ex)
             {
                 logger?.Invoke("예외상황 : " + ex.Message);
-                MessageBox.Show("PLC 예외상황 : " + ex.Message);
+                //MessageBox.Show("PLC 예외상황 : " + ex.Message);
             }
         }
 
@@ -367,7 +367,7 @@ namespace Hermle_Auto.Views
             catch (Exception ex)
             {
                 logger?.Invoke("예외상황 : " + ex.Message);
-                MessageBox.Show("PLC 예외상황 : " + ex.Message);
+                //MessageBox.Show("PLC 예외상황 : " + ex.Message);
             }
         }
 
@@ -386,7 +386,7 @@ namespace Hermle_Auto.Views
             catch (Exception ex)
             {
                 logger?.Invoke("예외상황 : " + ex.Message);
-                MessageBox.Show("PLC 예외상황 : " + ex.Message);
+                //MessageBox.Show("PLC 예외상황 : " + ex.Message);
             }
         }
 
@@ -405,7 +405,7 @@ namespace Hermle_Auto.Views
             catch (Exception ex)
             {
                 logger?.Invoke("예외상황 : " + ex.Message);
-                MessageBox.Show("PLC 예외상황 : " + ex.Message);
+                //MessageBox.Show("PLC 예외상황 : " + ex.Message);
             }
         }
 
@@ -426,13 +426,30 @@ namespace Hermle_Auto.Views
             catch (Exception ex)
             {
                 logger?.Invoke("예외상황 : " + ex.Message);
-                MessageBox.Show("PLC 예외상황 : " + ex.Message);
+                //MessageBox.Show("PLC 예외상황 : " + ex.Message);
             }
         }
 
         // RESTOP Button Down/UP
         private void RESTOPButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            //CommHTTPComponent http = CommHTTPComponent.Instance;
+            //D d = D.Instance;
+            CommPLC commplc = CommPLC.Instance;
+
+            logger?.Invoke("R.E.Stop Button is Set...");
+            try
+            {
+                logger?.Invoke("[PLC] 2006 set 1");
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2006, 1);
+            }
+            catch (Exception ex)
+            {
+                logger?.Invoke("예외상황 : " + ex.Message);
+                //MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+
+            /*
             try
             {
 
@@ -442,10 +459,26 @@ namespace Hermle_Auto.Views
             {
                 MessageBox.Show($"Error during MouseDown: {ex.Message}");
             }
+            */
         }
         // RESTOP Button Down/UP
         private void RESTOPButton_MouseUp(object sender, MouseButtonEventArgs e)
         {
+            CommPLC commplc = CommPLC.Instance;
+
+            logger?.Invoke("R.E.Stop Button is Cleared...");
+            try
+            {
+                logger?.Invoke("[PLC] 2006 set 1");
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2006, 0);
+            }
+            catch (Exception ex)
+            {
+                logger?.Invoke("예외상황 : " + ex.Message);
+                //MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+
+            /*
             try
             {
 
@@ -455,6 +488,7 @@ namespace Hermle_Auto.Views
             {
                 MessageBox.Show($"Error during MouseDown: {ex.Message}");
             }
+            */
         }
 
         // Auto Mode 이벤트 핸들러
@@ -466,6 +500,22 @@ namespace Hermle_Auto.Views
                 radioButton.IsChecked = true; // 강제로 IsChecked 설정
             }
 
+            CommHTTPComponent http = CommHTTPComponent.Instance;
+            CommPLC commplc = CommPLC.Instance;
+
+            logger?.Invoke("Auto mode...");
+            try
+            {
+                logger?.Invoke("[PLC] 2000 set 1");
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2000, 1);
+            }
+            catch (Exception ex)
+            {
+                logger?.Invoke("예외상황 : " + ex.Message);
+                //MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+
+            /*
             try
             {
 
@@ -475,11 +525,26 @@ namespace Hermle_Auto.Views
             {
                 MessageBox.Show($"Error during MouseDown: {ex.Message}");
             }
+            */
         }
 
         private void btnAutoMode_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            
+            CommPLC commplc = CommPLC.Instance;
+
+            logger?.Invoke("Auto mode...");
+            try
+            {
+                logger?.Invoke("[PLC] 2000 is cleared");
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2000, 0);
+            }
+            catch (Exception ex)
+            {
+                logger?.Invoke("예외상황 : " + ex.Message);
+                //MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+
+            /*
             try
             {
 
@@ -489,6 +554,7 @@ namespace Hermle_Auto.Views
             {
                 MessageBox.Show($"Error during MouseDown: {ex.Message}");
             }
+            */
         }
 
         // Semi Mode 이벤트 핸들러
@@ -498,6 +564,21 @@ namespace Hermle_Auto.Views
             {
                 radioButton.IsChecked = true; // 강제로 IsChecked 설정
             }
+
+            CommPLC commplc = CommPLC.Instance;
+
+            logger?.Invoke("Semi Auto mode...");
+            try
+            {
+                logger?.Invoke("[PLC] 2001 set 1");
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2001, 1);
+            }
+            catch (Exception ex)
+            {
+                logger?.Invoke("예외상황 : " + ex.Message);
+                //MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+            /*
             try
             {
 
@@ -507,20 +588,35 @@ namespace Hermle_Auto.Views
             {
                 MessageBox.Show($"Error during MouseDown: {ex.Message}");
             }
+            */
         }
 
         private void btnSemiMode_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            
+            CommPLC commplc = CommPLC.Instance;
+
+            logger?.Invoke("Semi Auto mode Cleared...");
             try
             {
+                logger?.Invoke("[PLC] 2001 set 0");
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2001, 0);
+            }
+            catch (Exception ex)
+            {
+                logger?.Invoke("예외상황 : " + ex.Message);
+                //MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
 
+            /*
+            try
+            {
                 MessageBox.Show("Semi Mode: Button Released!");
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error during MouseDown: {ex.Message}");
             }
+            */
         }
 
         // Manual Mode 이벤트 핸들러
@@ -530,6 +626,24 @@ namespace Hermle_Auto.Views
             {
                 radioButton.IsChecked = true; // 강제로 IsChecked 설정
             }
+
+            CommHTTPComponent http = CommHTTPComponent.Instance;
+            CommPLC commplc = CommPLC.Instance;
+            D d = D.Instance;
+
+            logger?.Invoke("Manual mode is set 1...");
+            try
+            {
+                logger?.Invoke("[PLC] 2002 set 1");
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2002, 1);
+            }
+            catch (Exception ex)
+            {
+                logger?.Invoke("예외상황 : " + ex.Message);
+                //MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+
+            /*
             try
             {
 
@@ -539,10 +653,29 @@ namespace Hermle_Auto.Views
             {
                 MessageBox.Show($"Error during MouseDown: {ex.Message}");
             }
+            */
         }
 
         private void btnManualMode_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
+            CommHTTPComponent http = CommHTTPComponent.Instance;
+            CommPLC commplc = CommPLC.Instance;
+            D d = D.Instance;
+
+            logger?.Invoke("Manual mode 2002 is released...");
+            try
+            {
+                logger?.Invoke("[PLC] 2002 set 1");
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2002, 0);
+            }
+            catch (Exception ex)
+            {
+                logger?.Invoke("예외상황 : " + ex.Message);
+                //MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+
+
+            /*
             try
             {
 
@@ -552,39 +685,190 @@ namespace Hermle_Auto.Views
             {
                 MessageBox.Show($"Error during MouseDown: {ex.Message}");
             }
-           
+            */
         }
         // RESUME 버튼 이벤트 핸들러
         private void btnResume_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Resume Button Pressed!");
+            CommHTTPComponent http = CommHTTPComponent.Instance;
+            CommPLC commplc = CommPLC.Instance;
+            D d = D.Instance;
+
+            logger?.Invoke("Resume Button is Clicked...");
+            try
+            {
+                logger?.Invoke($"[Robot] Resume : " + C.ROBOT_SERVER + "/H_RESUME?task_str=" + d.CURRENT_JOBNAME);
+                string res = http.GetAPI(C.ROBOT_SERVER + "/H_RESUME?task_str=" + d.CURRENT_JOBNAME);
+                HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
+                if (httpresponse.result == 0)
+                {
+                    logger?.Invoke("[Robot] Resume API Success...");
+                }
+                else
+                {
+                    logger?.Invoke("HTTP Response MSG : " + httpresponse.msg);
+                    return;
+                }
+
+
+                logger?.Invoke("[PLC] M2004 set 1");
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2004, 1);
+
+                logger?.Invoke("[PLC] D2000 set " + d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
+                commplc.WritePLCBlock(2000, d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
+            }
+            catch (Exception ex)
+            {
+                logger?.Invoke("예외상황 : " + ex.Message);
+                //MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+
+            //MessageBox.Show("Resume Button Pressed!");
         }
 
         private void btnResume_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Resume Button Released!");
+            CommHTTPComponent http = CommHTTPComponent.Instance;
+            CommPLC commplc = CommPLC.Instance;
+            D d = D.Instance;
+
+            logger?.Invoke("Resume Button is Cleared...");
+            try
+            {
+                logger?.Invoke("[PLC] M2004 set 0");
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2004, 0);
+
+                logger?.Invoke("[PLC] D2000 set 0");
+                commplc.WritePLCBlock(2000, 0);
+            }
+            catch (Exception ex)
+            {
+                logger?.Invoke("예외상황 : " + ex.Message);
+                //MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+
+
+            //MessageBox.Show("Resume Button Released!");
         }
 
         // PAUSE 버튼 이벤트 핸들러
         private void btnPause_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Pause Button Pressed!");
+            CommHTTPComponent http = CommHTTPComponent.Instance;
+            CommPLC commplc = CommPLC.Instance;
+            D d = D.Instance;
+
+            logger?.Invoke("Pause Button is Clicked...");
+            try
+            {
+                logger?.Invoke($"[Robot] Resume : " + C.ROBOT_SERVER + "/H_PAUSE?task_str=" + d.CURRENT_JOBNAME);
+                string res = http.GetAPI(C.ROBOT_SERVER + "/H_PAUSE?task_str=" + d.CURRENT_JOBNAME);
+                HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
+                if (httpresponse.result == 0)
+                {
+                    logger?.Invoke("[Robot] Pause API Success...");
+                }
+                else
+                {
+                    logger?.Invoke("HTTP Response MSG : " + httpresponse.msg);
+                    return;
+                }
+
+                logger?.Invoke("[PLC] M2003 set 1");
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2003, 1);
+
+                logger?.Invoke("[PLC] D2000 set " + d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
+                commplc.WritePLCBlock(2000, d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
+            }
+            catch (Exception ex)
+            {
+                logger?.Invoke("예외상황 : " + ex.Message);
+                //MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+
+            //MessageBox.Show("Pause Button Pressed!");
         }
 
         private void btnPause_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Pause Button Released!");
+            CommHTTPComponent http = CommHTTPComponent.Instance;
+            CommPLC commplc = CommPLC.Instance;
+            D d = D.Instance;
+
+            logger?.Invoke("Pause Button is Clicked...");
+            try
+            {
+                logger?.Invoke("[PLC] M2003 set 0");
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2003, 0);
+
+                logger?.Invoke("[PLC] D2000 set 0");
+                commplc.WritePLCBlock(2000, 0);
+            }
+            catch (Exception ex)
+            {
+                logger?.Invoke("예외상황 : " + ex.Message);
+                //MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+
+
+            //MessageBox.Show("Pause Button Released!");
         }
 
         // RESET 버튼 이벤트 핸들러
         private void btnReset_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Reset Button Pressed!");
+            CommHTTPComponent http = CommHTTPComponent.Instance;
+            CommPLC commplc = CommPLC.Instance;
+            D d = D.Instance;
+
+            logger?.Invoke("Reset Button is Set...");
+            try
+            {
+                logger?.Invoke($"[Robot] Resume : " + C.ROBOT_SERVER + "/H_RESET");
+                string res = http.GetAPI(C.ROBOT_SERVER + "/H_RESET");
+                HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
+                if (httpresponse.result == 0)
+                {
+                    logger?.Invoke("[Robot] Reset API Success...");
+                }
+                else
+                {
+                    logger?.Invoke("HTTP Response MSG : " + httpresponse.msg);
+                    return;
+                }
+
+
+                logger?.Invoke("[PLC] M2005 set 1");
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2005, 1);
+            }
+            catch (Exception ex)
+            {
+                logger?.Invoke("예외상황 : " + ex.Message);
+                //MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+
+
+            //MessageBox.Show("Reset Button Pressed!");
         }
 
         private void btnReset_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Reset Button Released!");
+            CommPLC commplc = CommPLC.Instance;
+
+            logger?.Invoke("Reset Button is Cleared...");
+            try
+            {
+                logger?.Invoke("[PLC] M2005 clear 0");
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2005, 0);
+            }
+            catch (Exception ex)
+            {
+                logger?.Invoke("예외상황 : " + ex.Message);
+                //MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+
+
+            //MessageBox.Show("Reset Button Released!");
         }
     }
 

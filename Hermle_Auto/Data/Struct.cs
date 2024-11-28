@@ -69,6 +69,13 @@ namespace HermleCS.Data
         public string wptooltype;
     }
 
+    public struct External
+    {
+        public string robotip;
+        public string plcip;
+        public int plcport;
+    }
+
     public struct HTTPResponse
     {
         public int result { get; set; }
@@ -84,6 +91,7 @@ namespace HermleCS.Data
         public ShelvsOffset_Ini shelvsOffset;
         public Offsets_Ini offsets;
         public Documentation_Ini documentation;
+        public External external;
 
         /*public string Country       ;
         public string factory        ;

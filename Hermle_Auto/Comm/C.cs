@@ -17,11 +17,12 @@ namespace HermleCS.Comm
         public const int ERRNO_EXCEPTION = 500;
 
         // PLC Information
-        public const string PLC_IP = "192.168.50.100";
-        public const int PLC_PORT = 5100;
+        public static string PLC_IP = "192.168.0.10";
+        public static int PLC_PORT = 5100;
 
         // ROBOT Information
-        public const string ROBOT_SERVER = "http://192.168.0.10/KAREL";
+        public static string ROBOT_BASEIP = "192.168.0.20";
+        public static string ROBOT_SERVER = "http://" + ROBOT_BASEIP + "/KAREL";
 
         // DRILL CONSTANT
         public const int DRILL_LOCATION_SHELF_COUNT = 3;

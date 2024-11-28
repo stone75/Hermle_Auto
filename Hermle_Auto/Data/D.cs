@@ -772,6 +772,12 @@ namespace HermleCS.Data
 
                 iniFile.documentation.UseExternalFile = int.Parse(iniReader.TryGetValue("Documentation", "UseExternalFile"));
 
+                iniFile.external.robotip = iniReader.TryGetValue("External", "ROBOTIP");
+                C.ROBOT_SERVER = iniFile.external.robotip;
+                iniFile.external.plcip = iniReader.TryGetValue("External", "PLCIP");
+                C.PLC_IP = iniFile.external.plcip;
+                iniFile.external.plcport = int.Parse(iniReader.TryGetValue("External", "PLCPORT"));
+                C.PLC_PORT = iniFile.external.plcport;
 
                 /* if (iniReader.TryGetValue(section, key, out value))
                  {
