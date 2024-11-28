@@ -44,9 +44,11 @@ namespace Hermle_Auto.Comm
             {
                 await mcProtocolTcp.SetBitDevice(type, addrs[0], 1, values);
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("eee : PLC 연결 실패");
+                //MessageBox.Show("eee : PLC 연결 실패");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(mcProtocolTcp.ToString());
                 return;
             }
         }
@@ -63,9 +65,11 @@ namespace Hermle_Auto.Comm
             {
                 await mcProtocolTcp.WriteDeviceBlock(McProtocol.Mitsubishi.PlcDeviceType.D, addrs[0], 2, values);
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("eee : PLC 연결 실패");
+                //MessageBox.Show("eee : PLC 연결 실패");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(mcProtocolTcp.ToString());
                 return;
             }
         }
