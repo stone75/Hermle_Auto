@@ -37,13 +37,13 @@
                            Margin="5,10,5,5"
                            VerticalAlignment="Center"
                            PasswordChanged="PasswordBox_PasswordChanged"/>
-                
+
                 <TextBox Grid.Column="2" Margin="10,5,0,0" VerticalAlignment="Center" Background="LightGreen" Text="*****" IsReadOnly="True" Width="300" Visibility="Hidden"/>
             </Grid>
         </GroupBox>
 
         <!-- Tab Control Section -->
-        <TabControl x:Name="mainTabControl" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,100,0,0" Width="820" Height="450" Visibility="Collapsed">
+        <TabControl x:Name="mainTabControl" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,100,0,0" Width="820" Height="450" Visibility="Visible">
             <TabItem Header="Information" Style="{StaticResource TabStyle2}" MinWidth="50" Width="130" FontSize="16">
                 <!-- Tab Content for Information -->
                 <Grid>
@@ -57,33 +57,33 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Margin="60,0,0,0" VerticalAlignment="Center">
-                        
-                        
-                        <TextBlock VerticalAlignment="Center" Margin="10,0,5,0" Width="200" HorizontalAlignment="Left" FontSize="20">Contry</TextBlock>
-                        <TextBox Width="200" Height="30" Margin="10,5,10,30" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" />
-                        
-                        <TextBlock VerticalAlignment="Center" Margin="10,0,5,0" Width="200" HorizontalAlignment="Left" FontSize="20">Factory</TextBlock>
-                        <TextBox Width="200" Height="30" Margin="10,5,10,30" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" />
-                        
-                        <TextBlock VerticalAlignment="Center" Margin="10,0,5,0" Width="200" HorizontalAlignment="Left" FontSize="20">AutoMation Name</TextBlock>
-                        <TextBox Width="200" Height="30" Margin="10,5,10,0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" />
 
-                        <Button Content="Display Information" Style="{DynamicResource ActButton}" Width="300" Height="55" Grid.Column="0" Margin="10,30,0,10" HorizontalAlignment="Left"/>
+
+                        <TextBlock VerticalAlignment="Center" Margin="10,0,5,0" Width="200" HorizontalAlignment="Left" FontSize="20" >Contry</TextBlock>
+                        <TextBox Width="200" Height="30" Margin="10,5,10,30" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" x:Name="ContryTextBox"/>
+
+                        <TextBlock VerticalAlignment="Center" Margin="10,0,5,0" Width="200" HorizontalAlignment="Left" FontSize="20">Factory</TextBlock>
+                        <TextBox Width="200" Height="30" Margin="10,5,10,30" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" x:Name="FactoryTextBox"/>
+
+                        <TextBlock VerticalAlignment="Center" Margin="10,0,5,0" Width="200" HorizontalAlignment="Left" FontSize="20">AutoMation Name</TextBlock>
+                        <TextBox Width="200" Height="30" Margin="10,5,10,0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" x:Name="AutoMationNameTextBox"/>
+
+                        <Button Content="Display Information" Style="{DynamicResource ActButton}" Width="300" Height="55" Grid.Column="0" Margin="10,30,0,10" HorizontalAlignment="Left" Click="DisPlayInformationClick"/>
 
                     </StackPanel>
 
 
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
                         <TextBlock VerticalAlignment="Center" Margin="10,0,5,0" Width="200" HorizontalAlignment="Left" FontSize="20">Automation Number</TextBlock>
-                        <TextBox Width="200" Height="30" Margin="10,5,10,30" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" />
+                        <TextBox Width="200" Height="30" Margin="10,5,10,30" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" x:Name="AutomationNumberTextBox"/>
 
-                        <TextBlock VerticalAlignment="Center" Margin="10,0,5,0" Width="200" HorizontalAlignment="Left" FontSize="20">Hermale Number</TextBlock>
-                        <TextBox Width="200" Height="30" Margin="10,5,10,30" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" />
+                        <TextBlock VerticalAlignment="Center" Margin="10,0,5,0" Width="200" HorizontalAlignment="Left" FontSize="20">Hermle Number</TextBlock>
+                        <TextBox Width="200" Height="30" Margin="10,5,10,30" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" x:Name="HermleNumberTextBox"/>
 
-                        <TextBlock VerticalAlignment="Center" Margin="10,0,5,0" Width="200" HorizontalAlignment="Left" FontSize="20">Hermal Type</TextBlock>
-                        <TextBox Width="200" Height="30" Margin="10,5,10,0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" />
+                        <TextBlock VerticalAlignment="Center" Margin="10,0,5,0" Width="200" HorizontalAlignment="Left" FontSize="20">Hermle Type</TextBlock>
+                        <TextBox Width="200" Height="30" Margin="10,5,10,0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" x:Name="HermleTypeTextBox"/>
 
-                        <Button Content="Save Changes" Style="{DynamicResource ActButton}" Width="300" Height="55" Grid.Column="0" Margin="10,30,0,10" HorizontalAlignment="Left"/>
+                        <Button Content="Save Changes" Style="{DynamicResource ActButton}" Width="300" Height="55" Grid.Column="0" Margin="10,30,0,10" HorizontalAlignment="Left" Click="InformationSaveChangeClick"/>
                     </StackPanel>
 
                 </Grid>
@@ -106,9 +106,9 @@
                             <TextBlock>read all pockets location from</TextBlock>
                             <TextBlock>file to Computer's memory</TextBlock>
                         </StackPanel>
-                    
-                        
-                        
+
+
+
                     </GroupBox>
                 </Grid>
             </TabItem>
@@ -142,16 +142,16 @@
 
 
                             <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="100" FontSize="20">Gripper</TextBlock>
-                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="100" Grid.Column="1" FontSize="20" HorizontalAlignment="Left">Tool Type</TextBlock>
+                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="Auto" Grid.Column="1" FontSize="20" HorizontalAlignment="Left" x:Name="gipperType">Tool Type</TextBlock>
 
                             <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="100" Grid.Row="1" FontSize="20">Shelf 1</TextBlock>
-                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="100" Grid.Column="1" Grid.Row="1" FontSize="20" HorizontalAlignment="Left">Tool Type</TextBlock>
+                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="Auto" Grid.Column="1" Grid.Row="1" FontSize="20" HorizontalAlignment="Left" x:Name="shelf1ToolType" >Tool Type</TextBlock>
 
                             <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="100" Grid.Row="2" FontSize="20">Shelf 2</TextBlock>
-                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="100" Grid.Column="1" Grid.Row="2" FontSize="20" HorizontalAlignment="Left">Tool Type</TextBlock>
+                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="Auto" Grid.Column="1" Grid.Row="2" FontSize="20" HorizontalAlignment="Left" x:Name="shelf2ToolType" >Tool Type</TextBlock>
 
                             <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="100" Grid.Row="3" FontSize="20">Shelf 3</TextBlock>
-                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="100" Grid.Column="1" Grid.Row="3" FontSize="20" HorizontalAlignment="Left">Tool Type</TextBlock>
+                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="Auto" Grid.Column="1" Grid.Row="3" FontSize="20" HorizontalAlignment="Left" x:Name="shelf3ToolType" >Tool Type</TextBlock>
                         </Grid>
                     </StackPanel>
 
@@ -160,14 +160,14 @@
 
 
                             <StackPanel Orientation="Horizontal">
-                                <Button Content="HSK" Style="{DynamicResource ActButton}" Width="100" Height="50" Grid.Column="0" Margin="10,5,0,0"/>
-                                <Button Content="Drill" Style="{DynamicResource ActButton}" Width="100" Height="50" Grid.Column="0" Margin="10,5,0,0"/>
-                                <Button Content="Round" Style="{DynamicResource ActButton}" Width="100" Height="50" Grid.Column="0" Margin="10,5,0,0"/>
+                                <Button Content="HSK"   Style="{DynamicResource ActButton}" Width="100" Height="50" Grid.Column="0" Margin="10,5,0,0" Click = "SelectGripperTypeClick"/>
+                                <Button Content="Drill" Style="{DynamicResource ActButton}" Width="100" Height="50" Grid.Column="0" Margin="10,5,0,0" Click = "SelectGripperTypeClick"/>
+                                <Button Content="Round" Style="{DynamicResource ActButton}" Width="100" Height="50" Grid.Column="0" Margin="10,5,0,0" Click = "SelectGripperTypeClick"/>
 
                             </StackPanel>
                         </GroupBox>
 
-                        <Button Content="Display Configuration" Style="{DynamicResource ActButton}" Width="300" Height="NaN" Grid.Column="0" Margin="10,30,0,10"/>
+                        <Button Content="Display Configuration" Style="{DynamicResource ActButton}" Width="300" Height="NaN" Grid.Column="0" Margin="10,30,0,10" Click = "DisplayConfigurationClick"/>
 
                     </StackPanel>
                 </Grid>
@@ -225,11 +225,55 @@
             <TabItem Header="All Locations" Style="{StaticResource TabStyle2}" MinWidth="50" Width="130" FontSize="16">
                 <!-- Tab Content for All Locations -->
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
                     <!-- Add your content here -->
-                    <DataGrid>
-                        
-                    </DataGrid>
+                    
+                    <ScrollViewer>
+                        <StackPanel>
+                      
+                            <DataGrid x:Name="allLocationDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Background="#FFEDEDED" FontSize="20"     
+                                  ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}">
+                                <DataGrid.Resources>
+                                    <Style TargetType="DataGridColumnHeader">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    </Style>
+                                </DataGrid.Resources>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="General Location" Binding="{Binding GeneralLocation}" Width="Auto">
+
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Header="x" Binding="{Binding x}" Width="*">
+
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Header="y" Binding="{Binding y}" Width="*">
+
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Header="z" Binding="{Binding z}" Width="*">
+
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Header="Rx" Binding="{Binding Rx}" Width="*">
+
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Header="Ry" Binding="{Binding Ry}" Width="*">
+
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Header="Rz" Binding="{Binding Rz}" Width="*">
+                                    </DataGridTextColumn>
+
+                                </DataGrid.Columns>
+                            </DataGrid>
+                       
+                    </StackPanel>
+                    </ScrollViewer>
+                    <Button Content="Display All Locations" Width="300" Height="40" Margin="5" Grid.Row="4" Click="DisplayAllLocationsClick"/>
                 </Grid>
+                
+                
             </TabItem>
         </TabControl>
 

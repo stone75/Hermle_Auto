@@ -31,13 +31,13 @@ namespace Hermle_Auto.Views
             LoadMachineData();
 
             // 테스트를 위한 타이머 설정 (실제로는 필요에 따라 변경)
-            var timer = new System.Windows.Threading.DispatcherTimer
+            /*var timer = new System.Windows.Threading.DispatcherTimer
             {
                 Interval = TimeSpan.FromSeconds(1)
             };
             timer.Tick += Timer_Tick;
             timer.Start();
-
+            */
 
             //SetLampState("M2106", true);
 
@@ -45,6 +45,7 @@ namespace Hermle_Auto.Views
 
         private void Timer_Tick(object sender, EventArgs e)
         {
+
             // UI 스레드에서 실행되도록 보장
             Application.Current.Dispatcher.Invoke(() =>
             {
@@ -53,7 +54,33 @@ namespace Hermle_Auto.Views
                     item.IsOn = !item.IsOn;
                 }
             });
+
         }
+
+
+
+
+        public void SetLampState(int intAddress, bool isOn)
+        {
+
+            string address = $"M{intAddress}";
+
+
+            var leftItem = leftData?.FirstOrDefault(x => x.Address == address);
+            if (leftItem != null)
+            {
+                leftItem.IsOn = isOn;
+                return;
+            }
+
+            var rightItem = rightData?.FirstOrDefault(x => x.Address == address);
+            if (rightItem != null)
+            {
+                rightItem.IsOn = isOn;
+            }
+        }
+
+
 
 
         // 특정 주소의 램프 상태를 변경하는 메서드
@@ -140,7 +167,7 @@ namespace Hermle_Auto.Views
             rightData = new List<MachineStatus>();
 
             string[,] m22Data = {
-               { "M2206", "is toggled whenever new data are received", "새로운 데이터가 수신될 때마다 토글" },
+                { "M2206", "is toggled whenever new data are received", "새로운 데이터가 수신될 때마다 토글" },
                 { "M2207", "is toggled when data are changed", "데이터가 변경될 때마다 토글" },
                 { "M2208", "A1 – byte 2 to 5 contains the nc program number", "값이 A1 일대 바이트 2~5에 nc 프로그램 번호" },
                 { "M2209", "A2 – byte 2 to 5 contains the nc zero point program number", "값이 A2 일대 바이트 2~5에 nc 제로 포인트 프로그램 번호" },

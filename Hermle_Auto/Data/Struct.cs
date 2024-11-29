@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -93,6 +94,8 @@ namespace HermleCS.Data
         public Documentation_Ini documentation;
         public External external;
 
+        public Information_Ini information;
+
         /*public string Country       ;
         public string factory        ;
         public string AutoName ;
@@ -138,6 +141,15 @@ namespace HermleCS.Data
         public int UseExternalFile;
     }
 
+    public struct Information_Ini
+    {
+        public string Country     ;
+        public string factory     ;
+        public string AutoName    ;
+        public string AutoNumber  ;
+        public string HermleNumber;
+        public string HermleType;
+    }
 
 
 }

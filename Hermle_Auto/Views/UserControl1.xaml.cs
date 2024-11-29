@@ -91,8 +91,8 @@ namespace Hermle_Auto.Views
             //commSender += WritePLC;
 
             //작업시 제외
-            StartPLC();
-            StartRobotThread();
+            //StartPLC();
+            //StartRobotThread();
 
             Unloaded += UIUnloaded;
 
@@ -197,6 +197,11 @@ namespace Hermle_Auto.Views
                             {
                                 //MessageBox.Show("E.Stop was pressed");
                             }
+
+                            if(plcMointerWindow != null)
+                            {
+                                plcMointerWindow.SetLampState(addrs[i], true);
+                            }
                         }
                         else
                         {
@@ -205,6 +210,11 @@ namespace Hermle_Auto.Views
                             {
                                 logText.Text = $" Addr {addrs[i]} is off!";
                             }));
+
+                            if (plcMointerWindow != null)
+                            {
+                                plcMointerWindow.SetLampState(addrs[i], false);
+                            }
                         }
                     }
                     catch
@@ -293,14 +303,34 @@ namespace Hermle_Auto.Views
         }
 
 
+        PLC_Monitor_Window plcMointerWindow;
+
         private void OpenPLC_CHECK_Click(object sender, RoutedEventArgs e)
         {
             // Password.xaml 창을 불러오기
             //CommunicationWindow Window = new CommunicationWindow();
             //Window.ShowDialog(); // 모달 창으로 실행
 
-            PLC_Monitor_Window Window = new PLC_Monitor_Window();
-            Window.ShowDialog(); // 모달 창으로 실행
+            var result = plcMointerWindow = new PLC_Monitor_Window();
+
+            //Delegatet설정
+
+            plcMointerWindow.ShowDialog(); // 모달 창으로 실행
+
+            plcMointerWindow.Closed += (s, args) =>
+            {
+                plcMointerWindow = null; // 창이 닫힐 때 변수 초기화
+            };
+
+
+            /*// Check the result and reset the variable
+            if (result == DialogResult.OK || result == DialogResult.Cancel)
+            {
+                someVariable = null; // Set the variable to null when dialog closes
+                MessageBox.Show("Variable is reset to null.");
+            }*/
+
+
 
         }
 

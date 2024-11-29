@@ -300,6 +300,11 @@ namespace Hermle_Auto.Views
             abovePocketTextBox.Text = D.Instance.iniFile.offsets.AbovePocket.ToString();
             aboveChuckTextBox.Text = D.Instance.iniFile.offsets.AboveChuck.ToString();
 
+            chunkStopperTextBox.Text = D.Instance.iniFile.offsets.ChuckStopper.ToString();
+            chuckDepthTextBox.Text = D.Instance.iniFile.offsets.ChuckDepth.ToString();
+            pocketStopperOffsetTextBox.Text = D.Instance.iniFile.offsets.PocketStopper.ToString();
+            kioskStopperOffsetTextBox.Text = D.Instance.iniFile.offsets.KioskStopper.ToString();
+
         }
         private void OffsetSendButton_Click(object sender, RoutedEventArgs e)
         {
@@ -492,7 +497,16 @@ namespace Hermle_Auto.Views
 
         private void SetInputField(int index)
         {
-            toolTypeComboBox.SelectedIndex = WorkPieces2[index].ToolType == "Drill" ? 0 : WorkPieces2[index].ToolType == "HSK" ? 1  : WorkPieces2[index].ToolType == "Round" ? 2 : -1;
+
+            string ToolType = "";
+
+            if (string.IsNullOrEmpty(WorkPieces2[index].ToolType) == false)
+            {
+                ToolType = WorkPieces2[index].ToolType.Trim();
+            }
+
+            toolTypeComboBox.SelectedIndex = ToolType == "Drill" ? 0 : ToolType == "HSK" ? 1  : ToolType == "Round" ? 2 : -1;
+
             workPieceTextBox.Text =         WorkPieces2[index].WorkPiece2 == null ? "" : WorkPieces2[index].WorkPiece2.ToString();
             ncProgramTextBox.Text =         WorkPieces2[index].NCProgram == null ? "" : WorkPieces2[index].NCProgram.ToString();
             toolDiameterTextBox.Text =      WorkPieces2[index].ToolDiameter == null ? "" : WorkPieces2[index].ToolDiameter.ToString();

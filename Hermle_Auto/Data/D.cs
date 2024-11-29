@@ -311,6 +311,8 @@ namespace HermleCS.Data
 
         public int ReadGeneralLocations(String toolname)
         {
+
+
             GeneralLocations[] target;
             String targetfile;
             int count;
@@ -346,6 +348,8 @@ namespace HermleCS.Data
             {
                 //                filePath = Path.Combine(C.ApplicationPath, "WorkDirectory", "Data", arrayname, ".csv");
                 filePath = Path.Combine(C.ApplicationPath, "CSV", targetfile + "GeneralLocations.csv");
+
+            
 
                 using (StreamReader reader = new StreamReader(filePath))
                 {
@@ -742,9 +746,11 @@ namespace HermleCS.Data
             string filePath = Path.Combine(C.ApplicationPath, "IS2904.ini");
             //string filePath = Path.Combine(C.ApplicationPath, "CSV", "IS2904.ini");
 
+
             try
             {
-                var iniReader = new IniFileReader(filePath);
+
+                var iniReader = new IniFileReader(Path.GetFullPath(filePath));
 
                 iniFile.gripper.style = int.Parse(iniReader.TryGetValue("gripper", "style"));
 
@@ -786,6 +792,12 @@ namespace HermleCS.Data
                  }*/
 
 
+                iniFile.information.Country      = iniReader.TryGetValue("information", "Country");
+                iniFile.information.factory      = iniReader.TryGetValue("information", "factory");
+                iniFile.information.AutoName     = iniReader.TryGetValue("information", "AutoName");
+                iniFile.information.AutoNumber   = iniReader.TryGetValue("information", "AutoNumber");
+                iniFile.information.HermleNumber = iniReader.TryGetValue("information", "HermleNumber");
+                iniFile.information.HermleType   = iniReader.TryGetValue("information", "HermleType");
 
 
             }
@@ -825,6 +837,15 @@ namespace HermleCS.Data
                 iniReader.SetValue("offsets", "PocketStopper", iniFile.offsets.PocketStopper.ToString());
                 iniReader.SetValue("offsets", "KioskStopper", iniFile.offsets.KioskStopper.ToString());
                 iniReader.SetValue("Documentation", "UseExternalFile", iniFile.documentation.UseExternalFile.ToString());
+
+
+
+                iniReader.SetValue("information", "Country",        iniFile.information.Country     );
+                iniReader.SetValue("information", "factory"   ,     iniFile.information.factory     );
+                iniReader.SetValue("information", "AutoName"   ,    iniFile.information.AutoName    );
+                iniReader.SetValue("information", "AutoNumber"   ,  iniFile.information.AutoNumber  );
+                iniReader.SetValue("information", "HermleNumber"   , iniFile.information.HermleNumber);
+                iniReader.SetValue("information", "HermleType"   ,  iniFile.information.HermleType  );
 
                 // 파일 저장
                 iniReader.Save();
