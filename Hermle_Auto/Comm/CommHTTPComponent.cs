@@ -55,13 +55,15 @@ namespace HermleCS.Comm
                 return responseBody;
             }
             */
+            string responseBody = "";
+
             try
             {
                 MessageReceived?.Invoke(0, "GET API Started..");
-                string responseBody = "";
+                //string responseBody = "";
 
-                Thread t = new Thread(() =>
-                {
+                //Thread t = new Thread(() =>
+                //{
                     try
                     {
                         MessageReceived?.Invoke(0, "GET API Started in Thread...");
@@ -70,7 +72,8 @@ namespace HermleCS.Comm
                             HttpResponseMessage response = httpClient.GetAsync(url).Result;
                             response.EnsureSuccessStatusCode();
 
-                            string responseBody = response.Content.ReadAsStringAsync().Result;
+                            //string responseBody = response.Content.ReadAsStringAsync().Result;
+                            responseBody = response.Content.ReadAsStringAsync().Result;
                             MessageReceived?.Invoke(0, "Response: " + responseBody);
                         }
                     }
@@ -78,9 +81,9 @@ namespace HermleCS.Comm
                     {
                         MessageReceived?.Invoke(1, "Error: " + ex.Message);
                     }
-                });
-                t.IsBackground = true;
-                t.Start();
+                //});
+                //t.IsBackground = true;
+                //t.Start();
                 // t.Join();
 
 //                MessageReceived?.Invoke(0, "Response : " + responseBody);

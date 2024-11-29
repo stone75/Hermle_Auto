@@ -761,6 +761,22 @@ namespace Hermle_Auto.Views
             logger?.Invoke("Pause Button is Clicked...");
             try
             {
+                // Test
+                /*
+                string res_t = http.GetAPI("http://t.odinox.com/position.php");
+                HTTPResponse httpresponse_t = JsonSerializer.Deserialize<HTTPResponse>(res_t);
+                if (httpresponse_t.result == 0)
+                {
+                    logger?.Invoke("[Robot] Reset API Success...");
+                }
+                else
+                {
+                    logger?.Invoke("HTTP Response MSG : " + httpresponse_t.msg);
+                    return;
+                }
+
+                return;
+                */
                 logger?.Invoke($"[Robot] Resume : " + C.ROBOT_SERVER + "/H_PAUSE?task_str=" + d.CURRENT_JOBNAME);
                 string res = http.GetAPI(C.ROBOT_SERVER + "/H_PAUSE?task_str=" + d.CURRENT_JOBNAME);
                 HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
