@@ -1,10 +1,13 @@
-﻿using HermleCS.Data;
+﻿using Hermle_Auto.ViewModels;
+using HermleCS.Comm;
+using HermleCS.Data;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Hermle_Auto.Views
 {
@@ -31,6 +35,9 @@ namespace Hermle_Auto.Views
 
         private int currentViewPocketShelf = 1;
         private int currentViewPocket = 100;
+
+
+        public event RobotStatusLogger logger;
 
 
         private ObservableCollection<CoordinatePoint> coordinates;
@@ -258,12 +265,158 @@ namespace Hermle_Auto.Views
         }
         private void TeachPositionLocations()
         {
-            //1 - Robot : CurrentPosition recv
-            //2 GeneralLcation input
+            
+           
+            GeneralLocations tmp_val = new GeneralLocations();
+
+            D d = D.Instance;
+
+           
+
+            CommHTTPComponent http = CommHTTPComponent.Instance;
+            string res;
+
+            try
+            {
+                res = http.GetAPI(C.ROBOT_SERVER + "/H_LOCATION");
+                //res = http.GetAPI("http://t.odinox.com/position.php");
+
+                using var document = JsonDocument.Parse(res,
+                    new JsonDocumentOptions
+                    {
+                        AllowTrailingCommas = true // Tailing Comma 허용
+                    }
+                );
+
+                var root = document.RootElement;
+
+                int result = root.GetProperty("result").GetInt32();
+                string msg = root.GetProperty("msg").GetString();
+                if (result == 0)
+                {
+                    //1 - Robot : CurrentPosition recv
+                   
+                    var tmp_location = root.GetProperty("location");
+                    tmp_val.name = D.Instance.GetToolType();
+                    tmp_val.x = tmp_location.GetProperty("x").GetDouble();
+                    tmp_val.y = tmp_location.GetProperty("y").GetDouble();
+                    tmp_val.z = tmp_location.GetProperty("z").GetDouble();
+                    tmp_val.rx = tmp_location.GetProperty("rx").GetDouble();
+                    tmp_val.ry = tmp_location.GetProperty("ry").GetDouble();
+                    tmp_val.rz = tmp_location.GetProperty("rz").GetDouble();
+                
+                }
+                else
+                {
+                    HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
+                    if (httpresponse.result != 0)
+                    {
+                        MessageBox.Show(httpresponse.msg);
+                        return;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+                {
+                    //logText.Text = "Robot HTTP Comm. Exception : " + e.Message;
+                    //logText.Foreground = Brushes.Yellow;
+                    logger?.Invoke("Robot HTTP Comm. Exception : " + e.Message);
+                }));
+            }
+
+
+            var toolType = D.Instance.GetToolType();
+            //var toolType = "DRILL";
+            //var toolType = "HSK";
+            //var toolType = "ROUND";
+            //var toolType = "";
+
+            var ret = D.Instance.ReadGeneralLocations(toolType);
+            if (ret < 0)
+            {
+                // Error
+                return;
+            }
+
+            var locations = D.Instance.getGeneralLocations(toolType);
+            if (locations == null)
+            {
+                // No locations
+                return;
+            }
 
 
             if (SelectLocation.Text == "Kiosk")
             {
+
+                //2 GeneralLcation input
+
+                locations[11].x = tmp_val.x;
+                locations[11].y = tmp_val.y;
+                locations[11].z = tmp_val.z;
+                locations[11].rx = tmp_val.rx;
+                locations[11].ry = tmp_val.ry;
+                locations[11].rz = tmp_val.rz;
+
+                // 3-1 : PC -> Robot Write Position(Robot Current Position )
+                string url;
+                int groupSize = 8;
+                string write_res;
+
+                for (int i = 0; i < C.DRILL_GENLOCATION_COUNT; i += groupSize)
+                {
+                    int count = 0;
+                    string param = "";
+
+                    for (int j = i; j < i + groupSize && j < C.DRILL_GENLOCATION_COUNT; j++)
+                    {
+                        count++;
+                        param += "&x" + (j + 1) + "=" + locations[11].x;
+                        param += "&y" + (j + 1) + "=" + locations[11].y;
+                        param += "&z" + (j + 1) + "=" + locations[11].z;
+                        param += "&rx" + (j + 1) + "=" + locations[11].rx;
+                        param += "&ry" + (j + 1) + "=" + locations[11].ry;
+                        param += "&rz" + (j + 1) + "=" + locations[11].rz;
+                    }
+
+                    url = "COUNT=" + count + param;
+
+                    try
+                    {
+                        write_res = http.GetAPI(C.ROBOT_SERVER + "/H_WRITE_POSITION?" + url);
+                        HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(write_res);
+                        if (httpresponse.result != 0)
+                        {
+                            MessageBox.Show("Write Position Error : " + httpresponse.msg);
+                            return;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Robot HTTP Communication Exception : " + ex.Message);
+                    }
+                }
+
+                // 3-2 : PC -> Robot H_COMMAND(calc_kiosk_points.TP)
+                try
+                {
+                    d.CURRENT_JOBNAME = "calc_kiosk_points";
+                    res = http.GetAPI(C.ROBOT_SERVER + "/H_COMMAND?task_str=" + d.CURRENT_JOBNAME);
+
+                    HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
+                    if (httpresponse.result != 0)
+                    {
+                        MessageBox.Show("Command Error : " + httpresponse.msg);
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Robot HTTP Communication Exception : " + ex.Message);
+                }
+
                 // Save position to the memory of PC.
                 /*             GeneralLocation[11].X = TempPosition[0];
                                GeneralLocation[11].Y = TempPosition[1];
@@ -332,7 +485,7 @@ namespace Hermle_Auto.Views
             }
 
 
-            var toolType = D.Instance.GetToolType();
+           
 
             D.Instance.WriteGeneralLocations(toolType);
 

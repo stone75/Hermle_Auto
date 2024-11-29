@@ -89,6 +89,10 @@ namespace Hermle_Auto.ViewModels
         }
 
 
+        //private string _valueX = "-278.204";
+        //private string _valueY = "-8.2014";
+        //private string _valueZ = "-78.2044";
+
         private string _valueX = "-278.204";
         private string _valueY = "-8.2014";
         private string _valueZ = "-78.2044";
