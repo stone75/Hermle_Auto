@@ -66,7 +66,7 @@ namespace HermleCS.Comm
                 //{
                     try
                     {
-                        MessageReceived?.Invoke(0, "GET API Started in Thread...");
+                        //MessageReceived?.Invoke(0, "GET API Started in Thread...");
                         using (HttpClient httpClient = new HttpClient())
                         {
                             HttpResponseMessage response = httpClient.GetAsync(url).Result;
@@ -74,7 +74,7 @@ namespace HermleCS.Comm
 
                             //string responseBody = response.Content.ReadAsStringAsync().Result;
                             responseBody = response.Content.ReadAsStringAsync().Result;
-                            MessageReceived?.Invoke(0, "Response: " + responseBody);
+                            //MessageReceived?.Invoke(0, "Response: " + responseBody);
                         }
                     }
                     catch (Exception ex)

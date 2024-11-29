@@ -51,6 +51,8 @@ namespace Hermle_Auto.Views
         private Thread plcworker;
         private bool plcrunning;
 
+        private Thread robotworker;
+        private bool robotrunning;
 
 
 
@@ -90,7 +92,7 @@ namespace Hermle_Auto.Views
 
             //작업시 제외
             StartPLC();
-
+            StartRobotThread();
 
             Unloaded += UIUnloaded;
 
@@ -130,10 +132,25 @@ namespace Hermle_Auto.Views
             }
         }
 
+        public void StartRobotThread()
+        {
+            try
+            {
+                robotworker = new Thread(async () => await RobotThreadHandler());
+                robotrunning = true;
+                robotworker.Start();
+            }
+            catch (Exception ex)
+            {
+                logText.Text = "Robot Thread starting exception : " + ex.Message;
+            }
+        }
+
 
         private void UIUnloaded(object sender, RoutedEventArgs e)
         {
             plcrunning = false;
+            robotrunning = false;
         }
 
         private async Task ReadThreadHandler(McProtocolTcp conn)
@@ -206,6 +223,53 @@ namespace Hermle_Auto.Views
                 Thread.Sleep(500);
             }
             
+        }
+
+        private async Task RobotThreadHandler()
+        {
+            CommHTTPComponent http = CommHTTPComponent.Instance;
+            string res;
+
+            while (robotrunning)
+            {
+                try
+                {
+                    res = http.GetAPI(C.ROBOT_SERVER + "/H_LOCATION");
+                    //res = http.GetAPI("http://t.odinox.com/position.php");
+
+                    using var document = JsonDocument.Parse(res,
+                        new JsonDocumentOptions
+                        {
+                            AllowTrailingCommas = true // Tailing Comma 허용
+                        }
+                    );
+
+                    var root = document.RootElement;
+
+                    int result = root.GetProperty("result").GetInt32();
+                    string msg = root.GetProperty("msg").GetString();
+                    if (result == 0)
+                    {
+                        userControl1ViewModel.ValueX = root.GetProperty("location").GetProperty("x").GetDouble().ToString("F3");
+                        userControl1ViewModel.ValueY = root.GetProperty("location").GetProperty("y").GetDouble().ToString("F3");
+                        userControl1ViewModel.ValueZ = root.GetProperty("location").GetProperty("z").GetDouble().ToString("F3");
+                        userControl1ViewModel.ValueRx = root.GetProperty("location").GetProperty("rx").GetDouble().ToString("F3");
+                        userControl1ViewModel.ValueRy = root.GetProperty("location").GetProperty("ry").GetDouble().ToString("F3");
+                        userControl1ViewModel.ValueRz = root.GetProperty("location").GetProperty("rz").GetDouble().ToString("F3");
+                    }
+                }
+                catch (Exception e)
+                {
+                    Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
+                    {
+                        logText.Text = "Robot HTTP Comm. Exception : " + e.Message ;
+                        logText.Foreground = Brushes.Yellow;
+                    }));
+                }
+
+                Thread.Sleep(500);
+            }
+
         }
 
 
