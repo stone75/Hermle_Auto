@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Hermle_Auto.Views"
+              xmlns:converters="clr-namespace:Hermle_Auto.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="1000">
 
@@ -12,6 +13,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/CommonStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+
+            <converters:ManualTypeToEnabledConverter x:Key="ManualTypeToEnabledConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -48,60 +52,60 @@
 
                         <!-- X Axis -->
                         <StackPanel Grid.Column="0">
-                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click" IsEnabled="{Binding ManualType, Converter={StaticResource ManualTypeToEnabledConverter},ConverterParameter=Manual}">
                                 <TextBlock Text="X+" FontSize="16"/>
                             </Button>
-                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click" IsEnabled="{Binding ManualType, Converter={StaticResource ManualTypeToEnabledConverter},ConverterParameter=Manual}">
                                 <TextBlock Text="X-" FontSize="16"/>
                             </Button>
                         </StackPanel>
 
                         <!-- Y Axis -->
                         <StackPanel Grid.Column="1">
-                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click" IsEnabled="{Binding ManualType, Converter={StaticResource ManualTypeToEnabledConverter},ConverterParameter=Manual}">
                                 <TextBlock Text="Y+" FontSize="16"/>
                             </Button>
-                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click" IsEnabled="{Binding ManualType, Converter={StaticResource ManualTypeToEnabledConverter},ConverterParameter=Manual}">
                                 <TextBlock Text="Y-" FontSize="16"/>
                             </Button>
                         </StackPanel>
 
                         <!-- Z Axis -->
                         <StackPanel Grid.Column="2">
-                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click" IsEnabled="{Binding ManualType, Converter={StaticResource ManualTypeToEnabledConverter},ConverterParameter=Manual}">
                                 <TextBlock Text="Z+" FontSize="16"/>
                             </Button>
-                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click" IsEnabled="{Binding ManualType, Converter={StaticResource ManualTypeToEnabledConverter},ConverterParameter=Manual}">
                                 <TextBlock Text="Z-" FontSize="16"/>
                             </Button>
                         </StackPanel>
 
                         <!-- Rx Axis -->
                         <StackPanel Grid.Column="3">
-                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click" IsEnabled="{Binding ManualType, Converter={StaticResource ManualTypeToEnabledConverter},ConverterParameter=Manual}">
                                 <TextBlock Text="Rx+" FontSize="16"/>
                             </Button>
-                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click" IsEnabled="{Binding ManualType, Converter={StaticResource ManualTypeToEnabledConverter},ConverterParameter=Manual}">
                                 <TextBlock Text="Rx-" FontSize="16"/>
                             </Button>
                         </StackPanel>
 
                         <!-- Ry Axis -->
                         <StackPanel Grid.Column="4">
-                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click" IsEnabled="{Binding ManualType, Converter={StaticResource ManualTypeToEnabledConverter},ConverterParameter=Manual}">
                                 <TextBlock Text="Ry+" FontSize="16"/>
                             </Button>
-                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click" IsEnabled="{Binding ManualType, Converter={StaticResource ManualTypeToEnabledConverter},ConverterParameter=Manual}">
                                 <TextBlock Text="Ry-" FontSize="16"/>
                             </Button>
                         </StackPanel>
 
                         <!-- Rz Axis -->
                         <StackPanel Grid.Column="5">
-                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click" IsEnabled="{Binding ManualType, Converter={StaticResource ManualTypeToEnabledConverter},ConverterParameter=Manual}">
                                 <TextBlock Text="Rz+" FontSize="16"/>
                             </Button>
-                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click" IsEnabled="{Binding ManualType, Converter={StaticResource ManualTypeToEnabledConverter},ConverterParameter=Manual}">
                                 <TextBlock Text="Rz-" FontSize="16"/>
                             </Button>
                         </StackPanel>
@@ -149,27 +153,27 @@
                     <!-- Step Section -->
                     <GroupBox Header="Step(mm)" FontSize="22" Margin="20,20,20,20"  FontFamily="Arial" FontWeight="Bold" Grid.Column="0">
                         <StackPanel x:Name="StepPanel">
-                            <RadioButton Style="{StaticResource StepRadioButton}" 
+                            <RadioButton Style="{StaticResource StepRadioButton}" IsEnabled="{Binding ManualType, Converter={StaticResource ManualTypeToEnabledConverter},ConverterParameter=Manual}"
                                    Content="0.1" 
                                    GroupName="StepGroup"
                                    Tag="0.1"
                                    Checked="StepButton_Checked"/>
-                            <RadioButton Style="{StaticResource StepRadioButton}" 
+                            <RadioButton Style="{StaticResource StepRadioButton}" IsEnabled="{Binding ManualType, Converter={StaticResource ManualTypeToEnabledConverter},ConverterParameter=Manual}"
                                    Content="1.0" 
                                    GroupName="StepGroup"
                                    Tag="1.0"
                                    Checked="StepButton_Checked"/>
-                            <RadioButton Style="{StaticResource StepRadioButton}" 
+                            <RadioButton Style="{StaticResource StepRadioButton}" IsEnabled="{Binding ManualType, Converter={StaticResource ManualTypeToEnabledConverter},ConverterParameter=Manual}"
                                    Content="2.0" 
                                    GroupName="StepGroup"
                                    Tag="2.0"
                                    Checked="StepButton_Checked"/>
-                            <RadioButton Style="{StaticResource StepRadioButton}" 
+                            <RadioButton Style="{StaticResource StepRadioButton}" IsEnabled="{Binding ManualType, Converter={StaticResource ManualTypeToEnabledConverter},ConverterParameter=Manual}"
                                    Content="5.0" 
                                    GroupName="StepGroup"
                                    Tag="5.0"
                                    Checked="StepButton_Checked"/>
-                            <RadioButton Style="{StaticResource StepRadioButton}" 
+                            <RadioButton Style="{StaticResource StepRadioButton}" IsEnabled="{Binding ManualType, Converter={StaticResource ManualTypeToEnabledConverter},ConverterParameter=Manual}"
                                    Content="10.0" 
                                    GroupName="StepGroup"
                                    Tag="10.0"
@@ -193,7 +197,8 @@
                             </StackPanel>
 
 
-                            <Slider Grid.Row="1" Maximum="100" Value="50" VerticalAlignment="Center" TickFrequency="1" ValueChanged="SpeedSlider_ValueChanged" SmallChange="1"/>
+                            <Slider Grid.Row="1" Maximum="100" Value="50" VerticalAlignment="Center" TickFrequency="1" ValueChanged="SpeedSlider_ValueChanged" SmallChange="1"
+                                    IsEnabled="{Binding ManualType, Converter={StaticResource ManualTypeToEnabledConverter},ConverterParameter=Manual}"/>
                             <!-- 
                             <Slider Grid.Row="1" 
                                Minimum="0" Maximum="100" Value="50"

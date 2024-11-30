@@ -37,6 +37,7 @@ namespace HermleCS.Data
 
         public string CURRENT_JOBNAME;
 
+
         private D() { }
 
         public static D Instance

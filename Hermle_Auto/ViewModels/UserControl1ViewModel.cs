@@ -379,7 +379,6 @@ namespace Hermle_Auto.ViewModels
         private void ExecuteAuto()
         {
             SelectedMode = "Auto";
-
             ManualType = "Auto";
             // 추가적인 Auto 모드 로직
         }
@@ -387,17 +386,20 @@ namespace Hermle_Auto.ViewModels
         private void ExecuteSemi()
         {
             SelectedMode = "Semi";
-
             ManualType = "Semi";
             // 추가적인 Semi 모드 로직
+
+
+            ChangeView("Tests");
         }
 
         private void ExecuteManual()
         {
             SelectedMode = "Manual";
-
             ManualType = "Manual";
             // 추가적인 Manual 모드 로직
+
+            ChangeView("Manual");
         }
 
         public ICommand StartCommand { get; }
@@ -495,6 +497,10 @@ namespace Hermle_Auto.ViewModels
             ResetCommand = new RelayCommand(ResetMode);
             ExitCommand = new RelayCommand(ExitWindow);
 
+
+            //시작시 Auto로 초기화
+            SelectedMode = "Auto";
+            ManualType = "Auto";
 
         }
 

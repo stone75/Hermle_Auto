@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Hermle_Auto.Views"
+             xmlns:converters="clr-namespace:Hermle_Auto.Converters"
              xmlns:viewmodels="clr-namespace:Hermle_Auto.ViewModels" 
              xmlns:styles="clr-namespace:Hermle_Auto"
              mc:Ignorable="d" 
@@ -18,25 +19,12 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/CommonStyles.xaml"/>
+                
             </ResourceDictionary.MergedDictionaries>
+
+            <converters:ManualTypeToEnabledConverter x:Key="ManualTypeToEnabledConverter"/>
         </ResourceDictionary>
-        <!--
-        <Style TargetType="Label">
-            <Setter Property="FontFamily" Value="Calibri"/>
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-        </Style>
-        <Style TargetType="Button">
-            <Setter Property="FontFamily" Value="Calibri"/>
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="FontFamily" Value="Calibri"/>
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-        </Style>
-        -->
+
     </UserControl.Resources>
 
     <Grid Background="#FFE6E4E4">
@@ -115,7 +103,9 @@
                     </Grid>
                 </Grid>
 -->
-                <Button x:Name="btnStartAutomat" Style="{StaticResource RectanglePlayButton}" Margin="0,0,0,0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Start Automat" Grid.ColumnSpan="2" Click="btnStartAutomat_Click" />
+                <Button x:Name="btnStartAutomat" Style="{StaticResource RectanglePlayButton}" Margin="0,0,0,0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                        Content="Start Automat" Grid.ColumnSpan="2" Click="btnStartAutomat_Click" 
+                        IsEnabled="{Binding ManualType, Converter={StaticResource ManualTypeToEnabledConverter},ConverterParameter=Auto}"  />
 
 
             </Grid>
