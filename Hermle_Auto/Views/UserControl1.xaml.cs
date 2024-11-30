@@ -91,8 +91,8 @@ namespace Hermle_Auto.Views
             //commSender += WritePLC;
 
             //작업시 제외
-            //StartPLC();
-            //StartRobotThread();
+            StartPLC();
+            StartRobotThread();
 
             Unloaded += UIUnloaded;
 
