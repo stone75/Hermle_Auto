@@ -210,8 +210,8 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Button Style="{StaticResource  ActButton}" Content="Read Values" Margin="10,0,10,0" Click="AddWorkPieceButton_Click" Background="#FFD8D8D8"  BorderBrush="Black" Height="40" Width="Auto"/>
-                                    <Button Style="{StaticResource  ActButton}" Content="Send Offsets" Margin="10,0,10,0" Click="AddWorkPieceButton_Click" Background="#FFD8D8D8"  BorderBrush="Black" Height="40" Width="Auto" Grid.Column="1"/>
+                                    <Button Style="{StaticResource  ActButton}" Content="Read Values" Margin="10,0,10,0" Click="OffsetReadButton_Click" Background="#FFD8D8D8"  BorderBrush="Black" Height="40" Width="Auto"/>
+                                    <Button Style="{StaticResource  ActButton}" Content="Send Offsets" Margin="10,0,10,0" Click="OffsetSendButton_Click" Background="#FFD8D8D8"  BorderBrush="Black" Height="40" Width="Auto" Grid.Column="1"/>
 
                                 </Grid>
 

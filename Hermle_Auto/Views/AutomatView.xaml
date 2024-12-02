@@ -115,7 +115,7 @@
                     </Grid>
                 </Grid>
 -->
-                <Button Style="{StaticResource RectanglePlayButton}" Margin="0,0,0,0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Start Automat" Grid.ColumnSpan="2" />
+                <Button x:Name="btnStartAutomat" Style="{StaticResource RectanglePlayButton}" Margin="0,0,0,0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Start Automat" Grid.ColumnSpan="2" Click="btnStartAutomat_Click" />
 
 
             </Grid>

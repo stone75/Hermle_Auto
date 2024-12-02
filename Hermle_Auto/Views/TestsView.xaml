@@ -80,7 +80,7 @@
                             </Grid>
 
                             <StackPanel Margin="0,0,10,0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Orientation="Horizontal">
-                                <Button Content="Start Test" Grid.ColumnSpan="2" Width="200" Padding="1,1,1,1" Margin="10,2,10,2" Grid.Row="1" FontSize="22" Height="60" HorizontalAlignment="Center"/>
+                                <Button x:Name="btnStartTest" Content="Start Test" Grid.ColumnSpan="2" Width="200" Padding="1,1,1,1" Margin="10,2,10,2" Grid.Row="1" FontSize="22" Height="60" HorizontalAlignment="Center" Click="btnStartTest_Click"/>
                                 <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center">Loop</CheckBox>
 
                             </StackPanel>
@@ -165,7 +165,7 @@ VerticalAlignment="Bottom" IsReadOnly="True" TextAlignment="Center" FontSize="25
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <Button Content="Reset All Tests" Width="200" Padding="1,1,1,1" Margin="10,2,10,2" HorizontalAlignment="Center" FontSize="22" Height="50"/>
+                            <Button x:Name="btnResetAllTests" Content="Reset All Tests" Width="200" Padding="1,1,1,1" Margin="10,2,10,2" HorizontalAlignment="Center" FontSize="22" Height="50" Click="btnResetAllTests_Click"/>
 
                         </Grid>
                     </GroupBox>
@@ -193,25 +193,25 @@ VerticalAlignment="Bottom" IsReadOnly="True" TextAlignment="Center" FontSize="25
                         <StackPanel Height="350">
 
                             <StackPanel Margin="0,10,10,0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Orientation="Horizontal">
-                                <Button Content="Kiosk To Pocket" Grid.ColumnSpan="2" Width="230" Padding="1,1,1,1" Margin="10,2,10,2" Grid.Row="1" HorizontalAlignment="Center" FontSize="22" Height="60"/>
+                                <Button x:Name="btnKioskToPocket" Content="Kiosk To Pocket" Grid.ColumnSpan="2" Width="230" Padding="1,1,1,1" Margin="10,2,10,2" Grid.Row="1" HorizontalAlignment="Center" FontSize="22" Height="60" Click="btnKioskToPocket_Click"/>
                                 <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center">Loop</CheckBox>
 
                             </StackPanel>
 
                             <StackPanel Margin="0,10,10,0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Orientation="Horizontal">
-                                <Button Content="Pocket To Kiosk" Grid.ColumnSpan="2" Width="230" Padding="1,1,1,1" Margin="10,2,10,2" Grid.Row="1" HorizontalAlignment="Center" FontSize="22" Height="60"/>
+                                <Button x:Name="btnPocketToKiosk" Content="Pocket To Kiosk" Grid.ColumnSpan="2" Width="230" Padding="1,1,1,1" Margin="10,2,10,2" Grid.Row="1" HorizontalAlignment="Center" FontSize="22" Height="60" Click="btnPocketToKiosk_Click"/>
                                 <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center">Loop</CheckBox>
 
                             </StackPanel>
 
                             <StackPanel Margin="0,10,10,0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Orientation="Horizontal">
-                                <Button Content="Pocket To Chuck" Grid.ColumnSpan="2" Width="230" Padding="1,1,1,1" Margin="10,2,10,2" Grid.Row="1" HorizontalAlignment="Center" FontSize="22" Height="60"/>
+                                <Button x:Name="btnPocketToChunk" Content="Pocket To Chuck" Grid.ColumnSpan="2" Width="230" Padding="1,1,1,1" Margin="10,2,10,2" Grid.Row="1" HorizontalAlignment="Center" FontSize="22" Height="60" Click="btnPocketToChunk_Click"/>
                                 <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center">Loop</CheckBox>
 
                             </StackPanel>
 
                             <StackPanel Margin="0,10,10,0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Orientation="Horizontal">
-                                <Button Content="Chuck To Pocket" Grid.ColumnSpan="2" Width="230" Padding="1,1,1,1" Margin="10,2,10,2" Grid.Row="1" HorizontalAlignment="Center" FontSize="22" Height="60"/>
+                                <Button x:Name="btnChuckToPocket" Content="Chuck To Pocket" Grid.ColumnSpan="2" Width="230" Padding="1,1,1,1" Margin="10,2,10,2" Grid.Row="1" HorizontalAlignment="Center" FontSize="22" Height="60" Click="btnChuckToPocket_Click"/>
                                 <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center">Loop</CheckBox>
 
                             </StackPanel>
@@ -240,7 +240,7 @@ VerticalAlignment="Bottom" IsReadOnly="True" TextAlignment="Center" FontSize="25
                                 <Button Content="-" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,10,10" Click="DecreasePocketCount" Grid.Column="0"/>
                             </Grid>
                             <StackPanel>
-                                <Button Content="Start" Grid.ColumnSpan="2" Width="230" Padding="1,1,1,1" Margin="10,2,10,2" Grid.Row="1" HorizontalAlignment="Center" FontSize="22" Height="60"/>
+                                <Button x:Name="btnStart" Content="Start" Grid.ColumnSpan="2" Width="230" Padding="1,1,1,1" Margin="10,2,10,2" Grid.Row="1" HorizontalAlignment="Center" FontSize="22" Height="60" Click="btnStart_Click"/>
                                 <Button Content="Stop Loop" Grid.ColumnSpan="2" Width="230" Padding="1,1,1,1" Margin="10,2,10,2" Grid.Row="1" HorizontalAlignment="Center" FontSize="22" Height="60"/>
                             </StackPanel>
 
@@ -299,8 +299,8 @@ VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" FontSize="25
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Margin="10,0,8,0">
-                            <Button Content="Station to spindle" Width="250" Padding="1,1,1,1" Margin="10,10,10,10" HorizontalAlignment="Center" FontSize="22" Height="50"/>
-                            <Button Content="Spindle to station" Width="250" Padding="1,1,1,1" Margin="10,10,10,10" HorizontalAlignment="Center" FontSize="22" Height="50"/>
+                            <Button x:Name="btnStationToSpindle" Content="Station to spindle" Width="250" Padding="1,1,1,1" FontSize="22" Height="50" Click="btnStationToSpindle_Click"/>
+                            <Button x:Name="btnSpindleToStation" Content="Spindle to station" Width="250" Padding="1,1,1,1" Margin="10,10,10,10" HorizontalAlignment="Center" FontSize="22" Height="50" Click="btnSpindleToStation_Click"/>
 
                         </StackPanel>
 
@@ -317,7 +317,7 @@ VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" FontSize="25
                         </Grid>
 
 
-                        <Button Content="Start" Width="200" Padding="1,1,1,1" Margin="10,2,10,2" HorizontalAlignment="Center" FontSize="22" Height="50" Grid.Column="2"/>
+                        <Button x:Name="btnStart1" Content="Start" Width="200" Padding="1,1,1,1" Margin="10,2,10,2" HorizontalAlignment="Center" FontSize="22" Height="50" Grid.Column="2" Click="btnStart1_Click"/>
 
                     </Grid>
                 </GroupBox>

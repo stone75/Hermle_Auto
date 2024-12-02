@@ -68,4 +68,68 @@ namespace HermleCS.Data
         public int toolamount, toolamountleft, tooldiameter;
         public string wptooltype;
     }
+
+    public struct HTTPResponse
+    {
+        public int result { get; set; }
+        public string msg { get; set; }
+    }
+
+    public struct IniFile
+    {
+
+        public Gripper_Ini gripper;
+        public Application_Ini application;
+        public Shelvs_Ini shelvs;
+        public ShelvsOffset_Ini shelvsOffset;
+        public Offsets_Ini offsets;
+        public Documentation_Ini documentation;
+
+        /*public string Country       ;
+        public string factory        ;
+        public string AutoName ;
+        public int AutoNumber             ;
+        public string HermleNumber     ;
+        public string HermleType  ;*/
+
+    }
+    public struct Gripper_Ini
+    {
+        public int style;
+    }
+    public struct Application_Ini
+    {
+        public int AppToolType;
+        public int simulator;
+        public int ToolSensor;
+        public int saw;
+    }
+    public struct Shelvs_Ini
+    {
+        public int first;
+        public int second;
+        public int third;
+    }
+    public struct ShelvsOffset_Ini
+    {
+        public int First;
+        public int Second;
+        public int Thierd;
+    }
+    public struct Offsets_Ini
+    {
+        public int AbovePocket;
+        public int AboveChuck;
+        public int ChuckStopper;
+        public int ChuckDepth;
+        public int PocketStopper;
+        public int KioskStopper;
+    }
+    public struct Documentation_Ini
+    {
+        public int UseExternalFile;
+    }
+
+
+
 }

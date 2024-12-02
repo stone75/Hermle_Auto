@@ -1,4 +1,5 @@
-﻿using HermleCS.Comm;
+﻿using Hermle_Auto.Core;
+using HermleCS.Comm;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 //using System.Windows.Forms;
 
 namespace HermleCS.Data
@@ -28,6 +30,11 @@ namespace HermleCS.Data
         public Status[,,] RoundStatus = new Status[C.ROUND_STATUS_SHELF_COUNT, C.ROUND_STATUS_COLUMN_COUNT, C.ROUND_STATUS_POCKET_COUNT];
 
         public WorkPiece[] WorkPiecesList = new WorkPiece[C.WORKPIECE_COUNT];
+        public int CurrentWorkPieceIndex = 0;
+
+        public IniFile iniFile = new IniFile();
+
+        public string CURRENT_JOBNAME;
 
         // 2024/11/19 flagmoon
         public int[]    M2100           { get; set; }       = new int[2148 - 2100];
@@ -506,6 +513,8 @@ namespace HermleCS.Data
                             for (pocket = 0; pocket < pocket_count; pocket++)
                             {
                                 dummy = reader.ReadLine();
+
+
                                 string[] values = dummy.Split(',');
                                 target[shelf, column, pocket].name = values[0].Trim();
                                 target[shelf, column, pocket].shelf = int.Parse((values[1].Length > 0) ? values[1] : "0");
@@ -516,6 +525,7 @@ namespace HermleCS.Data
                                 target[shelf, column, pocket].status = int.Parse((values[6].Length > 0) ? values[6] : "0");
                                 target[shelf, column, pocket].workpiece = int.Parse((values[7].Length > 0) ? values[7] : "0");
                                 target[shelf, column, pocket].programnumber = int.Parse((values[8].Length > 0) ? values[8] : "0");
+
 
                                 lines++;
                             }
@@ -731,6 +741,155 @@ namespace HermleCS.Data
             rVal.rz = Math.Round((random.NextDouble() * 200) - 100, 3);
 
             return rVal;
+        }
+
+
+        public void ReadIniFile()
+        {
+           
+
+            string filePath = Path.Combine(C.ApplicationPath, "CSV", "IS2904.ini");
+
+            try
+            {
+                var iniReader = new IniFileReader(filePath);
+
+                iniFile.gripper.style = int.Parse(iniReader.TryGetValue("gripper", "style"));
+
+                iniFile.application.AppToolType = int.Parse(iniReader.TryGetValue("application", "AppToolType"));
+                iniFile.application.ToolSensor = int.Parse(iniReader.TryGetValue("application", "ToolSensor"));
+                iniFile.application.simulator = int.Parse(iniReader.TryGetValue("application", "simulator"));
+                iniFile.application.saw = int.Parse(iniReader.TryGetValue("application", "saw"));
+
+
+                iniFile.shelvs.first = int.Parse(iniReader.TryGetValue("shelvs", "first"));
+                iniFile.shelvs.second = int.Parse(iniReader.TryGetValue("shelvs", "second"));
+                iniFile.shelvs.third = int.Parse(iniReader.TryGetValue("shelvs", "third"));
+
+                iniFile.shelvsOffset.First = int.Parse(iniReader.TryGetValue("ShelvsOffset", "First"));
+                iniFile.shelvsOffset.Second = int.Parse(iniReader.TryGetValue("ShelvsOffset", "Second"));
+                iniFile.shelvsOffset.Thierd = int.Parse(iniReader.TryGetValue("ShelvsOffset", "Thierd"));
+
+
+                iniFile.offsets.AbovePocket = int.Parse(iniReader.TryGetValue("offsets", "AbovePocket"));
+                iniFile.offsets.AboveChuck = int.Parse(iniReader.TryGetValue("offsets", "AboveChuck"));
+                iniFile.offsets.ChuckStopper = int.Parse(iniReader.TryGetValue("offsets", "ChuckStopper"));
+                iniFile.offsets.ChuckDepth = int.Parse(iniReader.TryGetValue("offsets", "ChuckDepth"));
+                iniFile.offsets.PocketStopper = int.Parse(iniReader.TryGetValue("offsets", "PocketStopper"));
+                iniFile.offsets.KioskStopper = int.Parse(iniReader.TryGetValue("offsets", "KioskStopper"));
+
+                iniFile.documentation.UseExternalFile = int.Parse(iniReader.TryGetValue("Documentation", "UseExternalFile"));
+
+
+                /* if (iniReader.TryGetValue(section, key, out value))
+                 {
+                     iniFile.application.AppToolType = int.Parse(value);
+                     Console.WriteLine($"Found: [{section}] {key} = {value}");
+                 }*/
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                C.log("ReadIniFile Exception ; " + ex.Message);
+            }
+        }
+
+        public void WriteIniFile()
+        {
+
+
+            string filePath = Path.Combine(C.ApplicationPath, "CSV", "IS2904.ini");
+       
+            try
+            {
+                var iniReader = new IniFileReader(filePath);
+
+
+                iniReader.SetValue("gripper", "style",                  iniFile.gripper.style.ToString());
+                iniReader.SetValue("application", "AppToolType"       , iniFile.application.AppToolType      .ToString()          );
+                iniReader.SetValue("application", "ToolSensor"        , iniFile.application.ToolSensor       .ToString()          );
+                iniReader.SetValue("application", "simulator"         , iniFile.application.simulator        .ToString()          );
+                iniReader.SetValue("application", "saw"               , iniFile.application.saw              .ToString()          );
+                iniReader.SetValue("shelvs", "first"                  , iniFile.shelvs.first                 .ToString()          );
+                iniReader.SetValue("shelvs", "second"                 , iniFile.shelvs.second                .ToString()          );
+                iniReader.SetValue("shelvs", "third"                  , iniFile.shelvs.third                 .ToString()          );
+                iniReader.SetValue("ShelvsOffset", "First"            , iniFile.shelvsOffset.First           .ToString()          );
+                iniReader.SetValue("ShelvsOffset", "Second"           , iniFile.shelvsOffset.Second          .ToString()          );
+                iniReader.SetValue("ShelvsOffset", "Thierd"           , iniFile.shelvsOffset.Thierd          .ToString()          );
+                iniReader.SetValue("offsets", "AbovePocket"           , iniFile.offsets.AbovePocket          .ToString()          );
+                iniReader.SetValue("offsets", "AboveChuck"            , iniFile.offsets.AboveChuck           .ToString()          );
+                iniReader.SetValue("offsets", "ChuckStopper"          , iniFile.offsets.ChuckStopper         .ToString()          );
+                iniReader.SetValue("offsets", "ChuckDepth"            , iniFile.offsets.ChuckDepth           .ToString()         );
+                iniReader.SetValue("offsets", "PocketStopper"         , iniFile.offsets.PocketStopper        .ToString()       );
+                iniReader.SetValue("offsets", "KioskStopper"          , iniFile.offsets.KioskStopper         .ToString()       );
+                iniReader.SetValue("Documentation", "UseExternalFile" , iniFile.documentation.UseExternalFile.ToString()      );
+
+                // 파일 저장
+                iniReader.Save();
+
+            }
+            catch (Exception ex)
+            {
+                C.log("Read General Locations Exception ; " + ex.Message);
+            }
+        }
+        public string GetToolType()
+        {
+            if(iniFile.application.AppToolType == 0)
+            {
+                return "Other";
+            }
+            else if (iniFile.application.AppToolType == 1)
+            {
+                return "HSK";
+            }
+            else if (iniFile.application.AppToolType == 2)
+            {
+                return "DRILL";
+            }
+            else if (iniFile.application.AppToolType == 3)
+            {
+                return "ROUND";
+            }
+
+            return "";
+        }
+
+        public Status[,,] GetStatus(String toolname)
+        {
+
+            if (toolname.Equals("DRILL") || toolname.Equals("drill"))
+            {
+                return DrillStatus;
+            }
+            else if (toolname.Equals("HSK") || toolname.Equals("hsk"))
+            {
+                return HSKStatus;
+            }
+            else if (toolname.Equals("ROUND") || toolname.Equals("round"))
+            {
+                return RoundStatus;
+            }
+
+            return null;
+        }
+        public string PocketStatusConberter(int status)
+        {
+            string str = "";
+
+            if (status == 1) return "Empty";
+            if (status == 2) return "Unmachined";
+            if (status == 3) return "Machined";
+            if (status == 4) return "Reserved";
+            if (status == 5) return "Mask";
+            if (status == 6) return "Occupied";
+            if (status == 7) return "Broken";
+            if (status == 8) return "Disable";
+
+            return str;
         }
     }
 }

@@ -19,6 +19,9 @@ namespace HermleCS.Comm
         public const string PLC_IP = "192.168.50.100";
         public const int PLC_PORT = 5100;
 
+        // ROBOT Information
+        public const string ROBOT_SERVER = "http://192.168.0.10/KAREL";
+
         // DRILL CONSTANT
         public const int DRILL_LOCATION_SHELF_COUNT = 3;
         public const int DRILL_LOCATION_COLUMN_COUNT = 12;

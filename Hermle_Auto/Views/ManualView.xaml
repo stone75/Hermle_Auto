@@ -31,7 +31,83 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Jog Robot Section -->
+                <GroupBox Header="Jog Robo" FontSize="22" Margin="20,20,20,20"  FontFamily="Arial" FontWeight="Bold" Grid.Column="0" VerticalAlignment="Top">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
+                        <!-- X Axis -->
+                        <StackPanel Grid.Column="0">
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                                <TextBlock Text="X+" FontSize="16"/>
+                            </Button>
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                                <TextBlock Text="X-" FontSize="16"/>
+                            </Button>
+                        </StackPanel>
+
+                        <!-- Y Axis -->
+                        <StackPanel Grid.Column="1">
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                                <TextBlock Text="Y+" FontSize="16"/>
+                            </Button>
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                                <TextBlock Text="Y-" FontSize="16"/>
+                            </Button>
+                        </StackPanel>
+
+                        <!-- Z Axis -->
+                        <StackPanel Grid.Column="2">
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                                <TextBlock Text="Z+" FontSize="16"/>
+                            </Button>
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                                <TextBlock Text="Z-" FontSize="16"/>
+                            </Button>
+                        </StackPanel>
+
+                        <!-- Rx Axis -->
+                        <StackPanel Grid.Column="3">
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                                <TextBlock Text="Rx+" FontSize="16"/>
+                            </Button>
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                                <TextBlock Text="Rx-" FontSize="16"/>
+                            </Button>
+                        </StackPanel>
+
+                        <!-- Ry Axis -->
+                        <StackPanel Grid.Column="4">
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                                <TextBlock Text="Ry+" FontSize="16"/>
+                            </Button>
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                                <TextBlock Text="Ry-" FontSize="16"/>
+                            </Button>
+                        </StackPanel>
+
+                        <!-- Rz Axis -->
+                        <StackPanel Grid.Column="5">
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                                <TextBlock Text="Rz+" FontSize="16"/>
+                            </Button>
+                            <Button Style="{StaticResource DirectionButton}" Click="Jogo_Lobo_Click">
+                                <TextBlock Text="Rz-" FontSize="16"/>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </GroupBox>                
+<!-- Test 용 임시 작성
                 <GroupBox Header="Jog Robo" FontSize="22" Margin="20,20,20,0"  FontFamily="Arial" FontWeight="Bold" Grid.Column="0" VerticalAlignment="Top" Height="499">
                     <Grid Height="360" HorizontalAlignment="Center" VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>
@@ -41,7 +117,6 @@
                             <RowDefinition Height="400" MinHeight="140"/>
                         </Grid.RowDefinitions>
 
-                        <!-- X Axis -->
                         <Label x:Name="label" Content="Robot Information : " Margin="28,22,0,0" VerticalAlignment="Top" Width="207" RenderTransformOrigin="0.179,0.366" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" Height="35"/>
                         <TextBox x:Name="robotaddr" Margin="283,20,-14,343" TextWrapping="Wrap" Text="http://ktrends.net/"/>
                         <TextBox x:Name="robotcmd" HorizontalAlignment="Left" Margin="283,62,0,303" TextWrapping="Wrap" Text="Command..." Width="317"/>
@@ -62,15 +137,7 @@
                         </Button>
                         <TextBox x:Name="logText" IsReadOnly="True" HorizontalAlignment="Left" Margin="96,258,0,51" TextWrapping="Wrap" Text="TextBox" Width="494" FontSize="18" FontWeight="Normal"/>
                         <Label Content="Log : " Margin="10,255,0,0" FontSize="20" VerticalAlignment="Top"/>
-
-
-
-
-
-                    </Grid>
-
-
-                </GroupBox>
+-->
 
                 <!-- Step and Speed Section -->
                 <Grid Grid.Column="1">
@@ -91,7 +158,7 @@
                                    Content="1.0" 
                                    GroupName="StepGroup"
                                    Tag="1.0"
-                                   Checked="StepButton_Checked" Width="140"/>
+                                   Checked="StepButton_Checked"/>
                             <RadioButton Style="{StaticResource StepRadioButton}" 
                                    Content="2.0" 
                                    GroupName="StepGroup"

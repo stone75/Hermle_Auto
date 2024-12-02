@@ -23,9 +23,11 @@ using Hermle_Auto.ViewModels;
 using HermleCS.Data;
 using System.Net.Http;
 using System.Security.Policy;
+using System.Windows.Threading;
+using Hermle_Auto.Comm;
 
 public delegate void PLCCommHandler(int addr, string message);
-
+public delegate Task PLCCommSender(McProtocolTcp conn, PlcDeviceType type, int addr, int value);
 
 namespace Hermle_Auto.Views
 {
@@ -37,10 +39,16 @@ namespace Hermle_Auto.Views
         UserControl1ViewModel userControl1ViewModel = new UserControl1ViewModel();
         private CommHTTPComponent httpclient = CommHTTPComponent.Instance;
 
+        private CommPLC commPLC = CommPLC.Instance;
         private McProtocolTcp mcProtocolTcp;
         public event PLCCommHandler commHandler;
+        public event PLCCommSender commSender;
+
         private Thread plcworker;
         private bool plcrunning;
+
+
+
 
         public UserControl1()
         {
@@ -52,6 +60,11 @@ namespace Hermle_Auto.Views
 
             workPieceView.WorkPieceChanged += userControl1ViewModel.OnWorkPieceUpdate;
             //workPieceView.Visibility = Visibility.Visible;
+
+
+            D.Instance.ReadIniFile();
+
+
 
             httpclient.MessageReceived += (addr, message) =>
             {
@@ -70,10 +83,11 @@ namespace Hermle_Auto.Views
                 }
             };
 
-            plcrunning = true;
-            mcProtocolTcp = new McProtocolTcp(C.PLC_IP, C.PLC_PORT, McFrame.MC3E);
-            plcworker = new Thread(async () => await ReadThreadHandler(mcProtocolTcp));
-            plcworker.Start();
+            mcProtocolTcp = commPLC.mcProtocolTcp;
+            //commSender += WritePLC;
+
+            StartPLC();
+
 
                 Unloaded += UIUnloaded;
 
@@ -84,6 +98,33 @@ namespace Hermle_Auto.Views
             }
         }
 
+
+        public void StartPLC()
+        {
+            try
+            {
+                mcProtocolTcp = new McProtocolTcp(C.PLC_IP, C.PLC_PORT, McFrame.MC3E);
+
+                mcProtocolTcp.Open();
+
+                plcworker = new Thread(async () => await ReadThreadHandler(mcProtocolTcp));
+                plcrunning = true;
+                plcworker.Start();
+
+                logText.Text = "PLC Connect";
+                logText.Foreground = Brushes.Green;
+             
+
+            }
+            catch (Exception ex)
+            {
+                logText.Text = "PLC Fail Connect";
+                logText.Foreground = Brushes.Red;
+                MessageBox.Show("PLC 연결 실패");
+            }
+        }
+
+
         private void UIUnloaded(object sender, RoutedEventArgs e)
         {
             plcrunning = false;
@@ -91,8 +132,9 @@ namespace Hermle_Auto.Views
 
         private async Task ReadThreadHandler(McProtocolTcp conn)
         {
-            int[] addrs =
-            {
+               
+             int[] addrs =
+             {
                 2106, 2107,
                 2116, 2118, 2120, 2122,
                 2124, 2126, 2128, 2130,
@@ -109,37 +151,7 @@ namespace Hermle_Auto.Views
 
             while (plcrunning)
             {
-                //for (int i = 0; i < addrs.Length; i++)
-                //{
-                //    // 2024/11/19
-                //    if (conn.Connected == false)
-                //    {
-                //        continue;
-                //    }
-                //    //---
 
-                //    await conn.GetBitDevice(PlcDeviceType.M, addrs[0], 1, getData);
-                //    if (getData[0] == 1)
-                //    {
-                //        Console.WriteLine($" Addr {addrs[i]} is onnnn!");
-                //    }
-                //    else
-                //    {
-                //        Console.WriteLine($" Addr {addrs[i]} is offffffffffff");
-                //    }
-                //}
-
-                if (conn.Connected == false)
-                {
-                    try
-                    {
-                        conn.Open ();
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine (ex.ToString ());
-                    }
-                }
                 // 2024/11/19 flagmoon
                 if (conn.Connected == true)
                 {
@@ -210,6 +222,7 @@ namespace Hermle_Auto.Views
 
                 Thread.Sleep(500);
             }
+            
         }
 
         public int[] GetBit (int[] data, int length)
@@ -236,7 +249,6 @@ namespace Hermle_Auto.Views
             return result;
         }
 
-
         private void OpenPasswordWindow_Click(object sender, RoutedEventArgs e)
         {
             // Password.xaml 창을 불러오기
@@ -249,6 +261,9 @@ namespace Hermle_Auto.Views
         {
             // Password.xaml 창을 불러오기
             CommunicationWindow Window = new CommunicationWindow();
+
+            Window.callPLCConnect += StartPLC;
+
             Window.ShowDialog(); // 모달 창으로 실행
             
         }
@@ -268,6 +283,110 @@ namespace Hermle_Auto.Views
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void btnResume_Click(object sender, RoutedEventArgs e)
+        {
+            CommPLC commplc = CommPLC.Instance;
+            D d = D.Instance;
+
+            try
+            {
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2004, 1);
+                commplc.WritePLCBlock(2000, d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+        }
+
+        private void btnPause_Click(object sender, RoutedEventArgs e)
+        {
+            CommPLC commplc = CommPLC.Instance;
+            D d = D.Instance;
+
+            try
+            {
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2003, 1);
+                commplc.WritePLCBlock(2000, d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+        }
+
+        private void btnReset_Click(object sender, RoutedEventArgs e)
+        {
+            CommPLC commplc = CommPLC.Instance;
+            D d = D.Instance;
+
+            try
+            {
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2005, 1);
+                commplc.WritePLCBlock(2000, d.WorkPiecesList[d.CurrentWorkPieceIndex].ncprogram);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+        }
+
+        private void btnManualMode_Checked(object sender, RoutedEventArgs e)
+        {
+            CommPLC commplc = CommPLC.Instance;
+
+            try
+            {
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2002, 1);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+        }
+
+        private void btnAutoMode_Checked(object sender, RoutedEventArgs e)
+        {
+            CommPLC commplc = CommPLC.Instance;
+
+            try
+            {
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2000, 1);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+        }
+
+        private void btnSemiMode_Checked(object sender, RoutedEventArgs e)
+        {
+            CommPLC commplc = CommPLC.Instance;
+
+            try
+            {
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2001, 1);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            CommPLC commplc = CommPLC.Instance;
+
+            try
+            {
+                commplc.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2006, 1);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("PLC 예외상황 : " + ex.Message);
+            }
         }
     }
 

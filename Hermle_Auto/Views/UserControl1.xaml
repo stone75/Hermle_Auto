@@ -14,7 +14,7 @@
     </UserControl.DataContext>
 -->
 
-    
+
     <UserControl.Resources>
 
         <ResourceDictionary>
@@ -56,7 +56,7 @@
 
             <!-- Top toolbar with buttons -->
             <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,0" Width="Auto" HorizontalAlignment="Left" Grid.ColumnSpan="4">
-                <Button Content="R.E.Stop" Style="{StaticResource SubButton}" Margin="5,5,15,5"/>
+                <Button Content="R.E.Stop" Style="{StaticResource SubButton}" Margin="5,5,15,5" Click="Button_Click"/>
                 <Button Content="Options" Style="{StaticResource SubButton}" Click="OpenPasswordWindow_Click" Margin="5,5,15,5" />
                 <Button Content="Communication" Style="{StaticResource SubButton}" Click="OpenCommunicationWindow_Click" FontSize="18" Margin="5,5,15,5"/>
                 <Button Content="PLC CHEK" Style="{StaticResource SubButton}" Click="OpenPLC_CHECK_Click" FontSize="18" Margin="5,5,0,5"/>
@@ -66,40 +66,40 @@
 
             <!-- 상단에 버튼 3개 수평 배치 -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.RowSpan="1" Grid.Row="1" >
-                <RadioButton Content="Auto" 
+                <RadioButton Content="Auto" x:Name="btnAutoMode" 
                      Style="{StaticResource RadioButtonStyle}"
                      Command="{Binding AutoCommand}"
-                     IsChecked="{Binding SelectedMode, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Auto}" Margin="5,5,15,5"/>
-                <RadioButton Content="Semi" 
+                     IsChecked="{Binding SelectedMode, ConverterParameter=Auto, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}" Checked="btnAutoMode_Checked"/>
+                <RadioButton Content="Semi" x:Name="btnSemiMode" 
                      Style="{StaticResource RadioButtonStyle}"
                      Command="{Binding SemiCommand}"
-                     IsChecked="{Binding SelectedMode, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Semi}" Margin="5,5,15,5"/>
-                <RadioButton Content="Manual" 
+                     IsChecked="{Binding SelectedMode, ConverterParameter=Semi, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}" Margin="5,5,15,5" Checked="btnSemiMode_Checked"/>
+                <RadioButton Content="Manual" x:Name="btnManualMode" 
                      Style="{StaticResource RadioButtonStyle}"
                      Command="{Binding ManualCommand}"
-                     IsChecked="{Binding SelectedMode, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Manual}" Margin="5,5,0,5"/>
+                     IsChecked="{Binding SelectedMode, ConverterParameter=Manual, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}" Margin="5,5,0,5" Checked="btnManualMode_Checked"/>
             </StackPanel>
             <!-- 상단에 버튼 3개 수평 배치 -->
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,0" Grid.Column="4" Width="Auto" Grid.ColumnSpan="3" VerticalAlignment="Top">
                 <!-- START 버튼 -->
-                <Button Style="{StaticResource SubButton}"
-                        Command="{Binding StartCommand}" Margin="5,5,15,5">
+                <Button x:Name="btnResume" Style="{StaticResource SubButton}"
+                        Command="{Binding StartCommand}" Margin="5,5,15,5" Click="btnResume_Click">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Start" Margin="0,0,0,0" VerticalAlignment="Center" FontSize="28" FontWeight="Bold"/>
+                        <TextBlock Text="Resume" Margin="0,0,0,0" VerticalAlignment="Center" FontSize="28" FontWeight="Bold"/>
                     </StackPanel>
                 </Button>
 
                 <!-- STOP 버튼 -->
                 <Button Style="{StaticResource SubButton}"
-                        Command="{Binding PauseCommand}" Margin="5,5,15,5">
+                        Command="{Binding PauseCommand}" x:Name="btnPause" Margin="5,5,15,5" Click="btnPause_Click">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Pause" Margin="0,0,0,0" VerticalAlignment="Center" FontSize="28" FontWeight="Bold"/>
                     </StackPanel>
                 </Button>
 
                 <!-- PAUSE 버튼 -->
-                <Button Style="{StaticResource SubButton}"
-                        Command="{Binding ResetCommand}">
+                <Button x:Name="btnReset" Style="{StaticResource SubButton}"
+                        Command="{Binding ResetCommand}" Click="btnReset_Click">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Reset" Margin="0,0,0,0" VerticalAlignment="Center"  FontSize="28" FontWeight="Bold"/>
                     </StackPanel>
@@ -173,11 +173,11 @@
 
             </Border>
 
-            
-            
+
+
             <!-- 중앙 컨텐츠는 기존과 동일 -->
             <Grid Grid.Column="2" Grid.ColumnSpan="2" Margin="0,0,0,0" Grid.Row="2">
-                
+
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
@@ -262,21 +262,21 @@
                                Style="{StaticResource CustomLabel}"
                                Width="100" 
                                Foreground="{Binding ValueServeForeground}" 
-                               FontWeight="{Binding ValueServeFontWeight}" />    
+                               FontWeight="{Binding ValueServeFontWeight}" />
                     </Border>
                     <Border Grid.Row="4" Grid.Column="2" BorderBrush="Gray" BorderThickness="1" Padding="5" Margin="5">
                         <Label Content="{Binding ValueGripper}" 
                                Style="{StaticResource CustomLabel}"
                                Width="100" 
                                Foreground="{Binding ValueGripperForeground}"
-                               FontWeight="{Binding ValueGripperFontWeight}"/>        
+                               FontWeight="{Binding ValueGripperFontWeight}"/>
                     </Border>
                     <Border Grid.Row="4" Grid.Column="3" BorderBrush="Gray" BorderThickness="1" Padding="5" Margin="5">
                         <Label Content="{Binding ValueKeyState}" 
                                Style="{StaticResource CustomLabel}"
                                Width="100" 
                                Foreground="{Binding ValueKeyStateForeground}"
-                               FontWeight="{Binding ValueKeyStateFontWeight}"/>        
+                               FontWeight="{Binding ValueKeyStateFontWeight}"/>
                     </Border>
                 </Grid>
 
@@ -363,7 +363,7 @@
                             <Run Text="Status"/>
                         </TextBlock>
                     </Button>
-                    
+
                     <Button Content="Teach" 
                             Command="{Binding TabSelectCommand}" CommandParameter="Teach"
                                >
@@ -434,7 +434,7 @@
                         </Button.Style>
 
                     </Button>
-                    
+
                 </UniformGrid>
             </Grid>
 
@@ -522,7 +522,7 @@ ConverterParameter='Operation'}">
 Converter={StaticResource Enum2VisConverter},
 ConverterParameter='Tests'}">
                 </local:TestsView>
-                
+
                 <local:InfoView x:Name="infoView" Visibility="{Binding SelectedView,
 Converter={StaticResource Enum2VisConverter},
 ConverterParameter='Info'}">
@@ -533,7 +533,9 @@ ConverterParameter='Info'}">
             <Grid Grid.Row="7" Grid.ColumnSpan="6" Margin="5,0,5,5" Grid.RowSpan="1">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="50,0,50,10">
                     <TextBlock Text="Robot Status:" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="20"/>
-                    <ProgressBar Value="80" Width="200" Height="20" Margin="0,0,10,0"/>
+
+                    <ProgressBar Value="80" Width="200" Height="20" Margin="0,0,10,0" />
+
                     <TextBlock x:Name="logText" Text="ROBOT RUN" Foreground="Green" FontWeight="Bold" FontSize="20"/>
 
                     <TextBlock Text="Command :" FontWeight="Bold" VerticalAlignment="Center" Margin="100,0,10,0" FontSize="20"/>
