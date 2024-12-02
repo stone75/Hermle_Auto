@@ -66,6 +66,7 @@ namespace Hermle_Auto.Views
             //workPieceView.Visibility = Visibility.Visible;
 
 
+
             D.Instance.ReadIniFile();
 
 
@@ -104,6 +105,10 @@ namespace Hermle_Auto.Views
 
             automatView.logger += automatView.writelog;
             automatView.logger += infoView.writelog;
+
+
+
+       
 
         }
 
@@ -144,6 +149,13 @@ namespace Hermle_Auto.Views
             {
                 logText.Text = "Robot Thread starting exception : " + ex.Message;
             }
+        }
+
+        //종료 함수 추가
+        public void CloseUserControl()
+        {
+            plcrunning = false;
+            robotrunning = false;
         }
 
 
@@ -334,11 +346,7 @@ namespace Hermle_Auto.Views
 
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+       
         private void btnResume_Click(object sender, RoutedEventArgs e)
         {
             CommHTTPComponent http = CommHTTPComponent.Instance;
@@ -980,6 +988,8 @@ namespace Hermle_Auto.Views
 
             //MessageBox.Show("Reset Button Released!");
         }
+
+       
     }
 
    

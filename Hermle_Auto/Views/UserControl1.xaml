@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Hermle_Auto.Views" 
              xmlns:converters="clr-namespace:Hermle_Auto.Converters" 
              xmlns:viewmodels="clr-namespace:Hermle_Auto.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="1280" Height="1024" Loaded="UserControl_Loaded">
+             mc:Ignorable="d" d:DesignWidth="1280" Height="1024">
 
     <!-- 
     <UserControl.DataContext>

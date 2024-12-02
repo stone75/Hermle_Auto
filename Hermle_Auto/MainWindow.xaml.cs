@@ -21,6 +21,15 @@ namespace Hermle_Auto
             InitializeComponent();
 
             CheckRobotAndPLC();
+
+            Closing += MainWindow_Closing;
+
+        }
+
+        //윈도우가 종료될때 자식 컨트롤의 종료 메시지 호출
+        private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
+        {
+            MainControl.CloseUserControl();
         }
 
         public void CheckRobotAndPLC()
