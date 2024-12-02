@@ -42,7 +42,8 @@ namespace HermleCS.Data
         public int[]    M2200           { get; set; }       = new int[2248 - 2200];
         public bool     M2200Changed    { get; set; }       = false;
         public int[]    M2000   { get; set; }       = new int[2040 - 2000];     // 일단 초기화
-        public int[]    M2080   { get; set; }       = new int[2100 - 2080];     // 일단 초기화
+        public int[]    M2080   { get; set; }       = new int[2100 - 2080];     // 일단 초기화, 알람.
+        
         public int      ProgramNumber   { get; set; }
         //---
 
