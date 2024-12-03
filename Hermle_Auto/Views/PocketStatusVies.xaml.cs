@@ -76,6 +76,7 @@ namespace Hermle_Auto.Views
             ShelfTextBox.Text = ShelfCount.ToString();
         }
 
+        // 미구현
         private void ChangeWorkPiecePocketButton(object sender, RoutedEventArgs e)
         {
 

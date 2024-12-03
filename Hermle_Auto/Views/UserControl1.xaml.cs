@@ -88,7 +88,9 @@ namespace Hermle_Auto.Views
                 }
             };
 
-            mcProtocolTcp = commPLC.mcProtocolTcp;
+            // 2024/112/03
+            // 아래로 이동.
+            // mcProtocolTcp = commPLC.mcProtocolTcp;
             //commSender += WritePLC;
 
             //작업시 제외
@@ -106,10 +108,9 @@ namespace Hermle_Auto.Views
             automatView.logger += automatView.writelog;
             automatView.logger += infoView.writelog;
 
-
-
-       
-
+            // 2024/12/03
+            commPLC.mcProtocolTcp = mcProtocolTcp;
+            //---
         }
 
         public void StartPLC()
@@ -165,6 +166,9 @@ namespace Hermle_Auto.Views
             robotrunning = false;
         }
 
+        // 2024/12/03 flagmoon
+        // 이 쓰레드는 PLC Monitor Window로 이동 해야함.
+        // 정보 표출 할 상태가 아닌데 계속 수행할 이유가 없슴.
         private async Task ReadThreadHandler(McProtocolTcp conn)
         {
                
@@ -194,7 +198,14 @@ namespace Hermle_Auto.Views
 
                     try
                     {
-                        
+                                                    
+                        // 2024/12/03
+                        if (conn.Connected == false)
+                        {
+                            continue;
+                        }
+                        //---
+
                         await conn.GetBitDevice(PlcDeviceType.M, addrs[i], 1, getData);
 
                         if (getData[0] == 1)
@@ -228,6 +239,7 @@ namespace Hermle_Auto.Views
                                 plcMointerWindow.SetLampState(addrs[i], false);
                             }
                         }
+
                     }
                     catch
                     {
@@ -238,10 +250,83 @@ namespace Hermle_Auto.Views
                         }));
 
                         //MessageBox.Show("PLC 연결 실패");
-                        return;
+                        // 2024/12/03 flagmoon 코멘트처리 함.
+                        // return;
+                        //---
                     }
                     
                 }
+
+#if false
+                // 2024/11/19 flagmoon
+                if (conn.Connected == true)
+                {
+                    int length      = 2100 - 2080;
+                    int len         = (length % 16) + (length % 16) > 0 ? 1 : 0;
+                    int[]   data    = new int[len];
+                    int[]   temp;
+
+                    // M2080
+                    await conn.ReadDeviceBlock ("M2080", data.Length, data);
+
+                    temp    = GetBit (data, length);
+
+                    for (int i = 0; i < D.Instance.M2080.Length; i++)
+                    {
+                        D.Instance.M2080[i]     = temp[i];    
+                    }
+                    //---
+
+                    // M2000
+                    length  = 2040 - 2000;
+                    len     = (length % 16) + (length % 16) > 0 ? 1 : 0;
+                    data    = new int[len];
+
+                    await conn.ReadDeviceBlock ("M2000", data.Length, data);
+                    temp    = GetBit (data, length);
+                    for (int i = 0; i < D.Instance.M2000.Length; i++)
+                    {
+                        D.Instance.M2000[i]     = temp[i];    
+                    }
+                    //---
+
+                    // M2100
+                    length  = D.Instance.M2100.Length;
+                    len     = (length % 16) + (length % 16) > 0 ? 1 : 0;
+                    data    = new int[len];
+
+                    await conn.ReadDeviceBlock ("M2100", data.Length, data);
+                    temp        = GetBit (data, length);
+                    for (int i = 0; i < D.Instance.M2100.Length; i++)
+                    {
+                        if (D.Instance.M2100[i] != temp[i])
+                        {
+                            D.Instance.M2100[i]     = temp[i];    
+                            D.Instance.M2100Changed = true;
+                        }
+                    }
+                    //---
+
+                    // M2200
+                    length  = D.Instance.M2200.Length;
+                    len     = (length % 16) + (length % 16) > 0 ? 1 : 0;
+                    data    = new int[len];
+
+                    await conn.ReadDeviceBlock ("M2200", data.Length, data);
+                    temp        = GetBit (data, length);
+                    for (int i = 0; i < D.Instance.M2200.Length; i++)
+                    {
+                        if (D.Instance.M2200[i] != temp[i])
+                        {
+                            D.Instance.M2200[i]     = temp[i];    
+                            D.Instance.M2200Changed = true;
+                        }
+                    }
+                    //---
+                }
+                //---
+#endif
+
                 Thread.Sleep(500);
             }
             

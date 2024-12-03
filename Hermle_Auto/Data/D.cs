@@ -36,7 +36,18 @@ namespace HermleCS.Data
         public IniFile iniFile = new IniFile();
 
         public string CURRENT_JOBNAME;
-
+#if false
+        // 2024/11/19 flagmoon
+        public int[]    M2100           { get; set; }       = new int[2148 - 2100];
+        public bool     M2100Changed    { get; set; }       = false;
+        public int[]    M2200           { get; set; }       = new int[2248 - 2200];
+        public bool     M2200Changed    { get; set; }       = false;
+        public int[]    M2000   { get; set; }       = new int[2040 - 2000];     // 일단 초기화
+        public int[]    M2080   { get; set; }       = new int[2100 - 2080];     // 일단 초기화, 알람.
+        
+        public int      ProgramNumber   { get; set; }
+        //---
+#endif
 
         private D() { }
 

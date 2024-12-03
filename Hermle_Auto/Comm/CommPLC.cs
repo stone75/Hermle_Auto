@@ -11,6 +11,7 @@ using McProtocol.Mitsubishi;
 using System.Windows.Media;
 using System.Windows.Threading;
 using System.Windows;
+using System.Threading;
 
 
 namespace Hermle_Auto.Comm
@@ -20,6 +21,7 @@ namespace Hermle_Auto.Comm
         public McProtocolTcp mcProtocolTcp;
 
         private static readonly CommPLC instance = new CommPLC();
+
         private CommPLC()
         {
         }
@@ -42,6 +44,13 @@ namespace Hermle_Auto.Comm
 
             try
             {
+                // 2024/12/03 flagmoon
+                if (mcProtocolTcp.Connected == false)
+                {
+                    return;
+                }
+                //---
+                
                 await mcProtocolTcp.SetBitDevice(type, addrs[0], 1, values);
             }
             catch (Exception ex)
@@ -63,6 +72,13 @@ namespace Hermle_Auto.Comm
 
             try
             {
+                // 2024/12/03 flagmoon
+                if (mcProtocolTcp.Connected == false)
+                {
+                    return;
+                }
+                //---
+
                 await mcProtocolTcp.WriteDeviceBlock(McProtocol.Mitsubishi.PlcDeviceType.D, addrs[0], 2, values);
             }
             catch (Exception ex)
@@ -104,6 +120,4 @@ namespace Hermle_Auto.Comm
         }
 
     }
-
-
 }

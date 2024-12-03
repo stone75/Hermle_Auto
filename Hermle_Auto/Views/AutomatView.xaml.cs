@@ -36,6 +36,8 @@ namespace Hermle_Auto.Views
             NightModeToggle.MouseDown += WorkPieceToggle_MouseDown;
         }
 
+        // 2024/12/03 flagmoon
+        /// 미구현.
         private void WorkPieceToggle_MouseDown(object sender, MouseButtonEventArgs e)
         {
             ToggleButton textBox = sender as ToggleButton;
@@ -80,7 +82,9 @@ namespace Hermle_Auto.Views
                 MessageBox.Show("PLC 예외상황 : " + ex.Message);
             }
         }
-
+                             
+        // 2024/12/03 
+        // 미구현
         private void SpeedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Slider slider = sender as Slider;

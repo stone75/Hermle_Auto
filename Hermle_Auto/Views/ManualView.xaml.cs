@@ -16,6 +16,8 @@ using System.Windows.Shapes;
 
 namespace Hermle_Auto.Views
 {
+    // 전체 미구현
+
     /// <summary>
     /// ManualView.xaml에 대한 상호 작용 논리
     /// </summary>

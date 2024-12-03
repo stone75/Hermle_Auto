@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using HermleCS.Data;
+
 namespace Hermle_Auto.Views
 {
     /// <summary>
@@ -49,10 +51,31 @@ namespace Hermle_Auto.Views
             // UI 스레드에서 실행되도록 보장
             Application.Current.Dispatcher.Invoke(() =>
             {
-                foreach (var item in leftData.Concat(rightData))
+#if flase
+                // 2024/11/19 flagmoon
+                if (D.Instance.M2100Changed)
+                {
+                    for (int i = 0; i < leftData.Count; i++) 
+                    {
+                        leftData[i].IsOn = D.Instance.M2100[leftData[i].GetIndex ()] == 1 ? true : false;
+                    }
+                }
+
+                if (D.Instance.M2200Changed)
+                {
+                    for (int i = 0; i < rightData.Count; i++) 
+                    {
+                        rightData[i].IsOn = D.Instance.M2200[rightData[i].GetIndex ()] == 1 ? true : false;
+                    }
+                }
+                //---
+#else
+                // org
+                foreach (var item in leftData.Concat (rightData))
                 {
                     item.IsOn = !item.IsOn;
                 }
+#endif
             });
 
         }
@@ -269,4 +292,23 @@ public class MachineStatus : INotifyPropertyChanged
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
+
+#if false
+    // 2024/11/19 flagmoon
+    public int GetIndex ()
+    {
+        int index = -1;
+        try
+        {
+            index = int.Parse (Address.Substring (1));
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine (ex.ToString ());
+        }
+
+        return index;
+    }
+    //---
+#endif
 }

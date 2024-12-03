@@ -449,7 +449,7 @@
 
                     </Button>
                     <Button Content="Operation" 
-                            Command="{Binding TabSelectCommand}" CommandParameter="Operation"
+                            Command="{Binding }" CommandParameter="Operation"
                                >
                         <Button.Style>
                             <Style BasedOn="{StaticResource TabButton}" TargetType="Button">

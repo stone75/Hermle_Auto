@@ -14,12 +14,18 @@ namespace Hermle_Auto.ViewModels
 			TeachCommand = new RelayCommand<string?>(TeachAction);
         }
 
+        /// <summary>
+        /// 미구현.
+        /// </summary>
+        /// <param name="param"></param>
         private void TeachAction(string? param)
         {
+
             var message = "";
             if(param.StartsWith("_"))
             {
 				message = param.Substring(1, param.Length - 1);
+
                 message = $"Teach {message} Action!";
             }
             else

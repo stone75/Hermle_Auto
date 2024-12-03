@@ -21,6 +21,7 @@ namespace Hermle_Auto.Views
     /// </summary>
     public partial class DiagnosticView : UserControl
     {
+        // 전체 미구현.
         public DiagnosticView()
         {
             InitializeComponent();

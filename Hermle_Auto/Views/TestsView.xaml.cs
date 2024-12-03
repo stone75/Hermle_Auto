@@ -170,6 +170,11 @@ namespace Hermle_Auto.Views
         }
 
 
+        /// <summary>
+        /// 미구현
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAllPocketsStartTest_Click(object sender, RoutedEventArgs e)
         {
             

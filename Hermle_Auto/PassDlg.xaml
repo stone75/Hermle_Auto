@@ -177,6 +177,7 @@
                 <!-- Tab Content for More Options -->
                 <Grid>
                     <StackPanel>
+                        <!-- 미구현 -->
                         <StackPanel Margin="10,40,0,0">
                             <Button Content="Clear All Pockets Status" Width="300" Height="40" Margin="5"/>
                             <Button Content="Clear All Work Piece table" Width="300" Height="40" Margin="5"/>
@@ -209,6 +210,13 @@
                         <Button Content="" Width="300" Height="40" Margin="5"/>
                         <Button Content="" Width="300" Height="40" Margin="5"/>
                         <Button Content="" Width="300" Height="40" Margin="5"/>
+                        <!--
+                            미구현
+                            WriteInteger(56, ArrayDouble()) 로봇으로 전송 
+                            StartJob("TOOL.JBI")
+                            HSK = 5, Round  Small = 6, Round Big = 7
+                            H_TOOL 커맨드 정의 필요.
+                        -->
                         <Button Content="HSK" Width="300" Height="40" Margin="5"/>
                         <Button Content="Round Small" Width="300" Height="40" Margin="5"/>
                         <Button Content="Round Big" Width="300" Height="40" Margin="5"/>

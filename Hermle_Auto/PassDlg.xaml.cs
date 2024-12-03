@@ -82,7 +82,7 @@ namespace Hermle_Auto
 
             Button button = sender as Button;
 
-
+            // 미구현.
             if(button.Content == "HKS")
             {
 

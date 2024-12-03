@@ -36,6 +36,7 @@
             </GroupBox>
 
             <!-- Manual Operation GroupBox -->
+            <!-- 미구현 -->
             <GroupBox Header="Manual Operation" Grid.Column="1" FontSize="22" FontWeight="Bold" Margin="25,25,25,25" VerticalAlignment="Top">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
