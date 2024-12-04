@@ -1,4 +1,5 @@
-﻿using HermleCS.Comm;
+﻿using Hermle_Auto.Comm;
+using HermleCS.Comm;
 using HermleCS.Data;
 using System;
 using System.Collections.Generic;
@@ -126,6 +127,63 @@ namespace Hermle_Auto.Views
                 MessageBox.Show("Robot HTTP Communication Exception : " + ex.Message);
             }
             */
+        }
+
+        private void Operaion_KioskValve_Open_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            logger?.Invoke("Kiosk Valve Open Button Down...");
+            try
+            {
+                logger?.Invoke("[PLC] : Kiosk Valve Open Button Down...");
+                CommPLC.Instance.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2026, 1);
+            }
+            catch (Exception ex)
+            {
+                logger?.Invoke("예외상황 : " + ex.Message);
+            }
+
+        }
+
+        private void Operaion_KioskValve_Open_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            logger?.Invoke("Kiosk Valve Open Button Up...");
+            try
+            {
+                logger?.Invoke("[PLC] : Kiosk Valve Open Button Up...");
+                CommPLC.Instance.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2026, 0);
+            }
+            catch (Exception ex)
+            {
+                logger?.Invoke("예외상황 : " + ex.Message);
+            }
+        }
+
+        private void Operaion_KioskValve_Close_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            logger?.Invoke("Kiosk Valve Close Button Down...");
+            try
+            {
+                logger?.Invoke("[PLC] : Kiosk Valve Close Button Down...");
+                CommPLC.Instance.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2027, 1);
+            }
+            catch (Exception ex)
+            {
+                logger?.Invoke("예외상황 : " + ex.Message);
+            }
+        }
+
+        private void Operaion_KioskValve_Close_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            logger?.Invoke("Kiosk Valve Open Button Up...");
+            try
+            {
+                logger?.Invoke("[PLC] : Kiosk Valve Open Button Up...");
+                CommPLC.Instance.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2027, 0);
+            }
+            catch (Exception ex)
+            {
+                logger?.Invoke("예외상황 : " + ex.Message);
+            }
         }
     }
 }

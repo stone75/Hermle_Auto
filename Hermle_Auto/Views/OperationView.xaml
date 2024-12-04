@@ -57,8 +57,8 @@
 
                     <!-- Kiosk Valve Open/Close -->
                     <TextBlock Text="Kiosk Valve Open/Close" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" TextWrapping="Wrap"/>
-                    <Button Content="Open" Grid.Row="0" Grid.Column="1" Width="NaN" Height="30" Margin="5"/>
-                    <Button Content="Close" Grid.Row="0" Grid.Column="2" Width="NaN" Height="30" Margin="5"/>
+                    <Button x:Name="Operaion_KioskValve_Open" Content="Open" Grid.Row="0" Grid.Column="1" Width="NaN" Height="30" Margin="5" MouseDown="Operaion_KioskValve_Open_MouseDown" MouseUp="Operaion_KioskValve_Open_MouseUp"/>
+                    <Button x:Name="Operaion_KioskValve_Close" Content="Close" Grid.Row="0" Grid.Column="2" Width="NaN" Height="30" Margin="5" MouseDown="Operaion_KioskValve_Close_MouseDown" MouseUp="Operaion_KioskValve_Close_MouseUp"/>
 
                     <!-- Indicator User Ack -->
                     <TextBlock Text="Indicator User Ack" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" TextWrapping="Wrap"/>
