@@ -43,7 +43,11 @@
         </GroupBox>
 
         <!-- Tab Control Section -->
+        <!--
+        TabControl x:Name="mainTabControl" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,100,0,0" Width="820" Height="450" Visibility="Collapsed"
+        -->
         <TabControl x:Name="mainTabControl" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,100,0,0" Width="820" Height="450" Visibility="Collapsed">
+
             <TabItem Header="Information" Style="{StaticResource TabStyle2}" MinWidth="50" Width="130" FontSize="16">
                 <!-- Tab Content for Information -->
                 <Grid>

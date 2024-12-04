@@ -83,22 +83,29 @@ namespace Hermle_Auto
             Button button = sender as Button;
 
             // 미구현.
-            if(button.Content == "HKS")
+            /*
+             * 2024.12.04
+             * INI 파일 저장 구현
+             * @ To Do..
+             * 다른 곳에서도 Gripper Type 을 INI 에서 가져오는지 확인 필요
+             */
+            if (button.Content == "HSK")
             {
-
+                gipperType.Text = "HSK";
+                D.Instance.iniFile.gripper.style = 1;
             }
             else if (button.Content == "Drill")
             {
-
+                gipperType.Text = "Drill";
+                D.Instance.iniFile.gripper.style = 2;
             }
             else if (button.Content == "Round")
             {
-
+                gipperType.Text = "Round";
+                D.Instance.iniFile.gripper.style = 3;
             }
 
-
             D.Instance.WriteIniFile();
-
         }
         
 
@@ -117,7 +124,21 @@ namespace Hermle_Auto
             ;
            */
             //확인 필요
-            gipperType.Text     = D.Instance.iniFile.gripper.style == 1 ? "Single gripper" : "Double gripper";
+            /* Gripper Text 는
+             * HSK / Drill / Round 
+             * 셋 중에 하나 인것 같음... 동영상 참고.
+             */
+            //gipperType.Text     = D.Instance.iniFile.gripper.style == 1 ? "Single gripper" : "Double gripper";
+            if (D.Instance.iniFile.gripper.style == 1)
+            {
+                gipperType.Text = "HSK";
+            } else if (D.Instance.iniFile.gripper.style == 2)
+            {
+                gipperType.Text = "Drill";
+            } else
+            {
+                gipperType.Text = "Round";
+            }
 
             shelf1ToolType.Text = CheckToolType(D.Instance.iniFile.shelvs.first);
             shelf2ToolType.Text = CheckToolType(D.Instance.iniFile.shelvs.second);
