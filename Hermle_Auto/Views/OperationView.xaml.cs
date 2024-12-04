@@ -35,12 +35,14 @@ namespace Hermle_Auto.Views
         {
             logger?.Invoke("Parking Position Button Clicked...");
 
-            D d = D.Instance;
-            CommHTTPComponent http = CommHTTPComponent.Instance;
+            //D d = D.Instance;
+            //CommHTTPComponent http = CommHTTPComponent.Instance;
 
             // 1. TP 파일 이름 셋팅
-            //d.CURRENT_JOBNAME = "PARKING";
+            D.Instance.CURRENT_JOBNAME = "PARKING";
 
+            /*
+             * 일단 Job 이름만 셋팅 후, Resume 에서 실제 실행 예정.
             string res;
 
             try
@@ -59,18 +61,17 @@ namespace Hermle_Auto.Views
             {
                 MessageBox.Show("Robot HTTP Communication Exception : " + ex.Message);
             }
+            */
         }
         private void btnExchangeGripperPosition_Click(object sender, RoutedEventArgs e)
         {
 
             logger?.Invoke("Exchange Gripper Position Button Clicked...");
 
-            D d = D.Instance;
-            CommHTTPComponent http = CommHTTPComponent.Instance;
+            D.Instance.CURRENT_JOBNAME = "EXCHANGE_GRIPPER";
 
-            // 1. TP 파일 이름 셋팅
-            //d.CURRENT_JOBNAME = "EXCHANGE_GRIPPER";
-
+            /*
+             * 일단 Job 이름만 셋팅 후, Resume 에서 실제 실행 예정.
             string res;
 
             try
@@ -89,16 +90,22 @@ namespace Hermle_Auto.Views
             {
                 MessageBox.Show("Robot HTTP Communication Exception : " + ex.Message);
             }
+            */
         }
         private void btnRetractPosition_Click(object sender, RoutedEventArgs e)
         {
             logger?.Invoke("Retract Position Button Clicked...");
 
-            D d = D.Instance;
-            CommHTTPComponent http = CommHTTPComponent.Instance;
+            //D d = D.Instance;
+            //CommHTTPComponent http = CommHTTPComponent.Instance;
 
             // 1. TP 파일 이름 셋팅
             //d.CURRENT_JOBNAME = "CURRENT_RETRACT";
+            D.Instance.CURRENT_JOBNAME = "CURRENT_RETRACT";
+
+            /*
+             * 일단 Job 이름만 셋팅 후, Resume 에서 실제 실행 예정.
+            string res;
 
             string res;
 
@@ -118,6 +125,7 @@ namespace Hermle_Auto.Views
             {
                 MessageBox.Show("Robot HTTP Communication Exception : " + ex.Message);
             }
+            */
         }
     }
 }

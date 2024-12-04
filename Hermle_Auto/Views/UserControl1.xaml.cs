@@ -441,6 +441,9 @@ namespace Hermle_Auto.Views
             logger?.Invoke("Resume Button is Clicked...");
             try
             {
+                /*
+                 * Operation Tab 에서 셋팅한 d.CURRENT_JOBNAME 실행
+                 */
                 logger?.Invoke($"[Robot] Resume : " + C.ROBOT_SERVER + "/H_RESUME?task_str=" + d.CURRENT_JOBNAME);
                 string res = http.GetAPI(C.ROBOT_SERVER + "/H_RESUME?task_str=" + d.CURRENT_JOBNAME);
                 HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
@@ -476,6 +479,9 @@ namespace Hermle_Auto.Views
             logger?.Invoke("Pause Button is Clicked...");
             try
             {
+                /*
+                 * Operation Tab 에서 셋팅한 d.CURRENT_JOBNAME PAUSE
+                 */
                 logger?.Invoke($"[Robot] Resume : " + C.ROBOT_SERVER + "/H_PAUSE?task_str=" + d.CURRENT_JOBNAME);
                 string res = http.GetAPI(C.ROBOT_SERVER + "/H_PAUSE?task_str=" + d.CURRENT_JOBNAME);
                 HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
@@ -512,6 +518,9 @@ namespace Hermle_Auto.Views
             logger?.Invoke("Reset Button is Clicked...");
             try
             {
+                /*
+                 * Operation Reset 은 별도의 Current Jobname 없이 진행
+                 */
                 logger?.Invoke($"[Robot] Resume : " + C.ROBOT_SERVER + "/H_RESET");
                 string res = http.GetAPI(C.ROBOT_SERVER + "/H_RESET");
                 HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
@@ -545,6 +554,14 @@ namespace Hermle_Auto.Views
             CommPLC commplc = CommPLC.Instance;
             D d = D.Instance;
 
+            /*
+             * @To Do... 
+             * Operation Tab 의 UI 변경 작업 필요
+             * Operation Tab 의 모든 UI Disable
+             *  - SemiAutomat Group Disable
+             *  - Manual Operation Group Enable
+             */
+
             logger?.Invoke("Manual mode...");
             try
             {
@@ -564,6 +581,14 @@ namespace Hermle_Auto.Views
             CommPLC commplc = CommPLC.Instance;
             D d = D.Instance;
 
+            /*
+             * @To Do... 
+             * Operation Tab 의 UI 변경 작업 필요
+             * Operation Tab 의 모든 UI Disable
+             *  - SemiAutomat Group Disable
+             *  - Manual Operation Group Disable
+             */
+
             logger?.Invoke("Auto mode...");
             try
             {
@@ -582,6 +607,14 @@ namespace Hermle_Auto.Views
             CommHTTPComponent http = CommHTTPComponent.Instance;
             CommPLC commplc = CommPLC.Instance;
             D d = D.Instance;
+
+            /*
+             * @To Do... 
+             * Operation Tab 의 UI 변경 작업 필요
+             * Operation Tab 의 모든 UI Disable
+             *  - SemiAutomat Group Enable
+             *  - Manual Operation Group Disable
+             */
 
             logger?.Invoke("Semi Auto mode...");
             try
@@ -647,7 +680,7 @@ namespace Hermle_Auto.Views
                 MessageBox.Show($"Error during MouseDown: {ex.Message}");
             }
             */
-        }
+            }
         // RESTOP Button Down/UP
         private void RESTOPButton_MouseUp(object sender, MouseButtonEventArgs e)
         {
