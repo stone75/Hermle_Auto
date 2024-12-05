@@ -90,7 +90,7 @@
                 <Border Grid.Row="0" Style="{StaticResource TitleBorder}"/>
 
 
-                <Slider Grid.Row="1" Maximum="100" Value="50" VerticalAlignment="Center" TickFrequency="1" ValueChanged="SpeedSlider_ValueChanged" SmallChange="1"/>
+                <Slider x:Name="speedslider" Grid.Row="1" Maximum="100" Value="50" VerticalAlignment="Center" TickFrequency="1" ValueChanged="SpeedSlider_ValueChanged" SmallChange="1"/>
                 <Label x:Name="speedLabel" Grid.Row="1" Content="50%" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Grid.Column="1" FontSize="20"/>
 
         

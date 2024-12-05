@@ -876,11 +876,14 @@ namespace HermleCS.Data
             }
             else if (iniFile.application.AppToolType == 1)
             {
-                return "HSK";
+                // 2024.12.06 기존 내용과 다름...
+                //return "HSK";
+                return "DRILL";
             }
             else if (iniFile.application.AppToolType == 2)
             {
-                return "DRILL";
+                //return "DRILL";
+                return "HSK";
             }
             else if (iniFile.application.AppToolType == 3)
             {
