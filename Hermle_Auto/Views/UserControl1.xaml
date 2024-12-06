@@ -58,8 +58,8 @@
             <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,0" Width="Auto" HorizontalAlignment="Left" Grid.ColumnSpan="4">
                 <Button x:Name="RESTOPButton" Content="R.E.Stop"   Style="{StaticResource SubButton}" Margin="5,5,15,5"  PreviewMouseDown="RESTOPButton_MouseDown" PreviewMouseUp="RESTOPButton_MouseUp"/>
                 <Button Content="Options" Style="{StaticResource SubButton}" Click="OpenPasswordWindow_Click" Margin="5,5,15,5" />
-                <Button Content="Communication" Style="{StaticResource SubButton}" Click="OpenCommunicationWindow_Click" FontSize="18" Margin="5,5,15,5"/>
                 <Button Content="PLC CHEK" Style="{StaticResource SubButton}" Click="OpenPLC_CHECK_Click" FontSize="18" Margin="5,5,0,5"/>
+                <Button x:Name="btnComm" Content="Communication" Style="{StaticResource SubButton}" Click="OpenCommunicationWindow_Click" FontSize="18" Margin="5,5,15,5"/>
 
             </StackPanel>
             <Button Content="Exit" Style="{StaticResource SubButton}" Command="{Binding ExitCommand}" HorizontalAlignment="Right" Grid.Column="5"/>
@@ -449,7 +449,7 @@
 
                     </Button>
                     <Button Content="Operation" 
-                            Command="{Binding }" CommandParameter="Operation"
+                            Command="{Binding TabSelectCommand}" CommandParameter="Operation"
                                >
                         <Button.Style>
                             <Style BasedOn="{StaticResource TabButton}" TargetType="Button">
