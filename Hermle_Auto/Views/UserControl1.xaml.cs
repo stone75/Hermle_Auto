@@ -121,10 +121,12 @@ namespace Hermle_Auto.Views
 
                 mcProtocolTcp.Open();
 
+                // 2024/12/06 flagmooon 삭제.
+#if false
                 plcworker = new Thread(async () => await ReadThreadHandler(mcProtocolTcp));
                 plcrunning = true;
                 plcworker.Start();
-
+#endif
                 logText.Text = "PLC Connect";
                 logText.Foreground = Brushes.Green;
              
