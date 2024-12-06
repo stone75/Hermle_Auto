@@ -26,6 +26,8 @@ namespace Hermle_Auto.Views
         private List<MachineStatus> leftData;
         private List<MachineStatus> rightData;
 
+        private Thread      __thread;
+        private bool        __threadFlag;
 
         public PLC_Monitor_Window()
         {
@@ -43,7 +45,44 @@ namespace Hermle_Auto.Views
 
             //SetLampState("M2106", true);
 
+            init ();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void init ()
+        {
+            try
+            {
+                __thread = new Thread (new ThreadStart (svc));
+                __thread.IsBackground = true;
+                __thread.Start ();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine (ex.ToString ());
+            }
+        }
+
+
+        private void svc ()
+        {
+            try
+            {
+                while (__threadFlag == true)
+                {
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        //private void read
 
         private void Timer_Tick(object sender, EventArgs e)
         {

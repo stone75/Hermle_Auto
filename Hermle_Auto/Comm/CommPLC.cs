@@ -62,6 +62,7 @@ namespace Hermle_Auto.Comm
             }
         }
 
+        
         public async Task WritePLCBlock(int addr, int value)
         {
             int[] addrs = new int[1];
@@ -90,6 +91,50 @@ namespace Hermle_Auto.Comm
             }
         }
 
+        public async void Set (string addr)
+        {
+            try
+            {
+                int[]   data    = new int[1];
+                data[0]         = 1;
+                // 2024/12/03 flagmoon
+                if (mcProtocolTcp.Connected == false)
+                {
+                    return;
+                }
+
+                await mcProtocolTcp.SetBitDevice (addr, data.Length, data);
+                //---
+                
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine (ex.ToString ());
+            }
+        }
+
+        public async void Clear (string addr)
+        {
+            try
+            {
+                int[]   data    = new int[1];
+                data[0]         = 0;
+                // 2024/12/03 flagmoon
+                if (mcProtocolTcp.Connected == false)
+                {
+                    return;
+                }
+
+                await mcProtocolTcp.SetBitDevice (addr, data.Length, data);
+                //---
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine (ex.ToString ());
+            }
+
+        }
 
         public int[] ConvertIntToShort(int f)
         {

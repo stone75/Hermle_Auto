@@ -40,6 +40,7 @@ namespace Hermle_Auto.Views
     public partial class UserControl1 : UserControl
     {
         public Action   AlarmAction     { get; set; }           // 2024/12/06 flagmoon
+        public Action   M2000Action     { get; set; }           // 2024/12/06 flagmoon
 
         UserControl1ViewModel userControl1ViewModel = new UserControl1ViewModel();
         private CommHTTPComponent httpclient = CommHTTPComponent.Instance;
@@ -61,6 +62,8 @@ namespace Hermle_Auto.Views
         public UserControl1()
         {
             InitializeComponent();
+
+            init ();        // 2024/12/06 flagmoon
 
             this.DataContext = userControl1ViewModel;
 
@@ -113,6 +116,41 @@ namespace Hermle_Auto.Views
             // 2024/12/03
             commPLC.mcProtocolTcp = mcProtocolTcp;
             //---
+        }
+
+        private void init ()
+        {
+            try
+            {
+                M2000Action     += M2000EventHandler;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine (ex.ToString ());
+            }
+        }
+
+
+        // 2024/12/06 flagmoon
+        private void M2000EventHandler ()
+        {
+            try
+            {
+                if (D.Instance.M2000[7] == 1)
+                {
+
+                }
+                else
+                if (D.Instance.M2000[20] == 1 || D.Instance.M2000[22] == 1)
+                {
+                    CommPLC.Instance.Set ("M2351");
+                    D.Instance.SendHold = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine (ex.ToString ());
+            }
         }
 
         public void StartPLC()
@@ -201,6 +239,22 @@ namespace Hermle_Auto.Views
                     {
                         readM2080 ();
                     }
+
+                    if (step % 50 == 15)
+                    {
+                        readM2300 ();
+                    }
+
+                    // Hold 명령 전송 상태
+                    if (D.Instance.SendHold == true)
+                    {
+                        // 로봇이 동작상태가 아니면. Hold 신호 Clear.
+                        if (D.Instance.M2300[2] == 0)
+                        {
+                            CommPLC.Instance.Clear ("M2352");  
+                            D.Instance.SendHold     = false;
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -211,9 +265,9 @@ namespace Hermle_Auto.Views
                     Thread.Sleep (10);
                     step++;
                 }
-
             }
         }
+
         // 2024/12/03 flagmoon
         // 이 쓰레드는 PLC Monitor Window로 이동 해야함.
         // 정보 표출 할 상태가 아닌데 계속 수행할 이유가 없슴.
@@ -443,6 +497,45 @@ namespace Hermle_Auto.Views
                     {
                         D.Instance.M2080[i]     = data[i];
                         D.Instance.M2080Changed = true;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine (ex.ToString ());
+            }
+            finally
+            {
+                if (D.Instance.M2080Changed == true)
+                {
+                    if (AlarmAction != null)
+                    {
+                        AlarmAction.Invoke ();
+                    }
+                }
+            }
+        }
+
+        private async void readM2300 ()
+        {
+            try
+            {
+                if (mcProtocolTcp.Connected == false)
+                {
+                    return;
+                }
+
+                int[]   data = new int[D.Instance.M2300.Length];
+
+                await mcProtocolTcp.GetBitDevice ("M2300", data.Length, data);
+
+                for (int i = 0; i < data.Length; i++)
+                {
+                    if (D.Instance.M2300[i] != data[i])
+                    {
+                        D.Instance.M2300[i]     = data[i];
+                        D.Instance.M2300Changed = true;
                     }
                 }
 
