@@ -39,6 +39,8 @@ namespace Hermle_Auto.Views
     /// </summary>
     public partial class UserControl1 : UserControl
     {
+        public Action   AlarmAction     { get; set; }           // 2024/12/06 flagmoon
+
         UserControl1ViewModel userControl1ViewModel = new UserControl1ViewModel();
         private CommHTTPComponent httpclient = CommHTTPComponent.Instance;
 
@@ -54,7 +56,7 @@ namespace Hermle_Auto.Views
         private Thread robotworker;
         private bool robotrunning;
 
-
+        
 
         public UserControl1()
         {
@@ -126,6 +128,10 @@ namespace Hermle_Auto.Views
                 plcworker = new Thread(async () => await ReadThreadHandler(mcProtocolTcp));
                 plcrunning = true;
                 plcworker.Start();
+#else
+                plcworker = new Thread (new ThreadStart (svc));
+                plcworker.IsBackground = true;
+                plcworker.Start ();
 #endif
                 logText.Text = "PLC Connect";
                 logText.Foreground = Brushes.Green;
@@ -168,11 +174,53 @@ namespace Hermle_Auto.Views
             robotrunning = false;
         }
 
+
+        /// <summary>
+        /// PLC Read Thread Service
+        /// 2024/12/06  flagmoon add
+        /// </summary>
+        private void svc ()
+        {
+            uint step   = 0;
+
+            plcrunning  = true;
+
+            while (plcrunning == true)
+            {
+                try
+                {
+
+                    // 20ms Task
+                    if (step % 2 == 0) 
+                    {
+                        readM2000 ();
+                    }
+
+                    // 500ms Task
+                    if (step % 50 == 5)
+                    {
+                        readM2080 ();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine (ex.ToString ());
+                }
+                finally
+                {
+                    Thread.Sleep (10);
+                    step++;
+                }
+
+            }
+        }
         // 2024/12/03 flagmoon
         // 이 쓰레드는 PLC Monitor Window로 이동 해야함.
         // 정보 표출 할 상태가 아닌데 계속 수행할 이유가 없슴.
         private async Task ReadThreadHandler(McProtocolTcp conn)
         {
+
+            uint     step    = 0;
                
              int[] addrs =
              {
@@ -195,6 +243,7 @@ namespace Hermle_Auto.Views
 
             while (plcrunning)
             {
+                
                 for (int i = 0; i < addrs.Length; i++)
                 {
 
@@ -332,6 +381,86 @@ namespace Hermle_Auto.Views
                 Thread.Sleep(500);
             }
             
+        }
+
+        // 2024/12/06 flagmoon Add
+        private async void readM2000 ()
+        {
+            try
+            {
+                if (mcProtocolTcp.Connected == false)
+                {
+                    return;
+                }
+
+                int[]   data = new int[D.Instance.M2000.Length];
+
+                await mcProtocolTcp.GetBitDevice ("M2000", data.Length, data);
+
+                for (int i  = 0; i < data.Length; i++) 
+                {
+                    switch (i)
+                    {
+                        case 7 :
+                        case 20 :
+                        case 22 :
+                        case 24 :
+                        case 25 :
+                        case 28 :
+                            if (D.Instance.M2000[i] != data[i])
+                            {
+                                D.Instance.M2000[i] = data[i];
+                                D.Instance.M2000Changed = true;
+                            }
+                            break;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine (ex.ToString ());
+            }
+        }
+
+        // 2024/12/06 flagmoon Add : Alarm.
+        private async void readM2080 ()
+        {
+            try
+            {
+                if (mcProtocolTcp.Connected == false)
+                {
+                    return;
+                }
+
+                int[]   data = new int[D.Instance.M2080.Length];
+
+                await mcProtocolTcp.GetBitDevice ("M2080", data.Length, data);
+
+                for (int i = 0; i < data.Length; i++)
+                {
+                    if (D.Instance.M2080[i] != data[i])
+                    {
+                        D.Instance.M2080[i]     = data[i];
+                        D.Instance.M2080Changed = true;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine (ex.ToString ());
+            }
+            finally
+            {
+                if (D.Instance.M2080Changed == true)
+                {
+                    if (AlarmAction != null)
+                    {
+                        AlarmAction.Invoke ();
+                    }
+                }
+            }
         }
 
         private async Task RobotThreadHandler()
