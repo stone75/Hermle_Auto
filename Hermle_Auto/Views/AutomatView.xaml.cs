@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using HermleCS.Data;
 using HermleCS.Comm;
 using System.Net.Sockets;
+using System.IO;
 
 
 namespace Hermle_Auto.Views
@@ -63,8 +64,7 @@ namespace Hermle_Auto.Views
 
         public void writelog(string msg)
         {
-            string formattedTime = DateTime.Now.ToString("HH:mm:ss");
-            txtRobotStatus.Text = $"{formattedTime} : {msg}\r\n" + txtRobotStatus.Text;
+            txtRobotStatus.Text = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - {msg}";
         }
 
 
@@ -84,7 +84,6 @@ namespace Hermle_Auto.Views
                 CommPLC.Instance.WritePLCBlock(2000, D.Instance.WorkPiecesList[0].ncprogram);
 
                 // 2. ToolType 값 전송 
-                // To Do..
                 int tooltype = 0;
                 if (D.Instance.WorkPiecesList[0].wptooltype == "DRILL")
                 {
@@ -99,19 +98,21 @@ namespace Hermle_Auto.Views
                 {
                     tooltype = 4;
                 }
-                CommPLC.Instance.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2009, tooltype);
+                CommPLC.Instance.WritePLCBlock(2006, tooltype, 1);
 
                 // 3. AmountLeft 값 전송
-                // To Do..
-                CommPLC.Instance.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2009, D.Instance.WorkPiecesList[0].toolamountleft);
+                CommPLC.Instance.WritePLCBlock(2008, D.Instance.WorkPiecesList[0].toolamountleft, 1);
 
-                // 4. Diameter 값 전송
-                // To Do..
-                CommPLC.Instance.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2009, D.Instance.WorkPiecesList[0].tooldiameter);
+                // 4. Drill Code 값 전송 : DiaMeter
+                CommPLC.Instance.WritePLCBlock(2007, D.Instance.WorkPiecesList[0].tooldiameter, 1);
 
                 // 5. 도구 감지 센서 사용
-                // To Do..
-                CommPLC.Instance.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2009, D.Instance.WorkPiecesList[0].tooldiameter);
+                if (D.Instance.iniFile.application.ToolSensor != 0)
+                {
+                    // 기존 VB 소스에서는 116 번에 셋팅
+                    CommPLC.Instance.WritePLCBlock(2013, 1);
+                }
+                //CommPLC.Instance.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2009, D.Instance.WorkPiecesList[0].tooldiameter);
 
                 // 6. ToolType 이 HSK 가 아닐 경우, Offset 전송
                 if (tooltype != 2)
@@ -124,6 +125,7 @@ namespace Hermle_Auto.Views
                     param += "&PocketStopper=" + D.Instance.iniFile.offsets.PocketStopper;
                     param += "&KioskStopper=" + D.Instance.iniFile.offsets.KioskStopper;
 
+                    C.log(C.ROBOT_SERVER + "/H_DRILL_OFST_WRITE" + param);
                     CommHTTPComponent.Instance.GetAPI(C.ROBOT_SERVER + "/H_DRILL_OFST_WRITE" + param);
                 }
 
@@ -133,6 +135,7 @@ namespace Hermle_Auto.Views
 
                 // 8. 로봇, PLC 전송
                 D.Instance.CURRENT_JOBNAME = "AUTO_START_TEST";
+                C.log(C.ROBOT_SERVER + "/H_COMMAND?task_str=" + D.Instance.CURRENT_JOBNAME);
                 CommHTTPComponent.Instance.GetAPI(C.ROBOT_SERVER + "/H_COMMAND?task_str=" + D.Instance.CURRENT_JOBNAME);
                 CommPLC.Instance.WritePLC(McProtocol.Mitsubishi.PlcDeviceType.M, 2009, 1);
             }

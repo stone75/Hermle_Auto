@@ -195,11 +195,17 @@ namespace Hermle_Auto.Views
 
             try
             {
+                C.log(C.ROBOT_SERVER + "/H_TEST_KIOSK_TO_POCKET");
                 http.GetAPI(C.ROBOT_SERVER + "/H_TEST_KIOSK_TO_POCKET");
+                C.log(C.ROBOT_SERVER + "/H_TEST_POCKET_TO_KIOSK");
                 http.GetAPI(C.ROBOT_SERVER + "/H_TEST_POCKET_TO_KIOSK");
+                C.log(C.ROBOT_SERVER + "/H_TEST_POCKET_TO_CHUCK");
                 http.GetAPI(C.ROBOT_SERVER + "/H_TEST_POCKET_TO_CHUCK");
+                C.log(C.ROBOT_SERVER + "/H_TEST_CHUCK_TO_POCKET");
                 http.GetAPI(C.ROBOT_SERVER + "/H_TEST_CHUCK_TO_POCKET");
+                C.log(C.ROBOT_SERVER + "/H_TEST_POCKET_TO_POCKET");
                 http.GetAPI(C.ROBOT_SERVER + "/H_TEST_POCKET_TO_POCKET");
+                C.log(C.ROBOT_SERVER + "/H_TEST_ALL_POCKETS");
                 http.GetAPI(C.ROBOT_SERVER + "/H_TEST_ALL_POCKETS");
             }
             catch (Exception ex)
@@ -235,6 +241,7 @@ namespace Hermle_Auto.Views
 
             try
             {
+                C.log(C.ROBOT_SERVER + CurrentJob);
                 http.GetAPI(C.ROBOT_SERVER + CurrentJob);
             }
             catch (Exception ex)
@@ -261,6 +268,7 @@ namespace Hermle_Auto.Views
 
             try
             {
+                C.log(C.ROBOT_SERVER + CurrentJob2);
                 http.GetAPI(C.ROBOT_SERVER + CurrentJob2);
             }
             catch (Exception ex)
@@ -314,6 +322,7 @@ namespace Hermle_Auto.Views
 
                 try
                 {
+                    C.log(C.ROBOT_SERVER + "/H_WRITE_POSITION?" + url);
                     res = http.GetAPI(C.ROBOT_SERVER + "/H_WRITE_POSITION?" + url);
                     HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
                     if (httpresponse.result != 0)
@@ -353,6 +362,7 @@ namespace Hermle_Auto.Views
 
                 try
                 {
+                    C.log(C.ROBOT_SERVER + "/H_WRITE_POSITION?" + url);
                     res = http.GetAPI(C.ROBOT_SERVER + "/H_WRITE_POSITION?" + url);
                     HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
                     if (httpresponse.result != 0)
@@ -382,6 +392,7 @@ namespace Hermle_Auto.Views
             try
             {
                 d.CURRENT_JOBNAME = "TEST_POCKET_TO_POCKET";
+                C.log(C.ROBOT_SERVER + "/H_COMMAND?task_str=" + d.CURRENT_JOBNAME);
                 res = http.GetAPI(C.ROBOT_SERVER + "/H_COMMAND?task_str=" + d.CURRENT_JOBNAME);
 
                 HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);

@@ -13,8 +13,9 @@ namespace HermleCS.Comm
         public const int ERRNO_FAILED = -1;
 
         public const int ERRNO_CONNECT = 200;
-
         public const int ERRNO_EXCEPTION = 500;
+
+        public const string LOGFILE = "log.txt";
 
         // PLC Information
         public static string PLC_IP = "192.168.0.10";
@@ -60,6 +61,20 @@ namespace HermleCS.Comm
         public static void log(string msg)
         {
             Console.WriteLine(DateTime.Now + " : " + msg);
+
+            string logMessage = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - {msg}";
+
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(C.LOGFILE, append: true))
+                {
+                    writer.WriteLine(logMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error writing log: {ex.Message}");
+            }
         }
     }
 }

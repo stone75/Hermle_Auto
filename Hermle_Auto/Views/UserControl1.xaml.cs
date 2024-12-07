@@ -582,6 +582,7 @@ namespace Hermle_Auto.Views
             {
                 try
                 {
+                    //C.log(C.ROBOT_SERVER + "/H_LOCATION");
                     res = http.GetAPI(C.ROBOT_SERVER + "/H_LOCATION");
                     //res = http.GetAPI("http://t.odinox.com/position.php");
 
@@ -714,6 +715,7 @@ namespace Hermle_Auto.Views
                  * Operation Tab 에서 셋팅한 d.CURRENT_JOBNAME 실행
                  */
                 logger?.Invoke($"[Robot] Resume : " + C.ROBOT_SERVER + "/H_RESUME?task_str=" + d.CURRENT_JOBNAME);
+                C.log(C.ROBOT_SERVER + "/H_RESUME?task_str=" + d.CURRENT_JOBNAME);
                 string res = http.GetAPI(C.ROBOT_SERVER + "/H_RESUME?task_str=" + d.CURRENT_JOBNAME);
                 HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
                 if (httpresponse.result == 0)
@@ -752,6 +754,7 @@ namespace Hermle_Auto.Views
                  * Operation Tab 에서 셋팅한 d.CURRENT_JOBNAME PAUSE
                  */
                 logger?.Invoke($"[Robot] Resume : " + C.ROBOT_SERVER + "/H_PAUSE?task_str=" + d.CURRENT_JOBNAME);
+                C.log(C.ROBOT_SERVER + "/H_PAUSE?task_str=" + d.CURRENT_JOBNAME);
                 string res = http.GetAPI(C.ROBOT_SERVER + "/H_PAUSE?task_str=" + d.CURRENT_JOBNAME);
                 HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
                 if (httpresponse.result == 0)
@@ -791,6 +794,7 @@ namespace Hermle_Auto.Views
                  * Operation Reset 은 별도의 Current Jobname 없이 진행
                  */
                 logger?.Invoke($"[Robot] Resume : " + C.ROBOT_SERVER + "/H_RESET");
+                C.log(C.ROBOT_SERVER + "/H_RESET");
                 string res = http.GetAPI(C.ROBOT_SERVER + "/H_RESET");
                 HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
                 if (httpresponse.result == 0)
@@ -1021,6 +1025,7 @@ namespace Hermle_Auto.Views
         {
             CommPLC commplc = CommPLC.Instance;
 
+            operationView.setMode(2);
             logger?.Invoke("Auto mode...");
             try
             {
@@ -1084,6 +1089,7 @@ namespace Hermle_Auto.Views
         {
             CommPLC commplc = CommPLC.Instance;
 
+            operationView.setMode(0);
             logger?.Invoke("Semi Auto mode Cleared...");
             try
             {
@@ -1151,6 +1157,7 @@ namespace Hermle_Auto.Views
             CommPLC commplc = CommPLC.Instance;
             D d = D.Instance;
 
+            operationView.setMode(1);
             logger?.Invoke("Manual mode 2002 is released...");
             try
             {
@@ -1187,6 +1194,7 @@ namespace Hermle_Auto.Views
             try
             {
                 logger?.Invoke($"[Robot] Resume : " + C.ROBOT_SERVER + "/H_RESUME?task_str=" + d.CURRENT_JOBNAME);
+                C.log(C.ROBOT_SERVER + "/H_RESUME?task_str=" + d.CURRENT_JOBNAME);
                 string res = http.GetAPI(C.ROBOT_SERVER + "/H_RESUME?task_str=" + d.CURRENT_JOBNAME);
                 HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
                 if (httpresponse.result == 0)
@@ -1267,6 +1275,7 @@ namespace Hermle_Auto.Views
                 return;
                 */
                 logger?.Invoke($"[Robot] Resume : " + C.ROBOT_SERVER + "/H_PAUSE?task_str=" + d.CURRENT_JOBNAME);
+                C.log(C.ROBOT_SERVER + "/H_PAUSE?task_str=" + d.CURRENT_JOBNAME);
                 string res = http.GetAPI(C.ROBOT_SERVER + "/H_PAUSE?task_str=" + d.CURRENT_JOBNAME);
                 HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
                 if (httpresponse.result == 0)
@@ -1330,6 +1339,7 @@ namespace Hermle_Auto.Views
             try
             {
                 logger?.Invoke($"[Robot] Resume : " + C.ROBOT_SERVER + "/H_RESET");
+                C.log(C.ROBOT_SERVER + "/H_RESET");
                 string res = http.GetAPI(C.ROBOT_SERVER + "/H_RESET");
                 HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
                 if (httpresponse.result == 0)
@@ -1375,9 +1385,5 @@ namespace Hermle_Auto.Views
 
             //MessageBox.Show("Reset Button Released!");
         }
-
-       
-    }
-
-   
+    }   
 }
