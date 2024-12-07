@@ -115,7 +115,6 @@ namespace Hermle_Auto.Views
             commPLC.mcProtocolTcp = mcProtocolTcp;
             logger += UserControl1_logger;
 
-            logger.Invoke ("Test");
             //---
         }
 
