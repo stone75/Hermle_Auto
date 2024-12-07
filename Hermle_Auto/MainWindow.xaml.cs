@@ -26,7 +26,22 @@ namespace Hermle_Auto
 
             Closing += MainWindow_Closing;
 
-            TaskManager.Instance ();        // 2024/12/06 flagmoon
+            init ();        // 2024/12/07
+
+        }
+
+        private void init ()
+        {
+            try
+            {
+                TaskManager.Instance ();        // 2024/12/06 flagmoon
+
+                TaskManager.Instance ().M2300Action += MainControl.M2300EventHandler;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine (ex.ToString ());
+            }
         }
 
         //윈도우가 종료될때 자식 컨트롤의 종료 메시지 호출

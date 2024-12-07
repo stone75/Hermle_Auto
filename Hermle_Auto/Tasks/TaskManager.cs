@@ -18,7 +18,7 @@ namespace Hermle_Auto.Tasks
         private readonly static TaskManager __instance = new TaskManager ();
         public Action   AlarmAction     { get; set; }           // 2024/12/06 flagmoon
         public Action   M2000Action     { get; set; }           // 2024/12/06 flagmoon
-
+        public Action   M2300Action     { get; set; }
 
         private Thread?  __thread       = null;
         private bool    __threadFlag    = false;
@@ -177,6 +177,35 @@ namespace Hermle_Auto.Tasks
                 }
             }
         }
+
+        private static int[] setBit (int[] data)
+        {
+            int     length  = (data.Length / 16 + (data.Length % 16 > 0 ? 1 : 0));
+            int[]   result  = new int[length];
+
+            try
+            {
+                //for (int n = 0; n < length; n++) 
+                //{
+                //    result[n]   = 0;
+                //}
+                Array.Fill (result, 0);
+                
+                for (int i = 0; i < data.Length; i++) 
+                {
+                    int idx         = (int)(i / 16);
+                    int pos         = i % 16;
+                    result[idx]     |= data[i] << pos;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return result;
+        }
+
         private async void readM2000 ()
         {
             try
@@ -280,6 +309,11 @@ namespace Hermle_Auto.Tasks
 
                 await CommPLC.Instance.mcProtocolTcp.GetBitDevice ("M2300", data.Length, data);
 
+                // M2300 ~ M2315
+                data    = setBit (data);
+                D.Instance.RobotStatus = data[0];
+                //---
+
                 for (int i = 0; i < data.Length; i++)
                 {
                     if (D.Instance.M2300[i] != data[i])
@@ -296,11 +330,11 @@ namespace Hermle_Auto.Tasks
             }
             finally
             {
-                if (D.Instance.M2080Changed == true)
+                if (D.Instance.M2300Changed == true)
                 {
-                    if (AlarmAction != null)
+                    if (M2300Action != null)
                     {
-                        AlarmAction.Invoke ();
+                        M2300Action.Invoke ();
                     }
                 }
             }
@@ -310,6 +344,11 @@ namespace Hermle_Auto.Tasks
         {
             try
             {
+                if (CommPLC.Instance.mcProtocolTcp.Connected == false)
+                {
+                    return;
+                }
+                
                 int length;
                 int[]   data;
                     // M2100
