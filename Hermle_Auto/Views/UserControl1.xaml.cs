@@ -122,7 +122,8 @@ namespace Hermle_Auto.Views
         {
             try
             {
-                M2000Action     += M2000EventHandler;
+                btnComm.Visibility  = Visibility.Hidden;
+                M2000Action         += M2000EventHandler;
             }
             catch (Exception ex)
             {
@@ -138,9 +139,10 @@ namespace Hermle_Auto.Views
             {
                 if (D.Instance.M2000[7] == 1)
                 {
-
+                    CommPLC.Instance.Set ("M2351");
+                    D.Instance.SendHold = true;
                 }
-                else
+
                 if (D.Instance.M2000[20] == 1 || D.Instance.M2000[22] == 1)
                 {
                     CommPLC.Instance.Set ("M2351");
@@ -167,9 +169,10 @@ namespace Hermle_Auto.Views
                 plcrunning = true;
                 plcworker.Start();
 #else
-                plcworker = new Thread (new ThreadStart (svc));
-                plcworker.IsBackground = true;
-                plcworker.Start ();
+                // TaskManager.cs 로 이동
+                //plcworker = new Thread (new ThreadStart (svc));
+                //plcworker.IsBackground = true;
+                //plcworker.Start ();
 #endif
                 logText.Text = "PLC Connect";
                 logText.Foreground = Brushes.Green;
@@ -254,6 +257,7 @@ namespace Hermle_Auto.Views
                             CommPLC.Instance.Clear ("M2352");  
                             D.Instance.SendHold     = false;
                         }
+
                     }
                 }
                 catch (Exception ex)

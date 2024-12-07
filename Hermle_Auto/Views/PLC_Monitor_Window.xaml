@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Hermle_Auto.Views"
         mc:Ignorable="d"
-        Title="PLC_Monitor_Window" Height="450" Width="800">
+        Title="PLC_Monitor_Window" Height="450" Width="800" Unloaded="Window_Unloaded">
 
     <Window.Resources>
         <Style x:Key="LampStyle" TargetType="Ellipse">
@@ -35,12 +35,13 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="71*"/>
         </Grid.ColumnDefinitions>
 
         <!-- 왼쪽 Grid -->
-        <DockPanel Grid.Column="0" Margin="10">
+        <DockPanel Grid.Column="0" Margin="10,10,10,10">
             <TextBlock DockPanel.Dock="Top" 
                       Text="Hermle >> Automation PLC"
                       Style="{StaticResource HeaderStyle}"/>
@@ -93,7 +94,7 @@
         </DockPanel>
 
         <!-- 오른쪽 Grid -->
-        <DockPanel Grid.Column="1" Margin="10">
+        <DockPanel Grid.Column="1" Margin="10,10,10,10" Grid.ColumnSpan="2">
             <TextBlock DockPanel.Dock="Top" 
                       Text="Automation PLC >> Hermle"
                       Style="{StaticResource HeaderStyle}"/>

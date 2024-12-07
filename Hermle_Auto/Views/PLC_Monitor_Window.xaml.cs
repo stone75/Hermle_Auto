@@ -55,9 +55,11 @@ namespace Hermle_Auto.Views
         {
             try
             {
+#if true
                 __thread = new Thread (new ThreadStart (svc));
                 __thread.IsBackground = true;
                 __thread.Start ();
+#endif
             }
             catch (Exception ex)
             {
@@ -68,17 +70,40 @@ namespace Hermle_Auto.Views
 
         private void svc ()
         {
-            try
+            __threadFlag    = true;
+            while (__threadFlag == true)
             {
-                while (__threadFlag == true)
+                try
                 {
-                    
-                }
-            }
-            catch (Exception ex)
-            {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        // 2024/11/19 flagmoon
+                        if (D.Instance.M2100Changed)
+                        {
+                            for (int i = 0; i < leftData.Count; i++) 
+                            {
+                                leftData[i].IsOn = D.Instance.M2100[leftData[i].GetIndex (2100)] == 1 ? true : false;
+                            }
+                            D.Instance.M2100Changed = false;
+                        }
 
-                throw;
+                        if (D.Instance.M2200Changed)
+                        {
+                            for (int i = 0; i < rightData.Count; i++) 
+                            {
+                                rightData[i].IsOn = D.Instance.M2200[rightData[i].GetIndex (2200)] == 1 ? true : false;
+                            }
+                            D.Instance.M2200Changed = false;
+                        }
+                    });
+                    //---
+                    Thread.Sleep (100);
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine (ex.ToString ());
+                }
             }
         }
 
@@ -284,6 +309,11 @@ namespace Hermle_Auto.Views
                 });
             }
         }
+
+        private void Window_Unloaded (object sender, RoutedEventArgs e)
+        {
+            __threadFlag = false;
+        }
     }
 }
 
@@ -332,14 +362,15 @@ public class MachineStatus : INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-#if false
+#if true
     // 2024/11/19 flagmoon
-    public int GetIndex ()
+    public int GetIndex (int m)
     {
         int index = -1;
         try
         {
             index = int.Parse (Address.Substring (1));
+            index -= m;
         }
         catch (Exception ex)
         {
