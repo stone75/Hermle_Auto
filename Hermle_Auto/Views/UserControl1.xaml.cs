@@ -169,9 +169,10 @@ namespace Hermle_Auto.Views
                 plcrunning = true;
                 plcworker.Start();
 #else
-                plcworker = new Thread (new ThreadStart (svc));
-                plcworker.IsBackground = true;
-                plcworker.Start ();
+                // TaskManager.cs 로 이동
+                //plcworker = new Thread (new ThreadStart (svc));
+                //plcworker.IsBackground = true;
+                //plcworker.Start ();
 #endif
                 logText.Text = "PLC Connect";
                 logText.Foreground = Brushes.Green;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 using Hermle_Auto.Comm;
 using HermleCS.Data;
@@ -148,6 +149,11 @@ namespace Hermle_Auto.Tasks
 
                     }
 
+                    if (step % 50 == 40)
+                    {
+                        read2100 ();
+                    }
+
                     // Hold 명령 전송 상태
                     if (D.Instance.SendHold == true)
                     {
@@ -207,6 +213,17 @@ namespace Hermle_Auto.Tasks
             catch (Exception ex)
             {
                 Console.WriteLine (ex.ToString ());
+            }
+            finally
+            {
+                if (D.Instance.M2000Changed == true)
+                {
+                    if (M2000Action != null)
+                    {
+                        M2000Action.Invoke ();
+                    }
+                }
+
             }
         }
 
@@ -289,5 +306,48 @@ namespace Hermle_Auto.Tasks
             }
         }
 
+        private async void read2100 ()
+        {
+            try
+            {
+                int length;
+                int[]   data;
+                    // M2100
+                length  = D.Instance.M2100.Length;
+                data    = new int[length];
+
+                await CommPLC.Instance.mcProtocolTcp.GetBitDevice ("M2100", data.Length, data);
+                for (int i = 0; i < D.Instance.M2100.Length; i++)
+                {
+                    if (D.Instance.M2100[i] != data[i])
+                    {
+                        D.Instance.M2100[i]     = data[i];    
+                        D.Instance.M2100Changed = true;
+                    }
+                }
+                //---
+
+                // M2200
+                length  = D.Instance.M2200.Length;
+                data    = new int[length];
+
+                await CommPLC.Instance.mcProtocolTcp.GetBitDevice ("M2200", data.Length, data);
+                for (int i = 0; i < D.Instance.M2200.Length; i++)
+                {
+                    if (D.Instance.M2200[i] != data[i])
+                    {
+                        D.Instance.M2200[i]     = data[i];    
+                        D.Instance.M2200Changed = true;
+                    }
+                }
+                //---
+ 
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
     }
 }
