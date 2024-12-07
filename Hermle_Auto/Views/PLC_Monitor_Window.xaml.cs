@@ -97,7 +97,7 @@ namespace Hermle_Auto.Views
                         }
                     });
                     //---
-                    Thread.Sleep (100);
+                    Thread.Sleep (500);
 
                 }
                 catch (Exception ex)
