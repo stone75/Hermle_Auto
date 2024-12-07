@@ -278,8 +278,8 @@ namespace Hermle_Auto.Views
 
             try
             {
+                C.log(C.ROBOT_SERVER + "/H_LOCATION");
                 res = http.GetAPI(C.ROBOT_SERVER + "/H_LOCATION");
-                //res = http.GetAPI("http://t.odinox.com/position.php");
 
                 using var document = JsonDocument.Parse(res,
                     new JsonDocumentOptions
@@ -385,6 +385,7 @@ namespace Hermle_Auto.Views
 
                     try
                     {
+                        C.log(C.ROBOT_SERVER + "/H_WRITE_POSITION?" + url);
                         write_res = http.GetAPI(C.ROBOT_SERVER + "/H_WRITE_POSITION?" + url);
                         HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(write_res);
                         if (httpresponse.result != 0)
@@ -403,6 +404,7 @@ namespace Hermle_Auto.Views
                 try
                 {
                     d.CURRENT_JOBNAME = "calc_kiosk_points";
+                    C.log(C.ROBOT_SERVER + "/H_COMMAND?task_str=" + d.CURRENT_JOBNAME);
                     res = http.GetAPI(C.ROBOT_SERVER + "/H_COMMAND?task_str=" + d.CURRENT_JOBNAME);
 
                     HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);

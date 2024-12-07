@@ -1,5 +1,7 @@
-﻿using System;
+﻿using HermleCS.Comm;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -128,8 +130,7 @@ namespace Hermle_Auto.Views
 
         public void writelog(string msg)
         {
-            string formattedTime = DateTime.Now.ToString("HH:mm:ss");
-            txtRobotInfo.Text = $"{formattedTime} : {msg}\r\n" + txtRobotInfo.Text;
+            txtRobotInfo.Text = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - {msg}";
         }
 
         private void btnClearRobotList_Click(object sender, RoutedEventArgs e)

@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using System.Net.Http;
+using System.IO;
 
 // using ActUtlTypeLib;
 // using MCProtocol;
@@ -161,6 +162,22 @@ namespace HermleCS.Comm
             return true;
         }
 
-        // 소스 변경부분....
+        //public static void writelog(string msg)
+        //{
+        //    string logMessage = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - {msg}";
+
+        //    try
+        //    {
+        //        using (StreamWriter writer = new StreamWriter(C.LOGFILE, append: true))
+        //        {
+        //            writer.WriteLine(logMessage);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Error writing log: {ex.Message}");
+        //    }
+        //}
+        //// 소스 변경부분....
     }
 }
