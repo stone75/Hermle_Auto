@@ -62,33 +62,33 @@
 
                     <!-- Indicator User Ack -->
                     <TextBlock Text="Indicator User Ack" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" TextWrapping="Wrap"/>
-                    <Button Content="Off" Grid.Row="1" Grid.Column="1" Width="NaN" Height="30" Margin="5"/>
-                    <Button Content="On" Grid.Row="1" Grid.Column="2" Width="NaN" Height="30" Margin="5"/>
+                    <Button x:Name="Operation_Indicator_Off" Content="Off" Grid.Row="1" Grid.Column="1" Width="NaN" Height="30" Margin="5"/>
+                    <Button x:Name="Operation_Indicator_On" Content="On" Grid.Row="1" Grid.Column="2" Width="NaN" Height="30" Margin="5"/>
 
                     <!-- Gripper Open/Close -->
                     <TextBlock Text="Gripper Open/Close" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" TextWrapping="Wrap"/>
-                    <Button Content="Open" Grid.Row="2" Grid.Column="1" Width="NaN" Height="30" Margin="5"/>
-                    <Button Content="Close" Grid.Row="2" Grid.Column="2" Width="NaN" Height="30" Margin="5"/>
+                    <Button x:Name="Operation_Gripper_Open" Content="Open" Grid.Row="2" Grid.Column="1" Width="NaN" Height="30" Margin="5"/>
+                    <Button x:Name="Operation_Gripper_Close" Content="Close" Grid.Row="2" Grid.Column="2" Width="NaN" Height="30" Margin="5"/>
 
                     <!-- Cell Light -->
                     <TextBlock Text="Cell Light" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" TextWrapping="Wrap"/>
-                    <Button Content="Off" Grid.Row="3" Grid.Column="1" Width="NaN" Height="30" Margin="5"/>
-                    <Button Content="On" Grid.Row="3" Grid.Column="2" Width="NaN" Height="30" Margin="5"/>
+                    <Button x:Name="Operation_CellLight_Off" Content="Off" Grid.Row="3" Grid.Column="1" Width="NaN" Height="30" Margin="5"/>
+                    <Button x:Name="Operation_CellLight_On" Content="On" Grid.Row="3" Grid.Column="2" Width="NaN" Height="30" Margin="5"/>
 
                     <!-- Door Interlock -->
                     <TextBlock Text="Door Interlock" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" TextWrapping="Wrap"/>
-                    <Button Content="Off" Grid.Row="4" Grid.Column="1" Width="NaN" Height="30" Margin="5"/>
-                    <Button Content="On" Grid.Row="4" Grid.Column="2" Width="NaN" Height="30" Margin="5"/>
+                    <Button x:Name="Operation_DoorInterlock_Off" Content="Off" Grid.Row="4" Grid.Column="1" Width="NaN" Height="30" Margin="5"/>
+                    <Button x:Name="Operation_DoorInterlock_On" Content="On" Grid.Row="4" Grid.Column="2" Width="NaN" Height="30" Margin="5"/>
 
                     <!-- Interlock Hermle ByPass -->
                     <TextBlock Text="Interlock Hermle ByPass" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" TextWrapping="Wrap"/>
-                    <Button Content="Off" Grid.Row="5" Grid.Column="1" Width="NaN" Height="30" Margin="5"/>
-                    <Button Content="On" Grid.Row="5" Grid.Column="2" Width="NaN" Height="30" Margin="5"/>
+                    <Button x:Name="Operation_InterlockHerlme_Off" Content="Off" Grid.Row="5" Grid.Column="1" Width="NaN" Height="30" Margin="5"/>
+                    <Button x:Name="Operation_InterlockHerlme_On" Content="On" Grid.Row="5" Grid.Column="2" Width="NaN" Height="30" Margin="5"/>
 
                     <!-- Gripper 2 Open/Close -->
                     <TextBlock Text="Gripper 2 Open/Close" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,5,0" TextWrapping="Wrap" Height="30"/>
-                    <Button Content="Open" Grid.Row="6" Grid.Column="1" Width="NaN" Height="30" Margin="5"/>
-                    <Button Content="Close" Grid.Row="6" Grid.Column="2" Width="NaN" Height="30" Margin="5" VerticalContentAlignment="Center"/>
+                    <Button x:Name="Operation_Gripper2_Open" Content="Open" Grid.Row="6" Grid.Column="1" Width="NaN" Height="30" Margin="5"/>
+                    <Button x:Name="Operation_Gripper2_Close" Content="Close" Grid.Row="6" Grid.Column="2" Width="NaN" Height="30" Margin="5" VerticalContentAlignment="Center"/>
                 </Grid>
             </GroupBox>
         </Grid>

@@ -63,13 +63,20 @@ namespace Hermle_Auto.Comm
         }
 
         
-        public async Task WritePLCBlock(int addr, int value)
+        public async Task WritePLCBlock(int addr, int value, int length=2)
         {
             int[] addrs = new int[1];
             int[] values;
 
             addrs[0] = addr;
-            values = ConvertIntToShort(value);
+            if (length == 1)
+            {
+                values = new int[1];
+                values[0] = value;
+            } else
+            {
+                values = ConvertIntToShort(value);
+            }
 
             try
             {

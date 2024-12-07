@@ -13,6 +13,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -30,6 +31,7 @@ namespace Hermle_Auto.Views
         public OperationView()
         {
             InitializeComponent();
+            setMode(2);
         }
 
         private void btnParkingPosition_Click(object sender, RoutedEventArgs e)
@@ -42,27 +44,32 @@ namespace Hermle_Auto.Views
             // 1. TP 파일 이름 셋팅
             D.Instance.CURRENT_JOBNAME = "PARKING";
 
-            /*
-             * 일단 Job 이름만 셋팅 후, Resume 에서 실제 실행 예정.
+            ///*
+            // * 일단 Job 이름만 셋팅 후, Resume 에서 실제 실행 예정.
             string res;
 
             try
             {
-                d.CURRENT_JOBNAME = "PARKING";
-                res = http.GetAPI(C.ROBOT_SERVER + "/H_COMMAND?task_str=" + d.CURRENT_JOBNAME);
+                D.Instance.CURRENT_JOBNAME = "PARKING";
+                string url = C.ROBOT_SERVER + "/H_COMMAND?task_str=" + D.Instance.CURRENT_JOBNAME;
+                logger?.Invoke($"{url}");
+                C.log(url);
+                res = CommHTTPComponent.Instance.GetAPI(url);
 
                 HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
                 if (httpresponse.result != 0)
                 {
+                    logger?.Invoke($"Result : {httpresponse.msg}");
                     MessageBox.Show("Command Error : " + httpresponse.msg);
                     return;
                 }
             }
             catch (Exception ex)
             {
+                logger?.Invoke($"Exception : {ex.Message}");
                 MessageBox.Show("Robot HTTP Communication Exception : " + ex.Message);
             }
-            */
+            //*/
         }
         private void btnExchangeGripperPosition_Click(object sender, RoutedEventArgs e)
         {
@@ -71,27 +78,32 @@ namespace Hermle_Auto.Views
 
             D.Instance.CURRENT_JOBNAME = "EXCHANGE_GRIPPER";
 
-            /*
-             * 일단 Job 이름만 셋팅 후, Resume 에서 실제 실행 예정.
+            ///*
+            // * 일단 Job 이름만 셋팅 후, Resume 에서 실제 실행 예정.
             string res;
 
             try
             {
-                d.CURRENT_JOBNAME = "EXCHANGE_GRIPPER";
-                res = http.GetAPI(C.ROBOT_SERVER + "/H_COMMAND?task_str=" + d.CURRENT_JOBNAME);
+                D.Instance.CURRENT_JOBNAME = "EXCHANGE_GRIPPER";
+                string url = C.ROBOT_SERVER + "/H_COMMAND?task_str=" + D.Instance.CURRENT_JOBNAME;
+                logger?.Invoke($"{url}");
+                C.log(url);
+                res = CommHTTPComponent.Instance.GetAPI(url);
 
                 HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
                 if (httpresponse.result != 0)
                 {
+                    logger?.Invoke($"Result : {httpresponse.msg}");
                     MessageBox.Show("Command Error : " + httpresponse.msg);
                     return;
                 }
             }
             catch (Exception ex)
             {
+                logger?.Invoke($"Exception : {ex.Message}");
                 MessageBox.Show("Robot HTTP Communication Exception : " + ex.Message);
             }
-            */
+            //*/
         }
         private void btnRetractPosition_Click(object sender, RoutedEventArgs e)
         {
@@ -104,29 +116,31 @@ namespace Hermle_Auto.Views
             //d.CURRENT_JOBNAME = "CURRENT_RETRACT";
             D.Instance.CURRENT_JOBNAME = "CURRENT_RETRACT";
 
-            /*
-             * 일단 Job 이름만 셋팅 후, Resume 에서 실제 실행 예정.
+            ///*
+            // * 일단 Job 이름만 셋팅 후, Resume 에서 실제 실행 예정.
             string res;
-
-            string res;
-
             try
             {
-                d.CURRENT_JOBNAME = "CURRENT_RETRACT";
-                res = http.GetAPI(C.ROBOT_SERVER + "/H_COMMAND?task_str=" + d.CURRENT_JOBNAME);
+                D.Instance.CURRENT_JOBNAME = "CURRENT_RETRACT";
+                string url = C.ROBOT_SERVER + "/H_COMMAND?task_str=" + D.Instance.CURRENT_JOBNAME;
+                logger?.Invoke($"{url}");
+                C.log(url);
+                res = CommHTTPComponent.Instance.GetAPI(url);
 
                 HTTPResponse httpresponse = JsonSerializer.Deserialize<HTTPResponse>(res);
                 if (httpresponse.result != 0)
                 {
+                    logger?.Invoke($"Result : {httpresponse.msg}");
                     MessageBox.Show("Command Error : " + httpresponse.msg);
                     return;
                 }
             }
             catch (Exception ex)
             {
+                logger?.Invoke($"Result : {ex.Message}");
                 MessageBox.Show("Robot HTTP Communication Exception : " + ex.Message);
             }
-            */
+            //*/
         }
 
         private void Operaion_KioskValve_Open_MouseDown(object sender, MouseButtonEventArgs e)
@@ -183,6 +197,50 @@ namespace Hermle_Auto.Views
             catch (Exception ex)
             {
                 logger?.Invoke("예외상황 : " + ex.Message);
+            }
+        }
+
+        public void setMode(int mode)
+        {
+            btnParkingPosition.IsEnabled = false;
+            btnExchangeGripperPosition.IsEnabled = false;
+            btnRetractPosition.IsEnabled = false;
+            if (mode == 0)
+            {
+                btnParkingPosition.IsEnabled = true;
+                btnExchangeGripperPosition.IsEnabled = true;
+                btnRetractPosition.IsEnabled = true;
+            }
+            Operaion_KioskValve_Open.IsEnabled = false;
+            Operaion_KioskValve_Close.IsEnabled = false;
+            Operation_Indicator_Off.IsEnabled = false;
+            Operation_Indicator_On.IsEnabled = false;
+            Operation_Gripper_Open.IsEnabled = false;
+            Operation_Gripper_Close.IsEnabled = false;
+            Operation_CellLight_Off.IsEnabled = false;
+            Operation_CellLight_On.IsEnabled = false;
+            Operation_DoorInterlock_Off.IsEnabled = false;
+            Operation_DoorInterlock_On.IsEnabled = false;
+            Operation_InterlockHerlme_Off.IsEnabled = false;
+            Operation_InterlockHerlme_On.IsEnabled = false;
+            Operation_Gripper2_Open.IsEnabled = false;
+            Operation_Gripper2_Close.IsEnabled = false;
+            if (mode == 1)
+            {
+                Operaion_KioskValve_Open.IsEnabled = true;
+                Operaion_KioskValve_Close.IsEnabled = true;
+                Operation_Indicator_Off.IsEnabled = true;
+                Operation_Indicator_On.IsEnabled = true;
+                Operation_Gripper_Open.IsEnabled = true;
+                Operation_Gripper_Close.IsEnabled = true;
+                Operation_CellLight_Off.IsEnabled = true;
+                Operation_CellLight_On.IsEnabled = true;
+                Operation_DoorInterlock_Off.IsEnabled = true;
+                Operation_DoorInterlock_On.IsEnabled = true;
+                Operation_InterlockHerlme_Off.IsEnabled = true;
+                Operation_InterlockHerlme_On.IsEnabled = true;
+                Operation_Gripper2_Open.IsEnabled = true;
+                Operation_Gripper2_Close.IsEnabled = true;
             }
         }
     }
