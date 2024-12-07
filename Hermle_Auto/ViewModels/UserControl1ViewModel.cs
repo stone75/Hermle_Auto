@@ -251,6 +251,7 @@ namespace Hermle_Auto.ViewModels
             }
         }
 
+        // 2024/12/07 flagmoon : 미구현.
         public string ValueGripper
         {
             get => _valueGripper;
@@ -264,6 +265,8 @@ namespace Hermle_Auto.ViewModels
             }
         }
 
+        // 2024/12/07 flagmoon : 어디에서 값을 불러오나요? 로봇에게서 가져 오는 것 같은데. 명령어나 이런것들이 분석이 되어 있는지?????
+        // VB 소스상에는 ReadKeyState () 함수를 호출하는데 로봇이랑 정의가 안되어 있는 거 아닌가요.
         public string ValueKeyState
         {
             get => _valueKeyState;
