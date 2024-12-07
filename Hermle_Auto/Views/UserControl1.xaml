@@ -8,11 +8,10 @@
              xmlns:viewmodels="clr-namespace:Hermle_Auto.ViewModels"
              mc:Ignorable="d" d:DesignWidth="1280" Height="1024">
 
-    <!-- 
-    <UserControl.DataContext>
+
+    <!--<UserControl.DataContext>
         <viewmodels:UserControl1ViewModel/>
-    </UserControl.DataContext>
--->
+    </UserControl.DataContext>-->
 
 
     <UserControl.Resources>
@@ -332,7 +331,7 @@
                                Style="{StaticResource CustomLabel}"
                                Width="100" 
                                Foreground="{Binding ValueKeyStateForeground}"
-                               FontWeight="{Binding ValueKeyStateFontWeight}"/>
+                               FontWeight="{Binding ValueKeyStateFontWeight}" VerticalAlignment="Bottom"/>
                     </Border>
                 </Grid>
 

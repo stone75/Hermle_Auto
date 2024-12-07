@@ -27,6 +27,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="MoonLib">
+      <HintPath>Lib\MoonLib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="CSV\ALLWorkPiece.csv">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>

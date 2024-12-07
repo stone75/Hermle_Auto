@@ -51,6 +51,7 @@ namespace HermleCS.Data
         public bool     M2300Changed    { get; set; }
         public bool     SendHold        { get; set; }
         public int      ProgramNumber   { get; set; }
+        public int      RobotStatus     { get; set; }       // M2300 To Integer
         //---
 #endif
 

@@ -26,6 +26,7 @@ using System.Security.Policy;
 using System.Windows.Threading;
 using Hermle_Auto.Comm;
 using System.Text.Json;
+using MoonLib.Logger;
 
 public delegate void PLCCommHandler(int addr, string message);
 public delegate Task PLCCommSender(McProtocolTcp conn, PlcDeviceType type, int addr, int value);
@@ -39,9 +40,6 @@ namespace Hermle_Auto.Views
     /// </summary>
     public partial class UserControl1 : UserControl
     {
-        public Action   AlarmAction     { get; set; }           // 2024/12/06 flagmoon
-        public Action   M2000Action     { get; set; }           // 2024/12/06 flagmoon
-
         UserControl1ViewModel userControl1ViewModel = new UserControl1ViewModel();
         private CommHTTPComponent httpclient = CommHTTPComponent.Instance;
 
@@ -115,7 +113,16 @@ namespace Hermle_Auto.Views
 
             // 2024/12/03
             commPLC.mcProtocolTcp = mcProtocolTcp;
+            logger += UserControl1_logger;
+
+            logger.Invoke ("Test");
             //---
+        }
+
+        // 2024/12/07 flagmoon add.
+        private void UserControl1_logger (string message)
+        {
+            Log.Instance ().Info (message);
         }
 
         private void init ()
@@ -123,7 +130,6 @@ namespace Hermle_Auto.Views
             try
             {
                 btnComm.Visibility  = Visibility.Hidden;
-                M2000Action         += M2000EventHandler;
             }
             catch (Exception ex)
             {
@@ -133,6 +139,7 @@ namespace Hermle_Auto.Views
 
 
         // 2024/12/06 flagmoon
+#if false
         private void M2000EventHandler ()
         {
             try
@@ -154,7 +161,7 @@ namespace Hermle_Auto.Views
                 Console.WriteLine (ex.ToString ());
             }
         }
-
+#endif
         public void StartPLC()
         {
             try
@@ -219,7 +226,10 @@ namespace Hermle_Auto.Views
         /// <summary>
         /// PLC Read Thread Service
         /// 2024/12/06  flagmoon add
+        /// Moce To TaskManager class
         /// </summary>
+        /// 
+#if false
         private void svc ()
         {
             uint step   = 0;
@@ -271,6 +281,7 @@ namespace Hermle_Auto.Views
                 }
             }
         }
+#endif
 
         // 2024/12/03 flagmoon
         // 이 쓰레드는 PLC Monitor Window로 이동 해야함.
@@ -441,6 +452,8 @@ namespace Hermle_Auto.Views
             
         }
 
+        // Moce To TaskManager
+#if false
         // 2024/12/06 flagmoon Add
         private async void readM2000 ()
         {
@@ -559,6 +572,7 @@ namespace Hermle_Auto.Views
                 }
             }
         }
+#endif
 
         private async Task RobotThreadHandler()
         {
@@ -607,6 +621,34 @@ namespace Hermle_Auto.Views
 
         }
 
+
+        // 2024/12/07 flagmoon
+        public void M2300EventHandler ()
+        {
+            try
+            {
+                if (D.Instance.M2300[0] == 1)
+                {
+                    userControl1ViewModel.ValueKeyState     = "AUTO";          
+                }
+
+                if (D.Instance.M2300[1] == 1)
+                {
+                    userControl1ViewModel.ValueKeyState     = "MANUAL";          
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                D.Instance.M2300Changed     = false;
+            }
+
+
+        }
 
         private void OpenPasswordWindow_Click(object sender, RoutedEventArgs e)
         {
