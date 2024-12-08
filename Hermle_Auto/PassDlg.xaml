@@ -136,26 +136,28 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
+
                                 <RowDefinition Height="70"/>
-                                <RowDefinition Height="50"/>
-                                <RowDefinition Height="50"/>
-                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="70"/>
+                                <RowDefinition Height="70"/>
                             </Grid.RowDefinitions>
 
 
-                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="100" FontSize="20">Gripper</TextBlock>
-                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="Auto" Grid.Column="1" FontSize="20" HorizontalAlignment="Left" x:Name="gipperType">Tool Type</TextBlock>
+                            <TextBlock VerticalAlignment="Center" Margin="52,0,52,0" Width="100" FontSize="20" Grid.Column="2" Grid.Row="0">Gripper</TextBlock>
+                            <TextBlock  VerticalAlignment="Top" Margin="32,17,0,0" Width="Auto" Grid.Column="3" FontSize="20" HorizontalAlignment="Left" x:Name="gipperType" Grid.Row="0">Tool Type</TextBlock>
 
-                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="100" Grid.Row="1" FontSize="20">Shelf 1</TextBlock>
-                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="Auto" Grid.Column="1" Grid.Row="1" FontSize="20" HorizontalAlignment="Left" x:Name="shelf1ToolType" >Tool Type</TextBlock>
+                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="100" Grid.Row="0" FontSize="20">Shelf 1</TextBlock>
+                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="Auto" Grid.Column="1" Grid.Row="0" FontSize="20" HorizontalAlignment="Left" x:Name="shelf1ToolType" >Tool Type</TextBlock>
 
-                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="100" Grid.Row="2" FontSize="20">Shelf 2</TextBlock>
-                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="Auto" Grid.Column="1" Grid.Row="2" FontSize="20" HorizontalAlignment="Left" x:Name="shelf2ToolType" >Tool Type</TextBlock>
+                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="100" Grid.Row="1" FontSize="20">Shelf 2</TextBlock>
+                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="Auto" Grid.Column="1" Grid.Row="1" FontSize="20" HorizontalAlignment="Left" x:Name="shelf2ToolType" >Tool Type</TextBlock>
 
-                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="100" Grid.Row="3" FontSize="20">Shelf 3</TextBlock>
-                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="Auto" Grid.Column="1" Grid.Row="3" FontSize="20" HorizontalAlignment="Left" x:Name="shelf3ToolType" >Tool Type</TextBlock>
+                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="100" Grid.Row="2" FontSize="20">Shelf 3</TextBlock>
+                            <TextBlock VerticalAlignment="Center" Margin="0,0,5,0" Width="Auto" Grid.Column="1" Grid.Row="2" FontSize="20" HorizontalAlignment="Left" x:Name="shelf3ToolType" >Tool Type</TextBlock>
                         </Grid>
                     </StackPanel>
 
@@ -205,8 +207,10 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="400"/>
+                        <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+
                     </Grid.ColumnDefinitions>
 
                     <StackPanel>
@@ -215,19 +219,21 @@
                         <Button Content="" Width="300" Height="40" Margin="5"/>
                         <Button Content="" Width="300" Height="40" Margin="5"/>
                         <!--
-                            미구현
+                            미구현 - 로봇 커맨드 추가외 구현 완료(2024.12.06.)
                             WriteInteger(56, ArrayDouble()) 로봇으로 전송 
                             StartJob("TOOL.JBI")
                             HSK = 5, Round  Small = 6, Round Big = 7
                             H_TOOL 커맨드 정의 필요.
                         -->
-                        <Button Content="HSK" Width="300" Height="40" Margin="5"/>
-                        <Button Content="Round Small" Width="300" Height="40" Margin="5"/>
-                        <Button Content="Round Big" Width="300" Height="40" Margin="5"/>
+                        <Button Content="HSK"  Style="{DynamicResource ActButton}" Width="300" Height="40" Margin="5" Click = "grippersendRobotClick"/>
+                        <Button Content="Round Small" Style="{DynamicResource ActButton}" Width="300" Height="40" Margin="5" Click = "grippersendRobotClick"/>
+                        <Button Content="Round Big" Style="{DynamicResource ActButton}" Width="300" Height="40" Margin="5" Click = "grippersendRobotClick"/>
+
                     </StackPanel>
 
-                    <TextBox Text="7" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="50" Height="70" FontSize="25" FontWeight="Bold" TextAlignment="Center" Margin="0,0,0,20"/>
+                    <TextBox Text="7" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="50" Height="38" FontSize="25" FontWeight="Bold" TextAlignment="Center" Margin="0,0,0,33" x:Name="grippervalue"/>
 
+                    <Button Content="Send ROBOT" Style="{DynamicResource ActButton}" Width="300" Height="NaN" Grid.Column="2" Margin="4,265,10,25" Click = "sendRobotClick"/>
                     <RichTextBox Grid.Row="1" Grid.ColumnSpan="2" Margin="10,5,10,5"></RichTextBox>
 
 
@@ -244,10 +250,10 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <!-- Add your content here -->
-                    
+
                     <ScrollViewer>
                         <StackPanel>
-                      
+
                             <DataGrid x:Name="allLocationDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Background="#FFEDEDED" FontSize="20"     
                                   ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}">
                                 <DataGrid.Resources>
@@ -279,16 +285,17 @@
 
                                 </DataGrid.Columns>
                             </DataGrid>
-                       
-                    </StackPanel>
+
+                        </StackPanel>
                     </ScrollViewer>
                     <Button Content="Display All Locations" Width="300" Height="40" Margin="5" Grid.Row="4" Click="DisplayAllLocationsClick"/>
                 </Grid>
-                
-                
+
+
             </TabItem>
         </TabControl>
 
         <!-- Exit Button -->
     </Grid>
 </Window>
+
