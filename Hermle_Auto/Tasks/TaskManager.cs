@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 
 using Hermle_Auto.Comm;
+
+using HermleCS.Comm;
 using HermleCS.Data;
+
+using McProtocol.Mitsubishi;
+
+using MoonLib.Logger;
 
 namespace Hermle_Auto.Tasks
 {
@@ -19,6 +25,7 @@ namespace Hermle_Auto.Tasks
         public Action   AlarmAction     { get; set; }           // 2024/12/06 flagmoon
         public Action   M2000Action     { get; set; }           // 2024/12/06 flagmoon
         public Action   M2300Action     { get; set; }
+        public Action   RobotLocationAction     { get; set; }   // 2024/12/08 flagmoon
 
         private Thread?  __thread       = null;
         private bool    __threadFlag    = false;
@@ -140,7 +147,32 @@ namespace Hermle_Auto.Tasks
 
                     if (step % 50 == 10)
                     {
+                        if (CommPLC.Instance.mcProtocolTcp.Connected == false)
+                        {
+                            Thread thd = new Thread (async () => 
+                            {
+                                try
+                                {
+                                    CommPLC.Instance.mcProtocolTcp = new McProtocolTcp(C.PLC_IP, C.PLC_PORT, McFrame.MC3E);
+                                    CommPLC.Instance.mcProtocolTcp.Open ();   
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine (ex.ToString ());
+                                }
+                            });
+                            thd.IsBackground = true;
+                            thd.Start ();
+                        }
+                    }
+                    if (step % 50 == 10)
+                    {
                         readM2080 ();
+                    }
+
+                    if (step % 50 == 20)
+                    {
+                        readRobotLocation ();
                     }
 
                     if (step % 50 == 30)
@@ -309,10 +341,6 @@ namespace Hermle_Auto.Tasks
 
                 await CommPLC.Instance.mcProtocolTcp.GetBitDevice ("M2300", data.Length, data);
 
-                // M2300 ~ M2315
-                data    = setBit (data);
-                D.Instance.RobotStatus = data[0];
-                //---
 
                 for (int i = 0; i < data.Length; i++)
                 {
@@ -323,6 +351,13 @@ namespace Hermle_Auto.Tasks
                     }
                 }
 
+                if (D.Instance.M2300Changed == true)
+                {
+                    // M2300 ~ M2315
+                    data    = setBit (data);
+                    D.Instance.RobotStatus = data[0];
+                    //---
+                }
             }
             catch (Exception ex)
             {
@@ -332,6 +367,7 @@ namespace Hermle_Auto.Tasks
             {
                 if (D.Instance.M2300Changed == true)
                 {
+                    Console.WriteLine ($"Robot => PC : {D.Instance.RobotStatus.ToString ("X")}");
                     if (M2300Action != null)
                     {
                         M2300Action.Invoke ();
@@ -377,6 +413,7 @@ namespace Hermle_Auto.Tasks
                     {
                         D.Instance.M2200[i]     = data[i];    
                         D.Instance.M2200Changed = true;
+
                     }
                 }
                 //---
@@ -384,9 +421,89 @@ namespace Hermle_Auto.Tasks
             }
             catch (Exception ex)
             {
-
+                MoonLib.Logger.Log.Instance ().Error (ex.ToString (), "ERROR");
                 throw;
             }
         }
+
+        /// <summary>
+        /// Robot Location Read
+        /// 2024/12/09
+        /// </summary>
+        private async void readRobotLocation ()
+        {
+            try
+            {
+                if (CommPLC.Instance.mcProtocolTcp.Connected == false)
+                {
+                    return;
+                }
+                
+                int     length;
+                int[]   data;
+                
+                length  = D.Instance.RobotLocation.Length;
+                data    = new int[length];
+
+                await CommPLC.Instance.mcProtocolTcp.ReadDeviceBlock ("D2010", data.Length, data);
+                for (int i = 0; i < D.Instance.RobotLocation.Length; i++)
+                {
+                    if (D.Instance.RobotLocation[i] != data[i])
+                    {
+                        D.Instance.RobotLocation[i]     = data[i];    
+                        D.Instance.RobotLocationChanged = true;
+                    }
+                }
+                //---
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine (ex.ToString ());
+                Log.Instance ().Error (ex.ToString (), "ERROR");
+            }
+            finally
+            {
+                if (D.Instance.RobotLocationChanged == true)
+                {
+                    if (RobotLocationAction != null)
+                    {
+                        RobotLocationAction.Invoke ();
+                    }
+                }
+            }
+        }
+
+        // 2024/12/09 flagmoon
+        // Robot Location 정보 변환을 위해 추가 구현.
+        public static int[] ConvertShortToInt (int[] f, int length)
+        {
+            int[]       result  = new int[length];
+            byte[]      cvt     = new byte[4];
+            byte[]      ordData = new byte[2];
+
+            try
+            {
+                for (int i = 0; i < length; i++) 
+                {
+                    ordData     = BitConverter.GetBytes (f[i * 2]);
+
+                    cvt[0] = ordData[0];
+                    cvt[1] = ordData[1];
+
+                    ordData     = BitConverter.GetBytes (f[i * 2 + 1]);
+                    cvt[2] = ordData[0];
+                    cvt[3] = ordData[1];
+
+                    result[i]    = BitConverter.ToInt32(cvt, 0);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine (ex.ToString ());
+            }
+            
+            return result;
+        }
+
     }
 }

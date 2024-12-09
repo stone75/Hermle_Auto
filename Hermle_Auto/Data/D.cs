@@ -52,6 +52,9 @@ namespace HermleCS.Data
         public bool     SendHold        { get; set; }
         public int      ProgramNumber   { get; set; }
         public int      RobotStatus     { get; set; }       // M2300 To Integer
+
+        public int[]    RobotLocation   { get; set; }       = new int[12];          // 2024/12/08 flagmoon, D2010 ~ D2021
+        public bool     RobotLocationChanged    { get; set; }
         //---
 #endif
 
