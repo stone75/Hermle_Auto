@@ -316,10 +316,6 @@ namespace Hermle_Auto.Tasks
 
                 await CommPLC.Instance.mcProtocolTcp.GetBitDevice ("M2300", data.Length, data);
 
-                // M2300 ~ M2315
-                data    = setBit (data);
-                D.Instance.RobotStatus = data[0];
-                //---
 
                 for (int i = 0; i < data.Length; i++)
                 {
@@ -330,6 +326,13 @@ namespace Hermle_Auto.Tasks
                     }
                 }
 
+                if (D.Instance.M2300Changed == true)
+                {
+                    // M2300 ~ M2315
+                    data    = setBit (data);
+                    D.Instance.RobotStatus = data[0];
+                    //---
+                }
             }
             catch (Exception ex)
             {

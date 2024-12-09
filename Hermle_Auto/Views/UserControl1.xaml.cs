@@ -636,7 +636,14 @@ namespace Hermle_Auto.Views
             {
                 if (D.Instance.M2300[0] == 1)
                 {
-                    userControl1ViewModel.ValueKeyState     = "AUTO";          
+                    userControl1ViewModel.ValueKeyState     = "AUTO";     
+                    Dispatcher.Invoke( () =>
+                    {
+                        btnResume.IsEnabled = true;
+                        btnPause.IsEnabled = true;
+                        btnReset.IsEnabled = true;
+
+                    });
                 }
                 else
                 {
@@ -645,7 +652,14 @@ namespace Hermle_Auto.Views
 
                 if (D.Instance.M2300[1] == 1)
                 {
-                    userControl1ViewModel.ValueKeyState     = "MANUAL";          
+                    userControl1ViewModel.ValueKeyState     = "MANUAL";        
+                    Dispatcher.Invoke( () =>
+                    {
+                        btnResume.IsEnabled = false;
+                        btnPause.IsEnabled = false;
+                        btnReset.IsEnabled = false;
+
+                    });
                 }
                 else
                 {
@@ -726,13 +740,28 @@ namespace Hermle_Auto.Views
 
                 if (D.Instance.M2300[10] == 1)
                 {
-
                 }
                 else
                 {
-
                 }
 
+                if (D.Instance.M2300[12] == 1)
+                {
+                    userControl1ViewModel.ValueServe    = "On";
+                }
+                else
+                {
+                    userControl1ViewModel.ValueServe    = "Off";
+                }
+
+                if (D.Instance.M2300[13] == 1)
+                {
+                    userControl1ViewModel.ValueGripper     = "Close";          
+                }
+                else
+                {
+                    userControl1ViewModel.ValueGripper     = "Open";          
+                }
 
             }
             catch (Exception ex)
