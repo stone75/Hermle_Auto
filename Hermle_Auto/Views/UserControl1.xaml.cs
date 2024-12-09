@@ -27,6 +27,7 @@ using System.Windows.Threading;
 using Hermle_Auto.Comm;
 using System.Text.Json;
 using MoonLib.Logger;
+using Hermle_Auto.Tasks;
 
 public delegate void PLCCommHandler(int addr, string message);
 public delegate Task PLCCommSender(McProtocolTcp conn, PlcDeviceType type, int addr, int value);
@@ -98,8 +99,14 @@ namespace Hermle_Auto.Views
 
             //작업시 제외
             StartPLC();
-            StartRobotThread();
 
+            // 2024/12/08 flagmoon
+            // 로봇은 한 순간에 HTTP 한 명령 밖에 수행 못함.
+            // HTTP 명령을 Queue형태로 변경하던지해야 함.
+            // 이 것 때문에 모든 로봇명령이 오동작 함.
+#if false
+            StartRobotThread();
+#endif
             Unloaded += UIUnloaded;
 
             logger += automatView.writelog;
@@ -183,7 +190,7 @@ namespace Hermle_Auto.Views
                 logText.Text = "PLC Connect";
                 logText.Foreground = Brushes.Green;
              
-
+                CommPLC.Instance.mcProtocolTcp  = mcProtocolTcp;    // 2024/12/09 flagmoon
             }
             catch (Exception ex)
             {
@@ -631,11 +638,101 @@ namespace Hermle_Auto.Views
                 {
                     userControl1ViewModel.ValueKeyState     = "AUTO";          
                 }
+                else
+                {
+
+                }
 
                 if (D.Instance.M2300[1] == 1)
                 {
                     userControl1ViewModel.ValueKeyState     = "MANUAL";          
                 }
+                else
+                {
+
+                }
+                
+                if (D.Instance.M2300[2] == 1)
+                {
+
+                }
+                else
+                {
+
+                }
+
+                if (D.Instance.M2300[3] == 1)
+                {
+
+                }
+                else
+                {
+
+                }
+
+                if (D.Instance.M2300[4] == 1)
+                {
+
+                }
+                else
+                {
+
+                }
+
+                if (D.Instance.M2300[5] == 1)
+                {
+
+                }
+                else
+                {
+
+                }
+
+                if (D.Instance.M2300[6] == 1)
+                {
+
+                }
+                else
+                {
+
+                }
+
+                if (D.Instance.M2300[7] == 1)
+                {
+
+                }
+                else
+                {
+
+                }
+
+                if (D.Instance.M2300[8] == 1)
+                {
+
+                }
+                else
+                {
+
+                }
+
+                if (D.Instance.M2300[9] == 1)
+                {
+
+                }
+                else
+                {
+
+                }
+
+                if (D.Instance.M2300[10] == 1)
+                {
+
+                }
+                else
+                {
+
+                }
+
 
             }
             catch (Exception ex)
@@ -650,6 +747,30 @@ namespace Hermle_Auto.Views
 
         }
 
+        public void RobotLocationEventHandler ()
+        {
+            try
+            {
+                int[]   location = TaskManager.ConvertShortToInt (D.Instance.RobotLocation, 6);
+
+                userControl1ViewModel.ValueX    = (location[0] / 1000).ToString ("F3");
+                userControl1ViewModel.ValueY    = (location[1] / 1000).ToString ("F3");
+                userControl1ViewModel.ValueZ    = (location[2] / 1000).ToString ("F3");
+                userControl1ViewModel.ValueRx   = (location[3] / 1000).ToString ("F3");
+                userControl1ViewModel.ValueRy   = (location[4] / 1000).ToString ("F3");
+                userControl1ViewModel.ValueRz   = (location[5] / 1000).ToString ("F3");
+
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine (ex.ToString ());
+                Log.Instance ().Error (ex.ToString (), "ERROR");
+            }
+            finally
+            {
+                D.Instance.RobotLocationChanged = false;
+            }
+        }
         private void OpenPasswordWindow_Click(object sender, RoutedEventArgs e)
         {
             // Password.xaml 창을 불러오기

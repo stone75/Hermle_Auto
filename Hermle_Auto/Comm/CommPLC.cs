@@ -18,7 +18,7 @@ namespace Hermle_Auto.Comm
 {
     public class CommPLC
     {
-        public McProtocolTcp mcProtocolTcp;
+        public McProtocolTcp mcProtocolTcp      { get; set; }
 
         private static readonly CommPLC instance = new CommPLC();
 

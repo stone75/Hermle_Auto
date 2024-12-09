@@ -37,6 +37,7 @@ namespace Hermle_Auto
                 TaskManager.Instance ();        // 2024/12/06 flagmoon
 
                 TaskManager.Instance ().M2300Action += MainControl.M2300EventHandler;
+                TaskManager.Instance ().RobotLocationAction += MainControl.RobotLocationEventHandler;
             }
             catch (Exception ex)
             {

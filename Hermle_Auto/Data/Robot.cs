@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Hermle_Auto.Data
-{
-    public enum ROBOT_STATE_ENUM
+{                            public enum ROBOT_STATE_ENUM    
+
     {
         AUTO_MODE           = 0x01,
         MANUAL_MODE         = 0x02,
