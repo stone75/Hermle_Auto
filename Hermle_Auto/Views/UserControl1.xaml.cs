@@ -176,6 +176,9 @@ namespace Hermle_Auto.Views
 
                 mcProtocolTcp.Open();
 
+                CommPLC.Instance.mcProtocolTcp  = mcProtocolTcp;    // 2024/12/09 flagmoon
+
+
                 // 2024/12/06 flagmooon 삭제.
 #if false
                 plcworker = new Thread(async () => await ReadThreadHandler(mcProtocolTcp));
@@ -187,10 +190,18 @@ namespace Hermle_Auto.Views
                 //plcworker.IsBackground = true;
                 //plcworker.Start ();
 #endif
-                logText.Text = "PLC Connect";
-                logText.Foreground = Brushes.Green;
-             
-                CommPLC.Instance.mcProtocolTcp  = mcProtocolTcp;    // 2024/12/09 flagmoon
+
+                if (mcProtocolTcp.Connected == true)
+                {
+                    logText.Text = "PLC Connect";
+                    logText.Foreground = Brushes.Green;
+
+                }
+                else
+                {
+                    logText.Text = "PLC Fail Connect";
+                    logText.Foreground = Brushes.Red;
+                }
             }
             catch (Exception ex)
             {

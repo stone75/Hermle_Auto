@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 
 using Hermle_Auto.Comm;
+
+using HermleCS.Comm;
 using HermleCS.Data;
+
+using McProtocol.Mitsubishi;
+
 using MoonLib.Logger;
 
 namespace Hermle_Auto.Tasks
@@ -140,6 +145,26 @@ namespace Hermle_Auto.Tasks
 
                     }
 
+                    if (step % 50 == 10)
+                    {
+                        if (CommPLC.Instance.mcProtocolTcp.Connected == false)
+                        {
+                            Thread thd = new Thread (async () => 
+                            {
+                                try
+                                {
+                                    CommPLC.Instance.mcProtocolTcp = new McProtocolTcp(C.PLC_IP, C.PLC_PORT, McFrame.MC3E);
+                                    CommPLC.Instance.mcProtocolTcp.Open ();   
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine (ex.ToString ());
+                                }
+                            });
+                            thd.IsBackground = true;
+                            thd.Start ();
+                        }
+                    }
                     if (step % 50 == 10)
                     {
                         readM2080 ();
