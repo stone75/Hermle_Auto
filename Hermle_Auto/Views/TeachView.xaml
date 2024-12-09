@@ -25,15 +25,17 @@
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="600*"/>
+            <ColumnDefinition Width="479*"/>
+            <ColumnDefinition Width="121*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
 
 
 
         <!-- 탭 컨트롤 상단에 위치 -->
-        <TabControl DockPanel.Dock="Top" Margin="0" Background="#FFE6E4E4" Grid.ColumnSpan="2">
+        <TabControl Background="#FFE6E4E4" Grid.ColumnSpan="3">
 
             <!-- 첫 번째 탭: Add/Edit Work Piece -->
             <TabItem Header="Teach General Locations" Style="{StaticResource TabStyle2}">
@@ -46,12 +48,17 @@
                         <ColumnDefinition Width="587*"/>
                         <ColumnDefinition Width="234*"/>
                         <ColumnDefinition Width="352*"/>
+
                     </Grid.ColumnDefinitions>
 
                     <!-- Multi Pockets-->
                     <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="435*"/>
+                            <ColumnDefinition Width="152*"/>
+                        </Grid.ColumnDefinitions>
                         <!-- DataGrid (좌측) -->
-                        <DataGrid x:Name="PocketTable" Grid.Row="0" Grid.Column="1" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column" Margin="10,35,10,10" 
+                        <DataGrid x:Name="PocketTable" Grid.Row="0" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column" Margin="19,35,18,0" 
 ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Grid.ColumnSpan="2" VerticalAlignment="Top" Height="250" Width="550">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Number" Binding="{Binding Number}" Width="90"/>
@@ -405,6 +412,141 @@ VerticalAlignment="Center" IsReadOnly="True" TextAlignment="Center" FontSize="25
                 </Grid>
 
             </TabItem>
+
+            <!-- 네 번째 탭: Pocket Teach -->
+            <TabItem Header="Pocket Teach" Style="{StaticResource TabStyle2}">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="4*"/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Multi Pockets-->
+                    <Grid >
+                        <!-- DataGrid (좌측) -->
+                        <DataGrid x:Name="PocketTable3" Grid.Row="0" Grid.Column="1" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column" Margin="10,35,10,10" 
+ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Grid.ColumnSpan="2" VerticalAlignment="Top" Height="340" Width="620">
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Style.Triggers>
+                                        <!-- 행이 선택된 경우 -->
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="LightBlue" />
+                                            <Setter Property="Foreground" Value="Black" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Pocket Number" Binding="{Binding PocketNumber}" Width="120"/>
+                                <DataGridTextColumn Header="X" Binding="{Binding X}" Width="80"/>
+                                <DataGridTextColumn Header="Y" Binding="{Binding Y}" Width="80"/>
+                                <DataGridTextColumn Header="Z" Binding="{Binding Z}" Width="80"/>
+                                <DataGridTextColumn Header="w" Binding="{Binding w}" Width="80"/>
+                                <DataGridTextColumn Header="p" Binding="{Binding p}" Width="80"/>
+                                <DataGridTextColumn Header="r" Binding="{Binding r}" Width="80"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </Grid>
+
+
+                    <GroupBox Header="Show Locations" FontSize="18" Margin="20,10,20,0" FontFamily="Arial" FontWeight="Bold" Grid.Column="1" VerticalAlignment="Top" Height="329">
+                        <StackPanel VerticalAlignment="Top" Margin="10">
+                            <!-- Label -->
+                            <Label Content="Display pockets&#x0a;Coordinates." 
+               Width="300" 
+               VerticalContentAlignment="Center" 
+               FontSize="18" 
+               HorizontalAlignment="Center" 
+               HorizontalContentAlignment="Center" 
+               Margin="0,10,0,20" />
+
+                            <!-- ComboBoxes and TextBlock -->
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+                                <!-- ComboBox 1 -->
+                                <StackPanel Margin="0,0,20,0" VerticalAlignment="Center">
+                                    <Label Content="Pocket 1" 
+                       HorizontalAlignment="Center" 
+                       FontSize="16" />
+                                    <ComboBox x:Name="Pocket1ComboBox" 
+                          Width="150" Height="40" 
+                          HorizontalAlignment="Center" 
+                          FontSize="16" 
+                          Text="Shelf" 
+                          IsEditable="True" 
+                          Background="LightGreen" 
+                          HorizontalContentAlignment="Center" 
+                          VerticalContentAlignment="Center">
+                                        <!-- Options -->
+                                        <ComboBoxItem Content="1" />
+                                        <ComboBoxItem Content="2" />
+                                        <ComboBoxItem Content="3" />
+                                    </ComboBox>
+                                </StackPanel>
+
+                                <!-- ComboBox 2 -->
+                                <StackPanel Margin="0,0,20,0" VerticalAlignment="Center">
+                                    <Label Content="Pocket Sensor" 
+                       HorizontalAlignment="Center" 
+                       FontSize="16" />
+                                    <ComboBox x:Name="Pocket2ComboBox" 
+                          Width="150" Height="40" 
+                          HorizontalAlignment="Center" 
+                          FontSize="16" 
+                          Text="Shelf" 
+                          IsEditable="False" 
+                          Background="LightBlue" 
+                          HorizontalContentAlignment="Center" 
+                          VerticalContentAlignment="Center">
+                                        <!-- Options -->
+                                        <ComboBoxItem Content="1" />
+                                        <ComboBoxItem Content="2" />
+                                        <ComboBoxItem Content="3" />
+                                    </ComboBox>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <!-- Buttons -->
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+                                <Button Content="Show Locations" 
+                    Style="{DynamicResource ActButton}" 
+                    HorizontalContentAlignment="Center" 
+                    Width="180" 
+                    Height="50" 
+                    Margin="10,0" 
+                    Click="NewShowPocketLocationButton_Click" />
+                                <Button Content="Send Locations" 
+                    Style="{DynamicResource ActButton}" 
+                    HorizontalContentAlignment="Center" 
+                    Width="180" 
+                    Height="50" 
+                    Margin="10,0" 
+                    Click="SendPocketLocationButton_Click" />
+                            </StackPanel>
+                            <TextBlock TextWrapping="Wrap" 
+                   Text="Selected locations will appear here." 
+                   Width="452" 
+                   Height="69" 
+                   TextAlignment="Center" 
+                   x:Name="SelectedDataTextBlock" />
+
+                            <!-- TextBlock -->
+                        </StackPanel>
+                    </GroupBox>
+
+                </Grid>
+
+            </TabItem>
+
+
         </TabControl>
 
 

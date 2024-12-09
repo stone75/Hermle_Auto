@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -19,6 +20,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.IO;
+
 
 namespace Hermle_Auto.Views
 {
@@ -43,6 +50,12 @@ namespace Hermle_Auto.Views
         private ObservableCollection<CoordinatePoint> coordinates;
         public CoordinatePoint FirstPoint { get; private set; }
         public CoordinatePoint LastPoint { get; private set; }
+
+
+        private IEnumerable<dynamic> groupedData; // 그룹화된 데이터를 저장
+        private List<string> availableNumbers;   // 선택된 단수&축에 따라 표시할 번호 목록
+        // 단수&축과 번호를 매핑하는 Dictionary
+        private Dictionary<string, List<string>> stepToNumbersMap;
 
 
         public TeachView()
@@ -77,6 +90,8 @@ namespace Hermle_Auto.Views
             coordinates.Add(LastPoint);
 
             CoordinateGrid.ItemsSource = coordinates;
+
+
         }
         // 좌표 업데이트 메서드
         public void UpdateFirstPoint(double x, double y, double z)
@@ -265,13 +280,13 @@ namespace Hermle_Auto.Views
         }
         private void TeachPositionLocations()
         {
-            
-           
+
+
             GeneralLocations tmp_val = new GeneralLocations();
 
             D d = D.Instance;
 
-           
+
 
             CommHTTPComponent http = CommHTTPComponent.Instance;
             string res;
@@ -295,7 +310,7 @@ namespace Hermle_Auto.Views
                 if (result == 0)
                 {
                     //1 - Robot : CurrentPosition recv
-                   
+
                     var tmp_location = root.GetProperty("location");
                     tmp_val.name = D.Instance.GetToolType();
                     tmp_val.x = tmp_location.GetProperty("x").GetDouble();
@@ -304,7 +319,7 @@ namespace Hermle_Auto.Views
                     tmp_val.rx = tmp_location.GetProperty("rx").GetDouble();
                     tmp_val.ry = tmp_location.GetProperty("ry").GetDouble();
                     tmp_val.rz = tmp_location.GetProperty("rz").GetDouble();
-                
+
                 }
                 else
                 {
@@ -487,7 +502,7 @@ namespace Hermle_Auto.Views
             }
 
 
-           
+
 
             D.Instance.WriteGeneralLocations(toolType);
 
@@ -624,60 +639,208 @@ namespace Hermle_Auto.Views
 
             PocketTable2.ItemsSource = data;
         }
+        
+
+        private void SendPocketLocationButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = PocketTable3.SelectedItem as PocketData;
+
+            if (selectedItem != null)
+            {
+                // 선택된 데이터를 Double 배열로 저장
+                double[] selectedDataArray = new double[]
+                {
+                    selectedItem.X,
+                    selectedItem.Y,
+                    selectedItem.Z,
+                    selectedItem.w,
+                    selectedItem.p,
+                    selectedItem.r,
+                };
+
+                // 배열 데이터 확인 (예: TextBlock에 표시)
+                SelectedDataTextBlock.Text = $"Selected: X={selectedDataArray[0]}, Y={selectedDataArray[1]}, Z={selectedDataArray[2]},w ={selectedDataArray[3]}, p={selectedDataArray[4]}, r={selectedDataArray[5]}";
+                
+
+                // 배열 데이터를 다른 로직에 사용 가능
+                // 예: 데이터 전달, 계산 등
+            }
+            else
+            {
+                SelectedDataTextBlock.Text = "No item selected.";
+            }
+        }
+    
+
+        private void NewShowPocketLocationButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (Pocket1ComboBox.SelectedItem is ComboBoxItem selectedItem)
+            {
+                string selectedValue = selectedItem.Content.ToString();
+
+                if (selectedValue == "1")
+                {
+                    // CSV 파일 로드
+                    string csvFilePath = ".\\CSV\\pocket_teach_1.csv"; // CSV 파일 경로 설정
+                    var data = LoadCSV(csvFilePath);
+
+                    // DataGrid에 바인딩
+                    PocketTable3.ItemsSource = data;
+                }
+                else if (selectedValue == "2")
+                {
+                    // CSV 파일 로드
+                    string csvFilePath = ".\\CSV\\pocket_teach_2.csv"; // CSV 파일 경로 설정
+                    var data = LoadCSV(csvFilePath);
+
+                    // DataGrid에 바인딩
+                    PocketTable3.ItemsSource = data;
+                }
+                else if (selectedValue == "3")
+                {
+                    string csvFilePath = ".\\CSV\\pocket_teach_3.csv"; // CSV 파일 경로 설정
+                    var data = LoadCSV(csvFilePath);
+
+                    // DataGrid에 바인딩
+                    PocketTable3.ItemsSource = data;
+
+                }
+                else
+                {
+                    // 조건이 맞지 않으면 DataGrid 초기화
+                    PocketTable3.ItemsSource = null;
+                    MessageBox.Show($"Selected value: {selectedValue}. No CSV loaded.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Shelf Not Selected");
+            }
+
+
+
+
+        }
+        // CSV 파일 로드 메서드
+        private List<PocketData> LoadCSV(string filePath)
+        {
+            var dataList = new List<PocketData>();
+
+            try
+            {
+                // CSV 파일 읽기
+                var lines = File.ReadAllLines(filePath);
+
+                // 헤더를 제외한 데이터 처리
+                foreach (var line in lines.Skip(1))
+                {
+                    var values = line.Split(',');
+
+                    // CSV의 컬럼에 맞게 객체 생성
+                    var pocketData = new PocketData
+                    {
+                        PocketNumber = values[0],
+                        X = double.TryParse(values[1], out double x) ? x : 0,
+                        Y = double.TryParse(values[2], out double y) ? y : 0,
+                        Z = double.TryParse(values[3], out double z) ? z : 0,
+                        w = double.TryParse(values[4], out double w) ? w : 0,
+                        p = double.TryParse(values[5], out double p) ? p : 0,
+                        r = double.TryParse(values[6], out double r) ? r : 0
+                    };
+
+                    dataList.Add(pocketData);
+                }
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show($"Error reading file: {ex.Message}");
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show($"Unexpected error: {ex.Message}");
+            }
+
+            return dataList;
+        }
     }
 
-    public class CoordinatePoint : INotifyPropertyChanged
+}
+
+// Pocket 데이터 모델 클래스
+    public class PocketData : INotifyPropertyChanged
     {
-        private double _x;
-        private double _y;
-        private double _z;
-
-        public string PointType { get; set; }
-
-        public double X
-        {
-            get => _x;
-            set
-            {
-                if (_x != value)
-                {
-                    _x = value;
-                    OnPropertyChanged(nameof(X));
-                }
-            }
-        }
-
-        public double Y
-        {
-            get => _y;
-            set
-            {
-                if (_y != value)
-                {
-                    _y = value;
-                    OnPropertyChanged(nameof(Y));
-                }
-            }
-        }
-
-        public double Z
-        {
-            get => _z;
-            set
-            {
-                if (_z != value)
-                {
-                    _z = value;
-                    OnPropertyChanged(nameof(Z));
-                }
-            }
-        }
+        public string PocketNumber { get; set; }
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Z { get; set; }
+        public double w { get; set; }
+        public double p { get; set; }
+        public double r { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
+        protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-}
+
+    public class CoordinatePoint : INotifyPropertyChanged
+        {
+            private double _x;
+            private double _y;
+            private double _z;
+
+            public string PointType { get; set; }
+
+            public double X
+            {
+                get => _x;
+                set
+                {
+                    if (_x != value)
+                    {
+                        _x = value;
+                        OnPropertyChanged(nameof(X));
+                    }
+                }
+            }
+
+            public double Y
+            {
+                get => _y;
+                set
+                {
+                    if (_y != value)
+                    {
+                        _y = value;
+                        OnPropertyChanged(nameof(Y));
+                    }
+                }
+            }
+
+            public double Z
+            {
+                get => _z;
+                set
+                {
+                    if (_z != value)
+                    {
+                        _z = value;
+                        OnPropertyChanged(nameof(Z));
+                    }
+                }
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            protected virtual void OnPropertyChanged(string propertyName)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+
+
+      }
+
+    
+
