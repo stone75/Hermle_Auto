@@ -143,6 +143,47 @@ namespace Hermle_Auto.Comm
 
         }
 
+        // 2024/12/10 flagmoon
+        public async void Read (string addr, int length, int[] data)
+        {
+            try
+            {
+                if (mcProtocolTcp.Connected == false)
+                {
+                    return;
+                }
+
+                await mcProtocolTcp.ReadDeviceBlock (addr, data.Length, data);
+                //---
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine (ex.ToString ());
+            }
+
+        }
+        // 2024/12/10 flagmoon
+        public async void Write (string addr, int length, int[] data)
+        {
+            try
+            {
+                if (mcProtocolTcp.Connected == false)
+                {
+                    return;
+                }
+
+                await mcProtocolTcp.WriteDeviceBlock (addr, length, data);
+                //---
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine (ex.ToString ());
+            }
+
+        }
+
         public int[] ConvertIntToShort(int f)
         {
             int[] data = new int[2];

@@ -791,7 +791,7 @@ namespace Hermle_Auto.Views
         {
             try
             {
-                int[]   location = TaskManager.ConvertShortToInt (D.Instance.RobotLocation, 6);
+                int[]   location = TaskManager.ConvertShortToInt (D.Instance.Robot.RobotLocation, 6);
 
                 userControl1ViewModel.ValueX    = (location[0] / 1000).ToString ("F3");
                 userControl1ViewModel.ValueY    = (location[1] / 1000).ToString ("F3");
@@ -808,7 +808,7 @@ namespace Hermle_Auto.Views
             }
             finally
             {
-                D.Instance.RobotLocationChanged = false;
+                D.Instance.Robot.RobotLocationChanged = false;
             }
         }
         private void OpenPasswordWindow_Click(object sender, RoutedEventArgs e)

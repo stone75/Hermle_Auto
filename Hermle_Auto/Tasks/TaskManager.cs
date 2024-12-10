@@ -355,7 +355,7 @@ namespace Hermle_Auto.Tasks
                 {
                     // M2300 ~ M2315
                     data    = setBit (data);
-                    D.Instance.RobotStatus = data[0];
+                    D.Instance.Robot.RobotStatus = data[0];
                     //---
                 }
             }
@@ -367,7 +367,7 @@ namespace Hermle_Auto.Tasks
             {
                 if (D.Instance.M2300Changed == true)
                 {
-                    Console.WriteLine ($"Robot => PC : {D.Instance.RobotStatus.ToString ("X")}");
+                    Console.WriteLine ($"Robot => PC : {D.Instance.Robot.RobotStatus.ToString ("X")}");
                     if (M2300Action != null)
                     {
                         M2300Action.Invoke ();
@@ -442,16 +442,16 @@ namespace Hermle_Auto.Tasks
                 int     length;
                 int[]   data;
                 
-                length  = D.Instance.RobotLocation.Length;
+                length  = D.Instance.Robot.RobotLocation.Length;
                 data    = new int[length];
 
                 await CommPLC.Instance.mcProtocolTcp.ReadDeviceBlock ("D2010", data.Length, data);
-                for (int i = 0; i < D.Instance.RobotLocation.Length; i++)
+                for (int i = 0; i < D.Instance.Robot.RobotLocation.Length; i++)
                 {
-                    if (D.Instance.RobotLocation[i] != data[i])
+                    if (D.Instance.Robot.RobotLocation[i] != data[i])
                     {
-                        D.Instance.RobotLocation[i]     = data[i];    
-                        D.Instance.RobotLocationChanged = true;
+                        D.Instance.Robot.RobotLocation[i]     = data[i];    
+                        D.Instance.Robot.RobotLocationChanged = true;
                     }
                 }
                 //---
@@ -463,7 +463,7 @@ namespace Hermle_Auto.Tasks
             }
             finally
             {
-                if (D.Instance.RobotLocationChanged == true)
+                if (D.Instance.Robot.RobotLocationChanged == true)
                 {
                     if (RobotLocationAction != null)
                     {
