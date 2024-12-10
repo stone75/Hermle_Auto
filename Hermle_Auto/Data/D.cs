@@ -1,4 +1,6 @@
 ﻿using Hermle_Auto.Core;
+using Hermle_Auto.Data;
+
 using HermleCS.Comm;
 using System;
 using System.Collections.Generic;
@@ -51,10 +53,14 @@ namespace HermleCS.Data
         public bool     M2300Changed    { get; set; }
         public bool     SendHold        { get; set; }
         public int      ProgramNumber   { get; set; }
-        public int      RobotStatus     { get; set; }       // M2300 To Integer
 
-        public int[]    RobotLocation   { get; set; }       = new int[12];          // 2024/12/08 flagmoon, D2010 ~ D2021
-        public bool     RobotLocationChanged    { get; set; }
+        // Move To Robot Class.
+        //public int      RobotStatus     { get; set; }       // M2300 To Integer
+
+        //public int[]    RobotLocation   { get; set; }       = new int[12];          // 2024/12/08 flagmoon, D2010 ~ D2021
+        //public bool     RobotLocationChanged    { get; set; }
+
+        public Robot    Robot           { get; set; }   = new Robot ();     // 2024/12/10 flagmooon
         //---
 #endif
 
