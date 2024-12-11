@@ -199,6 +199,7 @@ namespace Hermle_Auto.ViewModels
             }
         }
 
+        // 2024/12/07 flagmoon : 초기화는 함 그런데 업데이트 처리는 어디에?
         public string ValueAmountLeft
         {
             get => _valueAmountLeft;
